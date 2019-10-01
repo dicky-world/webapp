@@ -48,7 +48,8 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#2f83df",
+    "background_color": "#2f83df",
+    "start_url": "https://www.dicky.world",
     "display": "standalone"
 }
