@@ -12,7 +12,7 @@ const Router: React.FC = () => {
   const [global, setGlobal] = useState({
     language: 'en',
     darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches || false,
-    apiUrl: 'http://127.0.0.1:9990',
+    apiUrl: 'https://api.dicky.world',
     warning: localStorage.getItem("warning") ? true : false,
     warningMessage: localStorage.getItem("warning"),
     modal: false,
