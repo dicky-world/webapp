@@ -1,0 +1,150 @@
+.topNav {
+    max-width: $page-max-width;
+    height: $topnav-height;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 68px 1fr auto;
+    grid-gap: $spacing-1;
+    padding: 0 $spacing-1;
+    align-items: center;
+    box-shadow: $depth-1;
+    .logo {
+        background-image: url(../../../src/images/logo-light.svg);
+        height: 18px;
+        overflow: hidden;
+        text-indent: 170px;
+    }
+    .buttons-desktop {
+        display: none;
+        grid-template-columns: auto auto;
+        grid-gap: $spacing-1;
+        align-items: center;
+        cursor: pointer;
+        .joinButton {
+            pointer-events: none;
+            white-space: nowrap;
+            background: $blue-1;
+            border: 1px solid $blue-2;
+            height: 34px;
+            width: 100%;
+            text-align: center;
+            border-radius: 3px;
+            color: $white;
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 600;
+            .siteName {
+                pointer-events: none;
+                display: none;
+            }
+        }
+        .loginButton {
+            pointer-events: none;
+            white-space: nowrap;
+            background: $grey-1;
+            border: 1px solid $grey-1;
+            height: 34px;
+            width: 100%;
+            text-align: center;
+            border-radius: 3px;
+            color: $grey-4;
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+    .buttons-mobile {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-gap: $spacing-1;
+        align-items: center;
+        cursor: pointer;
+        .joinButton {
+            pointer-events: none;
+            white-space: nowrap;
+            background: $blue-1;
+            border: 1px solid $blue-2;
+            height: 34px;
+            width: 100%;
+            text-align: center;
+            border-radius: 3px;
+            color: $white;
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 600;
+            .siteName {
+                pointer-events: none;
+                display: none;
+            }
+        }
+        .loginButton {
+            pointer-events: none;
+            white-space: nowrap;
+            background: $white;
+            border: 1px solid $grey-1;
+            height: 34px;
+            width: 100%;
+            text-align: center;
+            border-radius: 3px;
+            color: $grey-4;
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+
+}
+
+/* Tablets */
+@media only screen and (min-width : 500px)  {
+    .topNav {
+        .buttons-mobile {
+            display: none;
+        }
+        .buttons-desktop {
+            display: grid;
+            .joinButton {
+                .siteName {
+                    display: inline;
+                }
+            }
+        }
+    }
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .topNav {
+        .logo {
+            background-image: url(../../../src/images/logo-dark.svg);
+        }
+        .buttons-desktop {
+            .loginButton {
+                background: $white;
+            }
+        }
+        .buttons-mobile {
+            .loginButton {
+                background: $white;
+            }
+        }
+    }
+}
+  
+  @media (prefers-color-scheme: light) {
+    .topNav {
+        .logo {
+            background-image: url(../../../src/images/logo-light.svg);
+        }
+        .buttons-desktop {
+            .loginButton {
+                background: $grey-1;
+            }
+        }
+        .buttons-mobile {
+            .loginButton {
+                background: $grey-1;
+            }
+        }
+    }
+}

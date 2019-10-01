@@ -1,0 +1,36 @@
+  .error-appear, .error-enter {
+    display: inline;
+    transform: translate(50px, -45px);
+    opacity: 0;
+  }
+  .error-appear-active, .error-enter-active {
+    display: inline;
+    transform: translate(16px, -45px);
+    opacity: 1;
+    transition-delay: 1ms, 1ms;
+    transition-duration: 300ms, 300ms;
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out, ease-out;
+  }
+  .error-appear-done, .error-enter-done {
+    display: inline;
+    transform: translate(16px, -45px);
+    opacity: 1;
+  }
+  
+  .error-exit {
+    display: inline;
+    opacity: 1;
+  }
+  .error-exit-active {
+    display: inline;
+    opacity: 0;
+    transition-delay: 1ms;
+    transition-duration: 200ms;
+    transition-property: opacity;
+    transition-timing-function: ease-in-out ;
+  }
+  .error-exit-done {
+    display: inline;
+    opacity: 0;
+  }

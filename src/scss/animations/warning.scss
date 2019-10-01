@@ -1,0 +1,40 @@
+.warning {
+  text-align: center;
+  display: grid;
+  align-items: center;
+}
+.warning-appear, .warning-enter {
+  height: 0px;
+  z-index: 1;
+}
+.warning-appear-active, .warning-enter-active {
+  height: $warning-height;
+  color: $white;
+  transition-delay: 1ms, 200ms;
+  transition-duration: 400ms, 200ms;
+  transition-property: height, color;
+  transition-timing-function: ease-in-out, ease-in-out ;
+}
+.warning-appear-done, .warning-enter-done {
+  color: $white;
+  height: $warning-height;
+}
+
+.warning-exit {
+  color: $white;
+  height: $warning-height;
+}
+.warning-exit-active {
+  color: $transparent;
+  height: 0px;
+  transition-delay: 200ms, 1ms;
+  transition-duration: 200ms, 400ms;
+  transition-property: height, color;
+  transition-timing-function: ease-in-out, ease-in-out ;
+}
+.warning-exit-done {
+  color: $transparent;
+  height: 0px;
+}
+@import "animations/warningtext.scss";
+

@@ -1,0 +1,32 @@
+.warningbody-appear, .warningbody-enter {
+    padding-top: $topnav-height !important;
+  }
+  .warningbody-appear-active, .warningbody-enter-active {
+      padding-top: $warning-height + $topnav-height !important;
+      transition-delay: 1ms;
+      transition-duration: 400ms;
+      transition-property: padding-top;
+      transition-timing-function: ease-in-out;
+  }
+  .warningbody-appear-done, .warningbody-enter-done {
+    padding-top: $warning-height + $topnav-height !important;
+  }
+
+
+  .warningbody-exit {
+    padding-top: $warning-height + $topnav-height !important;
+  }
+  .warningbody-exit-active {
+    padding-top: $topnav-height !important;
+    transition-delay: 200ms;
+    transition-duration: 200ms;
+    transition-property: padding-top;
+    transition-timing-function: ease-in-out;
+  }
+  .warningbody-exit-done {
+    padding-top: $topnav-height !important;
+  }
+
+  .warning-false{
+    padding-top: $topnav-height;
+  }

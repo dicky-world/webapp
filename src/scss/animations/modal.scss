@@ -1,0 +1,130 @@
+.modal {
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    .modalWindow {
+        .modalCard {
+            width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+    }
+    .closeModal {
+        position: fixed;
+        top: 3px;
+        right: 19px;
+        transform: rotateY(0deg) rotate(45deg);
+        font-size: 40px;
+        font-weight: 400;
+        cursor: pointer;
+    }
+}
+
+.modal-appear, .modal-enter {
+  display: grid;
+  align-items: center;
+  background-color: $transparent;
+}
+.modal-appear-active, .modal-enter-active {
+    background-color: $modal-light;
+    transition-delay: 0ms;
+    transition-duration: 400ms;
+    transition-property: background-color;
+    transition-timing-function: ease-in-out ;
+}
+.modal-appear-done, .modal-enter-done {
+    background-color: $modal-light;
+    display: grid;
+    align-items: center;
+}
+.modal-exit {
+    background-color: $modal-light;
+    display: grid;
+    align-items: center;
+}
+.modal-exit-active {
+    background-color: $transparent;
+    transition-delay: 100ms;
+    transition-duration: 300ms;
+    transition-property: background-color;
+    transition-timing-function: ease-in-out ;
+}
+.modal-exit-done {
+    align-items: center;
+    background-color: $transparent;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .modal-appear-active, .modal-enter-active {
+        background-color: $modal-dark;
+    }
+    .modal-appear-done, .modal-enter-done {
+        background-color: $modal-dark;
+    }
+    .modal-exit {
+        background-color: $modal-dark;
+    }
+    .modal-exit-active {
+        background-color: $transparent;
+    }
+    .modal-exit-done {
+        background-color: $transparent;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .modal-appear-active, .modal-enter-active {
+        background-color: $modal-light;
+    }
+    .modal-appear-done, .modal-enter-done {
+        background-color: $modal-light;
+    }
+    .modal-exit {
+        background-color: $modal-light;
+    }
+}
+
+
+.modalWindow-appear, .modalWindow-enter {
+    display: grid;
+    transform: translateY(- 150px);
+    opacity: 0;
+  }
+  .modalWindow-appear-active, .modalWindow-enter-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0ms, 100ms;
+    transition-duration: 400ms, 300ms;
+    transition-property: transform, opacity;
+    transition-timing-function: ease-in-out ;
+  }
+  .modalWindow-appear-done, .modalWindow-enter-done {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .modalWindow-exit {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .modalWindow-exit-active {
+    transform: translateY(- 150px);
+    opacity: 0;
+    transition-delay: 0ms, 100ms;
+    transition-duration: 400ms, 300ms;
+    transition-property: transform, opacity;
+    transition-timing-function: ease-in-out;
+  }
+  .modalWindow-exit-done {
+    opacity: 0;
+    display: grid;
+    transform: translateY(- 150px);
+    opacity: 0;
+  }
+  
+  

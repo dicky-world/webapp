@@ -1,0 +1,45 @@
+// ------- FONTS -------
+$base-font: "Hanken Grotesk", "Helvetica Neue", sans-serif;
+
+// ------- SHADOWS -------
+$depth-1: 0 1px 0px rgba(0,0,0,0.03), 0 1px 1px rgba(0,0,0,0.05);
+
+// ------- COLORS -------
+// Highlight
+$blue-1: rgba(37, 129, 227, 1);
+$blue-2: rgba(0, 106, 194, 1);
+$green-1: rgba(113, 197, 136, 1);
+$green-2: rgba(79, 175, 78, 1);
+$white: rgba(255, 255, 255, 1);
+$black: rgba(0, 0, 0,1);
+
+// Backgrounds Dark
+$grey-5: rgba(50, 54, 57, 1);
+$grey-6: rgba(39, 43, 46, 1);
+
+// Backgrounds Light
+$grey-1: rgba(235, 236, 237, 1);
+
+// Text
+$grey-4: rgba(55, 61, 72, 1);
+$transparent: rgba(255, 255, 255, 0);
+
+// Modal Backgrounds
+$modal-dark: rgba(0, 0, 0, 0.8);
+$modal-light: rgba(235, 236, 237, 0.85);
+
+
+$grey-2: rgba(208, 208, 208,1);
+
+// ------- SIZES -------
+
+$warning-height: 32px;
+$topnav-height: 56px;
+$mobile-footer-height: 64px;
+$admin-nav-width: 165px;
+$page-max-width: 1150px;
+$spacing-1: 12px;
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1024px;
+
+
