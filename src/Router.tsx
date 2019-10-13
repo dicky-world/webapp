@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { Context } from "./components/context";
+import { setGlobalContext, globalContext } from "./components/context";
 import { Layout } from "./components/layout";
 import { Home } from './routes/home';
 import { Face } from './routes/face';
 import { NotFound } from './routes/not-found';
 
+import { globalReducer } from './components/reducer'
 
 const Router: React.FC = () => {
-
-  const [global, setGlobal] = useState({
+  
+  const [global, setGlobal] = useReducer(globalReducer, {
     language: 'en',
     darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches || false,
     apiUrl: 'https://api.dicky.world',
@@ -21,21 +22,24 @@ const Router: React.FC = () => {
     fullName: localStorage.getItem("fullName") || '',
   });
 
+
   return (
-    <Context.Provider value={{ global, setGlobal }}>
-      <BrowserRouter>
-        <Route render={({ location }) => (
-          <Layout location={ location }>
-            <Switch location={ location }>
-              <Route exact path = '/' component = { Home } />
-              <Route exact path = '/my/profile/' component = { Home } />
-              <Route exact path = '/my/face/' component = { Face } />
-              <Route component = { NotFound }/>
-            </Switch>
-          </Layout>
-        )} />
-      </BrowserRouter>
-    </Context.Provider>
+    <setGlobalContext.Provider value={{ setGlobal }}>
+      <globalContext.Provider value={{ global }}>
+        <BrowserRouter>
+          <Route render={({ location }) => (
+            <Layout location={ location }>
+              <Switch location={ location }>
+                <Route exact path = '/' component = { Home } />
+                <Route exact path = '/my/profile/' component = { Home } />
+                <Route exact path = '/my/face/' component = { Face } />
+                <Route component = { NotFound }/>
+              </Switch>
+            </Layout>
+          )} />
+        </BrowserRouter>
+      </globalContext.Provider>
+    </setGlobalContext.Provider>
   );
 }
 

@@ -1,9 +1,9 @@
 import React, { useContext, useRef } from 'react';
-import { Context } from "./context";
+import { setGlobalContext, globalContext } from "./context";
 import { Translations } from '../translations/dictionary';
 
 const Sent: React.FC = () => {
-  const { global } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
+  const { global } = useContext(globalContext) as {global: any};
   const txt = Translations[global.language];
   const sentForm = useRef<HTMLFormElement>(null);
 

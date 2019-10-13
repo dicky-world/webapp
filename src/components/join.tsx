@@ -1,12 +1,15 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { Context } from "./context";
+import { setGlobalContext, globalContext } from "./context";
 import { Translations } from '../translations/dictionary';
 import { Link } from 'react-router-dom';
 import loading from '../images/loading.svg';
 import { CSSTransition } from 'react-transition-group'
+import { CLOSE_MODAL, OPEN_MODAL, JOINED } from './reducer'
 
 const Join: React.FC = () => {
-  const { global, setGlobal } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
+  const { global } = useContext(globalContext) as {global: any};
+  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
+
   const [state, setState] = useState({loading: false, fullNameError: '', emailError: '', passwordError: ''});
   const txt = Translations[global.language];
   const fullName = useRef<HTMLInputElement>(null);
@@ -37,10 +40,11 @@ const Join: React.FC = () => {
   useEffect(() => {
     if (joinForm.current) joinForm.current.reset();
     if (fullName.current) fullName.current.focus();
-  }, [global, setGlobal]);
+  }, [global]);
 
-  const close = () => setGlobal({...global, modal: false});
-  const logIn = () => setGlobal({...global, modalState: 'login'});
+
+  const close = () => setGlobal({type: CLOSE_MODAL});
+  const logIn = () => setGlobal({type: OPEN_MODAL, value: 'login'})
 
   const join = async(event: any) => {
     event.preventDefault();
@@ -66,7 +70,7 @@ const Join: React.FC = () => {
           localStorage.setItem("fullName", fullName.current.value);
           localStorage.setItem("jwtToken", content.jwtToken);
           setState({...state, loading: false, fullNameError: '', emailError: '', passwordError: ''});
-          setGlobal({...global, modal: false, warning: true, warningMessage: 'confirm', loggedIn: true, fullName: fullName.current.value});
+          setGlobal({type: JOINED, value:fullName.current.value });
         } else {
           setState({...state, emailError: content.message || response.status});
         }

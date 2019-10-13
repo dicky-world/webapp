@@ -1,11 +1,13 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-import { Context } from "./context";
+import { setGlobalContext, globalContext  } from "./context";
 import { Translations } from '../translations/dictionary';
 import loading from '../images/loading.svg';
 import { CSSTransition } from 'react-transition-group'
+import { OPEN_MODAL } from './reducer';
 
 const Reset: React.FC = () => {
-  const { global, setGlobal } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
+  const { global } = useContext(globalContext) as {global: any};
+  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
   const [state, setState] = useState({loading: false, emailError: ''});
   const txt = Translations[global.language];
   const email = useRef<HTMLInputElement>(null);
@@ -21,10 +23,10 @@ const Reset: React.FC = () => {
   useEffect(() => {
     if (resetForm.current) resetForm.current.reset();
     if (email.current) email.current.focus();
-  }, [global, setGlobal]);
+  }, [global]);
 
   const logIn = () => {
-    setGlobal({...global, modalState: 'login'});
+    setGlobal({type: OPEN_MODAL, value: 'login'});
   }
   const reset = async(event: any) => {
     event.preventDefault();
@@ -41,13 +43,13 @@ const Reset: React.FC = () => {
       setState({...state, emailError: ''});
      }, 2200);
     if (loading === true) {
-      const response = await fetch(`${global.apiUrl}/login/reset_password`, {
+      const response = await fetch(`${global.apiUrl}/login/reset-password`, {
         method: 'POST',
         headers: {'Accept': 'application/json','Content-Type': 'application/json'},
         body: JSON.stringify({email: email.current.value})
       });
       if (response.status === 200) {
-        setGlobal({...global, modalState: 'sent'});
+        setGlobal({type: OPEN_MODAL, value: 'sent'});
       }
     }
   }

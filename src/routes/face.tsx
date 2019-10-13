@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import { Context } from '../components/context';
+import { setGlobalContext, globalContext } from '../components/context';
 
 const Face: React.FC = () => {
-  const { setGlobal, global } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
-
+  const { global } = useContext(globalContext) as {global: any};
+  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
 
   return (
     <span className='page'>

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Context } from "./context";
+import { setGlobalContext, globalContext  } from "./context";
 import { Translations } from '../translations/dictionary';
 import loading from '../images/loading.svg';
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group';
+import { OPEN_MODAL, LOGGED_IN } from './reducer';
 
 const Login: React.FC = (props) => {
-  const { global, setGlobal } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
+  const { global } = useContext(globalContext) as {global: any};
+  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
   const [state, setState] = useState({loading: false, emailError: '', passwordError: ''});
   const txt = Translations[global.language];
   const email = useRef<HTMLInputElement>(null);
@@ -31,8 +33,8 @@ const Login: React.FC = (props) => {
     if (email.current) email.current.focus();
   }, [global, setGlobal]);
 
-  const join = () => setGlobal({...global, modalState: 'join'});
-  const reset = () => setGlobal({...global, modalState: 'reset'});
+  const join = () => setGlobal({type: OPEN_MODAL, value: 'join'})
+  const reset = () => setGlobal({type: OPEN_MODAL, value: 'reset'})
   
   const login = async(event: any) => {
     event.preventDefault();
@@ -55,17 +57,15 @@ const Login: React.FC = (props) => {
         });
         const content = await response.json();
         if (response.status === 200) {
-            let warning = false;
             let warningMessage = ''
             if (!content.emailConfirmed) {
-              warning = true;
               warningMessage = 'confirm';
               localStorage.setItem('warning', 'confirm')
             }
             localStorage.setItem('jwtToken', content.jwtToken);
             localStorage.setItem('fullName', content.fullName);
             setState({...state, loading: false, emailError: '', passwordError: ''});
-            setGlobal({...global, modal: false, warning, warningMessage, loggedIn: true, fullName: content.fullName});
+            setGlobal({type: LOGGED_IN, value:{name: content.fullName, warning:warningMessage} });
         } else {
           setState({...state, emailError: content.message || content[0].message});
         }
@@ -85,8 +85,6 @@ const Login: React.FC = (props) => {
             <small className='error'>{state.emailError}</small>
           </CSSTransition>
 
-
-          
           <label>{txt.password}</label>
           <input type="password" name="password" ref={password}/>
           <CSSTransition in={state.passwordError ? true : false} appear={state.passwordError ? true : false} timeout={400} classNames='error'>

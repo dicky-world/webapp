@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
-import { Context } from "./context";
+import { setGlobalContext, globalContext } from './context';
+import { OPEN_MODAL } from './reducer'
 import { Translations } from '../translations/dictionary';
 import { Link } from 'react-router-dom';
 
 const TopNav: React.FC = () => {
-  const { global, setGlobal } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
+  const { global } = useContext(globalContext) as {global: any};
+  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
   const txt = Translations[global.language];
 
   const openModal = (event: any) => {
-    setGlobal({...global, modal: true, modalState: event.target.id})
+    setGlobal({type: OPEN_MODAL, value: event.target.id})
   }
 
   return (    

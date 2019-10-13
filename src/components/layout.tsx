@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState} from 'react';
-import { Context } from "./context";
+import { setGlobalContext, globalContext } from "./context";
 import { Warning } from "./warning";
 import { TopNav } from "./topnav";
 import { Join } from "./join";
@@ -7,20 +7,24 @@ import { Login } from "./login";
 import { Reset } from "./reset";
 import { Sent } from "./sent";
 import { CSSTransition } from 'react-transition-group'
+import { CLOSE_MODAL, OPEN_WARNING, CLOSE_WARNING, DARK_MODE } from './reducer'
+
 
 interface propsInterface {
   location: any; 
 }
 
 const Layout: React.FC<propsInterface> = (props) => {
-  const { global, setGlobal } = useContext(Context) as {global: any; setGlobal: React.Dispatch<React.SetStateAction<any>>};
+  const { global } = useContext(globalContext) as {global: any};
+  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
   const [state, setState] = useState({ admin: false }); 
 
   let layoutGrid = useRef<HTMLDivElement>(null);
   let layoutHeader = useRef<HTMLDivElement>(null);
+
   
   const closeModal = () => {
-    setGlobal({...global, modal: false});
+    setGlobal({type: CLOSE_MODAL});
   }
 
   useEffect(() => {
@@ -30,15 +34,15 @@ const Layout: React.FC<propsInterface> = (props) => {
 
   useEffect(() => {
     const modeChanged = (event: { matches: boolean; }) => {
-      setGlobal({...global, darkMode: event.matches});
+      setGlobal({type: DARK_MODE, action: event.matches});
     }
     const nowOffline = () => {
-      setGlobal({...global, warning: true, warningMessage: 'offline'});
+      setGlobal({type: OPEN_WARNING, action: 'offline'});
     }
     const nowOnline = () => {
-      setGlobal({...global,  warning: true, warningMessage: 'online'});
+      setGlobal({type: OPEN_WARNING, action: 'online'});
       setTimeout(() => {
-        setGlobal({...global,  warning: false, warningMessage: ''});
+        setGlobal({type: CLOSE_WARNING, action: ''});
        }, 3000);
     }
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener("change", modeChanged);
@@ -49,7 +53,7 @@ const Layout: React.FC<propsInterface> = (props) => {
       window.removeEventListener('online', nowOnline);
       window.removeEventListener('offline', nowOffline);
     } 
-  }, [global, setGlobal]);
+  }, [setGlobal]);
 
   return (    
     <div className="layout-grid" ref={layoutGrid}>
