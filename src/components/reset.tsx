@@ -1,8 +1,8 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
-import { setGlobalContext, globalContext  } from "./context";
-import { Translations } from '../translations/dictionary';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import loading from '../images/loading.svg';
-import { CSSTransition } from 'react-transition-group'
+import { Translations } from '../translations/dictionary';
+import { globalContext, setGlobalContext  } from './context';
 import { OPEN_MODAL } from './reducer';
 
 const Reset: React.FC = () => {
@@ -16,9 +16,9 @@ const Reset: React.FC = () => {
   const validateEmail = (email: string) => {
     const emailRegex = /\S+@\S+\.\S+/;
     if (!email) return txt.emailIsRequired;
-    if (!emailRegex.test(email)) return txt.emailIsInvalid; 
-    return ''; 
-  }
+    if (!emailRegex.test(email)) return txt.emailIsInvalid;
+    return '';
+  };
 
   useEffect(() => {
     if (resetForm.current) resetForm.current.reset();
@@ -27,8 +27,8 @@ const Reset: React.FC = () => {
 
   const logIn = () => {
     setGlobal({type: OPEN_MODAL, value: 'login'});
-  }
-  const reset = async(event: any) => {
+  };
+  const reset = async (event: any) => {
     event.preventDefault();
     setState({...state, loading: true});
 
@@ -45,8 +45,8 @@ const Reset: React.FC = () => {
     if (loading === true) {
       const response = await fetch(`${global.apiUrl}/login/reset-password`, {
         method: 'POST',
-        headers: {'Accept': 'application/json','Content-Type': 'application/json'},
-        body: JSON.stringify({email: email.current.value})
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify({email: email.current.value}),
       });
       if (response.status === 200) {
         setGlobal({type: OPEN_MODAL, value: 'sent'});
@@ -54,24 +54,28 @@ const Reset: React.FC = () => {
     }
   }
 
-  }
-  return (    
+  };
+  return (
     <div>
       <h2>{txt.resetPassword}</h2>
         <h3>{txt.enterYourEmailToReset}</h3>
         <form ref={resetForm}>
           <label>Email</label>
-          <input type="text" name="email" ref={email}/>
-          <CSSTransition in={state.emailError ? true : false} appear={state.emailError ? true : false} timeout={400} classNames='error'>
+          <input type='text' name='email' ref={email}/>
+          <CSSTransition 
+            in={state.emailError ? true : false}
+            appear={state.emailError ? true : false}
+            timeout={400} classNames='error'
+          >
             <small className='error'>{state.emailError}</small>
           </CSSTransition>
           <button color='primary' onClick={reset}>
-            {!state.loading ? txt.resetPassword : <img src={loading} alt="loading" className='loading'/>}
+            {!state.loading ? txt.resetPassword : <img src={loading} alt='loading' className='loading'/>}
           </button>
         </form>
-        <p className='center'>{txt.justRemembered}? <b className='blue' onClick={logIn}>{txt.login}</b></p>   
+        <p className='center'>{txt.justRemembered}? <b className='blue' onClick={logIn}>{txt.login}</b></p>
     </div>
   );
-}
+};
 
 export { Reset };

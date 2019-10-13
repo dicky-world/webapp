@@ -12,59 +12,59 @@ const globalReducer = (state: any, action: any) => {
 
     switch (action.type) {
         case CHANGE_LANGUAGE:
-            return {...state, 
-                language: action.value
+            return {...state,
+                language: action.value,
             }
         case OPEN_MODAL:
-            return {...state, 
-                modal: true, 
-                modalState: action.value
+            return {...state,
+                modal: true,
+                modalState: action.value,
             }
         case CLOSE_MODAL:
-            return {...state, 
-                modal: false
+            return {...state,
+                modal: false,
             }
         case OPEN_WARNING:
-            return {...state, 
-                warning: true, 
-                warningMessage: action.value
+            return {...state,
+                warning: true,
+                warningMessage: action.value,
             }
         case CLOSE_WARNING:
-            return {...state, 
-                warning: false, 
-                warningMessage: action.value
+            return {...state,
+                warning: false,
+                warningMessage: action.value,
             }
         case DARK_MODE:
-            return {...state, 
-                darkMode: action.value
+            return {...state,
+                darkMode: action.value,
             }
         case JOINED:
-            return {...state, 
+            return {...state,
                 modal: false,
                 warning: true,
                 warningMessage: 'confirm',
                 loggedIn: true,
-                fullName: action.value
+                fullName: action.value,
             }
         case LOGGED_IN:
-            return {...state, 
+            return {...state,
                 modal: false,
                 warning: action.value.warning,
                 loggedIn: true,
-                fullName: action.value.name
+                fullName: action.value.name,
             }
         default:
-            return state
+            return state;
     }
 }
 
-export { globalReducer, 
-    CHANGE_LANGUAGE, 
-    OPEN_MODAL, 
+export { globalReducer,
+    CHANGE_LANGUAGE,
+    OPEN_MODAL,
     CLOSE_MODAL,
     OPEN_WARNING,
     CLOSE_WARNING,
     DARK_MODE,
     JOINED,
-    LOGGED_IN
-} 
+    LOGGED_IN,
+};
