@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Router } from '../Router';
 
 describe('Test', () => {
-
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       value: jest.fn(() => {
@@ -20,5 +19,4 @@ describe('Test', () => {
     ReactDOM.render(<Router />, div);
     ReactDOM.unmountComponentAtNode(div);
   });
-
 });

@@ -1,45 +1,47 @@
-const Translations: { [key: string]: {
-    Join: string,
-    alreadyHaveAnAcocunt: string,
-    and: string,
-    byJoiningYouAgreeToOur: string,
-    confirmed: string,
-    dontHaveAnAccount: string,
-    email: string,
-    emailIsInvalid: string,
-    emailIsRequired: string,
-    emailSent: string,
-    enterYourEmailToReset: string,
-    forgotPassword: string,
-    fullNameIsRequired: string,
-    fullNameIsTooLong: string,
-    invalid: string,
-    join: string,
-    joinNow: string,
-    justRemembered: string,
-    language: string,
-    logIn: string,
-    login: string,
-    name: string,
-    offline: string,
-    online: string;
-    or: string,
-    password: string,
-    passwordIsRequired: string,
-    passwordLength: string,
-    pleaseConfirmYourEmail: string,
-    privacyPolicy: string,
-    resendConfirmation: string,
-    resetEmailSent: string,
-    resetPassword: string,
-    siteName: string,
-    termsOfService: string,
-    today: string,
-    updateYourEmail: string,
-    weWillSendPasswordResetIf: string,
-    welcomeBackTo: string,
-    your: string,
-  }} = {
+export interface Translations {
+  Join: string;
+  alreadyHaveAnAcocunt: string;
+  and: string;
+  byJoiningYouAgreeToOur: string;
+  confirmed: string;
+  dontHaveAnAccount: string;
+  email: string;
+  emailIsInvalid: string;
+  emailIsRequired: string;
+  emailSent: string;
+  enterYourEmailToReset: string;
+  forgotPassword: string;
+  fullNameIsRequired: string;
+  fullNameIsTooLong: string;
+  invalid: string;
+  join: string;
+  joinNow: string;
+  justRemembered: string;
+  language: string;
+  logIn: string;
+  login: string;
+  name: string;
+  offline: string;
+  online: string;
+  or: string;
+  password: string;
+  passwordIsRequired: string;
+  passwordLength: string;
+  pleaseConfirmYourEmail: string;
+  privacyPolicy: string;
+  resendConfirmation: string;
+  resetEmailSent: string;
+  resetPassword: string;
+  siteName: string;
+  termsOfService: string;
+  today: string;
+  updateYourEmail: string;
+  weWillSendPasswordResetIf: string;
+  welcomeBackTo: string;
+  your: string;
+}
+
+const TRANSLATIONS: { [x: string]: Translations } = {
   cn: {
     Join: 'Join',
     alreadyHaveAnAcocunt: 'Already have an acocunt',
@@ -78,7 +80,8 @@ const Translations: { [key: string]: {
     termsOfService: 'Terms of service',
     today: 'today',
     updateYourEmail: 'Update your email',
-    weWillSendPasswordResetIf: 'We will send a password reset link if this email is associated with a Fancy account.',
+    weWillSendPasswordResetIf:
+      'We will send a password reset link if this email is associated with a Fancy account.',
     welcomeBackTo: 'Welcome back to',
     your: 'Your',
   },
@@ -120,9 +123,10 @@ const Translations: { [key: string]: {
     termsOfService: 'Terms of service',
     today: 'today',
     updateYourEmail: 'Update your email',
-    weWillSendPasswordResetIf: 'We will send a password reset link if this email is associated with a Fancy account.',
+    weWillSendPasswordResetIf:
+      'We will send a password reset link if this email is associated with a Fancy account.',
     welcomeBackTo: 'Welcome back to',
     your: 'Your',
   },
 };
-export { Translations };
+export { TRANSLATIONS };

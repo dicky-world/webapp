@@ -1,11 +1,7 @@
 import React from 'react';
 
-const Face: React.FC = () => {
-  return (
-    <span className='page'>
-      Face
-    </span>
-  );
+const faceComponent: React.FC = () => {
+  return <span className='page'>Face</span>;
 };
 
-export { Face };
+export { faceComponent as Face };
