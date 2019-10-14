@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import loading from '../images/loading.svg';
+import loadingImg from '../images/loading.svg';
 import { Translations } from '../translations/dictionary';
 import { globalContext, setGlobalContext } from './context';
 import { CLOSE_MODAL, JOINED, OPEN_MODAL } from './reducer';
@@ -22,23 +22,23 @@ const Join: React.FC = () => {
   const password = useRef<HTMLInputElement>(null);
   const joinForm = useRef<HTMLFormElement>(null);
 
-  const validateFullName = (fullName: string) => {
-    if (!fullName) return txt.fullNameIsRequired;
-    if (fullName.length > 35) return txt.fullNameIsTooLong;
+  const validateFullName = (fullNameArg: string) => {
+    if (!fullNameArg) return txt.fullNameIsRequired;
+    if (fullNameArg.length > 35) return txt.fullNameIsTooLong;
     return '';
   };
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (emailArg: string) => {
     const emailRegex = /\S+@\S+\.\S+/;
-    if (!email) return txt.emailIsRequired;
-    if (!emailRegex.test(email)) return txt.emailIsInvalid;
+    if (!emailArg) return txt.emailIsRequired;
+    if (!emailRegex.test(emailArg)) return txt.emailIsInvalid;
     return '';
   };
 
-  const validatePassword = (password: string) => {
+  const validatePassword = (passwordArg: string) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?:.{6,})$/;
-    if (!password) return txt.passwordIsRequired;
-    if (!passwordRegex.test(password)) return txt.passwordLength;
+    if (!passwordArg) return txt.passwordIsRequired;
+    if (!passwordRegex.test(passwordArg)) return txt.passwordLength;
     return '';
   };
 
@@ -126,7 +126,7 @@ const Join: React.FC = () => {
           </CSSTransition>
 
           <button color='primary' onClick={join}>
-            {!state.loading ? txt.joinNow : <img src={loading} alt='loading' className='loading'/>}
+            {!state.loading ? txt.joinNow : <img src={loadingImg} alt='loading' className='loading'/>}
           </button>
 
           <small>{txt.byJoiningYouAgreeToOur}

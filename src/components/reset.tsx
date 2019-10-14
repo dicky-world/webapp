@@ -13,10 +13,10 @@ const Reset: React.FC = () => {
   const email = useRef<HTMLInputElement>(null);
   const resetForm = useRef<HTMLFormElement>(null);
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (emailArg: string) => {
     const emailRegex = /\S+@\S+\.\S+/;
-    if (!email) return txt.emailIsRequired;
-    if (!emailRegex.test(email)) return txt.emailIsInvalid;
+    if (!emailArg) return txt.emailIsRequired;
+    if (!emailRegex.test(emailArg)) return txt.emailIsInvalid;
     return '';
   };
 

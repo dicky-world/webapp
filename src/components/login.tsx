@@ -14,17 +14,17 @@ const Login: React.FC = (props) => {
   const password = useRef<HTMLInputElement>(null);
   const loginForm = useRef<HTMLFormElement>(null);
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (emailArg: string) => {
     const emailRegex = /\S+@\S+\.\S+/;
-    if (!email) return txt.emailIsRequired;
-    if (!emailRegex.test(email)) return txt.emailIsInvalid;
+    if (!emailArg) return txt.emailIsRequired;
+    if (!emailRegex.test(emailArg)) return txt.emailIsInvalid;
     return '';
   };
 
-  const validatePassword = (password: string) => {
+  const validatePassword = (passwordArg: string) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?:.{6,})$/;
-    if (!password) return txt.passwordIsRequired;
-    if (!passwordRegex.test(password)) return txt.passwordLength;
+    if (!passwordArg) return txt.passwordIsRequired;
+    if (!passwordRegex.test(passwordArg)) return txt.passwordLength;
     return '';
   };
 
