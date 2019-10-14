@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import { globalContext, setGlobalContext } from './context';
 import { Join } from './join';
 import { Login } from './login';
-import { CLOSE_MODAL, CLOSE_WARNING, DARK_MODE, OPEN_WARNING } from './reducer'
+import { CLOSE_MODAL, CLOSE_WARNING, DARK_MODE, OPEN_WARNING } from './reducer';
 import { Reset } from './reset';
 import { Sent } from './sent';
 import { TopNav } from './topnav';
@@ -21,7 +21,6 @@ const Layout: React.FC<propsInterface> = (props) => {
   const layoutGrid = useRef<HTMLDivElement>(null);
   const layoutHeader = useRef<HTMLDivElement>(null);
 
-
   const closeModal = () => {
     setGlobal({type: CLOSE_MODAL});
   };
@@ -32,9 +31,9 @@ const Layout: React.FC<propsInterface> = (props) => {
   }, [props.location]);
 
   useEffect(() => {
-    const modeChanged = (event: { matches: boolean; }) => {
-      setGlobal({type: DARK_MODE, action: event.matches});
-    };
+    // const modeChanged = (event: { matches: boolean; }) => {
+    //   setGlobal({type: DARK_MODE, action: event.matches});
+    // };
     const nowOffline = () => {
       setGlobal({type: OPEN_WARNING, action: 'offline'});
     };
@@ -44,14 +43,14 @@ const Layout: React.FC<propsInterface> = (props) => {
         setGlobal({type: CLOSE_WARNING, action: ''});
        }, 3000);
     };
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', modeChanged);
+    // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', modeChanged);
     window.addEventListener('online',  nowOnline);
     window.addEventListener('offline', nowOffline);
     return () => {
-      window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', modeChanged);
+     // window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', modeChanged);
       window.removeEventListener('online', nowOnline);
       window.removeEventListener('offline', nowOffline);
-    }; 
+    };
   }, [setGlobal]);
 
   return (

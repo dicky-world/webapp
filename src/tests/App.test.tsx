@@ -1,9 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '../Router';
+import { Router } from '../Router';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe('Test', () => {
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      value: jest.fn(() => {
+        return {
+          addListener: jest.fn(),
+          matches: true,
+          removeListener: jest.fn(),
+        };
+      }),
+    });
+  });
+  it('renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<Router />, div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
+
 });

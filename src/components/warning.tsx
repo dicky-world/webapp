@@ -14,9 +14,9 @@ const Warning: React.FC = (props) => {
     setGlobal({type: OPEN_WARNING, value: 'sent'});
     const jwtToken = localStorage.getItem('jwtToken');
     const response = await fetch(`${global.apiUrl}/register/resend-email`, {
-      method: 'POST',
-      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
       body: JSON.stringify({jwtToken}),
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+      method: 'POST',
     });
     if (response.status === 200) {
       setTimeout(() => {
@@ -29,7 +29,14 @@ const Warning: React.FC = (props) => {
         <TransitionGroup>
             <CSSTransition key={global.warningMessage} timeout={600} classNames='warningtext'>
                <div className='warning-text'>
-                {global.warningMessage === 'confirm' && <p><span>{txt.pleaseConfirmYourEmail}</span> <Link to={{pathname: '/my/profile'}}><b>{txt.updateYourEmail}</b></Link> {txt.or} <b onClick={resend}>{txt.resendConfirmation}</b></p>}
+                {global.warningMessage === 'confirm' &&
+                  <p>
+                    <span>{txt.pleaseConfirmYourEmail}</span>
+                    <Link to={{pathname: '/my/profile'}}><b>{txt.updateYourEmail}</b></Link>
+                    {txt.or}
+                    <b onClick={resend}>{txt.resendConfirmation}</b>
+                  </p>
+                }
                 {global.warningMessage === 'sent' && <p>{txt.emailSent}</p>}
                 {global.warningMessage === 'invalid' && <p>{txt.invalid}</p>}
                 {global.warningMessage === 'confirmed' && <p>{txt.confirmed}</p>}

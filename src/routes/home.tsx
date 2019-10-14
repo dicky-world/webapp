@@ -7,6 +7,6 @@ const Home: React.FC = () => {
       <div>Home</div>
     </span>
   );
-}
+};
 
 export { Home };

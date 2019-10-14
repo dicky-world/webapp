@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import loading from '../images/loading.svg';
+import loadingImg from '../images/loading.svg';
 import { Translations } from '../translations/dictionary';
 import { globalContext, setGlobalContext  } from './context';
 import { LOGGED_IN, OPEN_MODAL } from './reducer';
@@ -51,9 +51,9 @@ const Login: React.FC = (props) => {
        }, 2200);
       if (loading === true) {
         const response = await fetch(`${global.apiUrl}/login`, {
-          method: 'POST',
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
           body: JSON.stringify({email: email.current.value, password: password.current.value}),
+          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+          method: 'POST',
         });
         const content = await response.json();
         if (response.status === 200) {
@@ -81,27 +81,38 @@ const Login: React.FC = (props) => {
 
           <label>{txt.email}</label>
           <input type='text' name='email' ref={email}/>
-          <CSSTransition in={state.emailError ? true : false} appear={state.emailError ? true : false} timeout={400} classNames='error'>
+          <CSSTransition
+            in={state.emailError ? true : false}
+            appear={state.emailError ? true : false}
+            timeout={400}
+            classNames='error'
+          >
             <small className='error'>{state.emailError}</small>
           </CSSTransition>
 
           <label>{txt.password}</label>
           <input type='password' name='password' ref={password}/>
-          <CSSTransition in={state.passwordError ? true : false} appear={state.passwordError ? true : false} timeout={400} classNames='error'>
+          <CSSTransition
+            in={state.passwordError ? true : false}
+            appear={state.passwordError ? true : false}
+            timeout={400}
+            classNames='error'
+          >
             <small className='error'>{state.passwordError}</small>
           </CSSTransition>
 
           <b className='right blue' onClick={reset}>{txt.forgotPassword}?</b>
 
           <button color='primary' onClick={login}>
-            {!state.loading ? txt.login : <img src={loading} alt='loading' className='loading'/>}
+            {!state.loading ? txt.login : <img src={loadingImg} alt='loading' className='loading'/>}
           </button>
 
         </form>
-        <p className='center'>{txt.dontHaveAnAccount}? <b className='blue' onClick={join}>{txt.join} {txt.siteName}</b></p>
+        <p className='center'>{txt.dontHaveAnAccount}?
+          <b className='blue' onClick={join}>{txt.join} {txt.siteName}</b>
+        </p>
     </div>
   );
 };
 
 export { Login };
-

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import loading from '../images/loading.svg';
+import loadingImg from '../images/loading.svg';
 import { Translations } from '../translations/dictionary';
 import { globalContext, setGlobalContext  } from './context';
 import { OPEN_MODAL } from './reducer';
@@ -44,9 +44,9 @@ const Reset: React.FC = () => {
      }, 2200);
     if (loading === true) {
       const response = await fetch(`${global.apiUrl}/login/reset-password`, {
-        method: 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify({email: email.current.value}),
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        method: 'POST',
       });
       if (response.status === 200) {
         setGlobal({type: OPEN_MODAL, value: 'sent'});
@@ -62,7 +62,7 @@ const Reset: React.FC = () => {
         <form ref={resetForm}>
           <label>Email</label>
           <input type='text' name='email' ref={email}/>
-          <CSSTransition 
+          <CSSTransition
             in={state.emailError ? true : false}
             appear={state.emailError ? true : false}
             timeout={400} classNames='error'
@@ -70,7 +70,7 @@ const Reset: React.FC = () => {
             <small className='error'>{state.emailError}</small>
           </CSSTransition>
           <button color='primary' onClick={reset}>
-            {!state.loading ? txt.resetPassword : <img src={loading} alt='loading' className='loading'/>}
+            {!state.loading ? txt.resetPassword : <img src={loadingImg} alt='loading' className='loading'/>}
           </button>
         </form>
         <p className='center'>{txt.justRemembered}? <b className='blue' onClick={logIn}>{txt.login}</b></p>

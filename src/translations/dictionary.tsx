@@ -33,12 +33,12 @@ const Translations: { [key: string]: {
     alreadyHaveAnAcocunt: string,
     logIn: string,
     welcomeBackTo: string,
-    forgotPassword:  string,
+    forgotPassword: string,
     dontHaveAnAccount: string,
     emailSent: string,
     enterYourEmailToReset: string,
     resetEmailSent: string,
-    weWillSendPasswordResetIf: string
+    weWillSendPasswordResetIf: string,
   }} = {
   cn: {
     language: 'Chinese',
@@ -80,7 +80,7 @@ const Translations: { [key: string]: {
     emailSent: 'Email sent',
     enterYourEmailToReset: 'Enter your email address to reset your password.',
     resetEmailSent: 'Reset email sent',
-    weWillSendPasswordResetIf: 'We will send a password reset link if this email is associated with a Fancy account.'
+    weWillSendPasswordResetIf: 'We will send a password reset link if this email is associated with a Fancy account.',
   },
   en: {
     language: 'English',
@@ -122,12 +122,7 @@ const Translations: { [key: string]: {
     emailSent: 'Email sent',
     enterYourEmailToReset: 'Enter your email address to reset your password.',
     resetEmailSent: 'Reset email sent',
-    weWillSendPasswordResetIf: 'We will send a password reset link if this email is associated with a Fancy account.'
+    weWillSendPasswordResetIf: 'We will send a password reset link if this email is associated with a Fancy account.',
   },
-}
-export { Translations }
-
-
-
-
-
+};
+export { Translations };

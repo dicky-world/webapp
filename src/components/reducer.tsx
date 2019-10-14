@@ -14,49 +14,49 @@ const globalReducer = (state: any, action: any) => {
         case CHANGE_LANGUAGE:
             return {...state,
                 language: action.value,
-            }
+            };
         case OPEN_MODAL:
             return {...state,
                 modal: true,
                 modalState: action.value,
-            }
+            };
         case CLOSE_MODAL:
             return {...state,
                 modal: false,
-            }
+            };
         case OPEN_WARNING:
             return {...state,
                 warning: true,
                 warningMessage: action.value,
-            }
+            };
         case CLOSE_WARNING:
             return {...state,
                 warning: false,
                 warningMessage: action.value,
-            }
+            };
         case DARK_MODE:
             return {...state,
                 darkMode: action.value,
-            }
+            };
         case JOINED:
             return {...state,
+                fullName: action.value,
+                loggedIn: true,
                 modal: false,
                 warning: true,
                 warningMessage: 'confirm',
-                loggedIn: true,
-                fullName: action.value,
-            }
+            };
         case LOGGED_IN:
             return {...state,
+                fullName: action.value.name,
+                loggedIn: true,
                 modal: false,
                 warning: action.value.warning,
-                loggedIn: true,
-                fullName: action.value.name,
-            }
+            };
         default:
             return state;
     }
-}
+};
 
 export { globalReducer,
     CHANGE_LANGUAGE,

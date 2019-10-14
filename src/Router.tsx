@@ -1,27 +1,26 @@
 import React, { useReducer } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { setGlobalContext, globalContext } from "./components/context";
-import { Layout } from "./components/layout";
-import { Home } from './routes/home';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { globalContext, setGlobalContext } from './components/context';
+import { Layout } from './components/layout';
 import { Face } from './routes/face';
+import { Home } from './routes/home';
 import { NotFound } from './routes/not-found';
 
-import { globalReducer } from './components/reducer'
+import { globalReducer } from './components/reducer';
 
 const Router: React.FC = () => {
-  
+
   const [global, setGlobal] = useReducer(globalReducer, {
-    language: 'en',
-    darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches || false,
     apiUrl: 'https://api.dicky.world',
-    warning: localStorage.getItem("warning") ? true : false,
-    warningMessage: localStorage.getItem("warning"),
+    darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches || false,
+    fullName: localStorage.getItem('fullName') || '',
+    language: 'en',
+    loggedIn: localStorage.getItem('jwtToken') ? true : false,
     modal: false,
     modalState: '',
-    loggedIn: localStorage.getItem("jwtToken") ? true : false,
-    fullName: localStorage.getItem("fullName") || '',
+    warning: localStorage.getItem('warning') ? true : false,
+    warningMessage: localStorage.getItem('warning'),
   });
-
 
   return (
     <setGlobalContext.Provider value={{ setGlobal }}>
@@ -41,6 +40,6 @@ const Router: React.FC = () => {
       </globalContext.Provider>
     </setGlobalContext.Provider>
   );
-}
+};
 
 export { Router };
