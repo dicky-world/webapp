@@ -1,6 +1,6 @@
 import React from 'react';
 import { AnyAction } from 'redux';
-import { AppState } from './reducer';
+import { defaultState } from './reducer';
 
 const setGlobalContext = React.createContext<{
   setGlobal: React.Dispatch<AnyAction>;
@@ -10,21 +10,6 @@ const setGlobalContext = React.createContext<{
   },
 });
 
-/**
- * TODO: Use default state here instead of the router component.
- * @type {React.Context<{global: AppState}>}
- */
-const globalContext = React.createContext<{ global: AppState }>({
-  global: {
-    apiUrl: '',
-    darkMode: false,
-    language: 'en',
-    loggedIn: false,
-    modal: false,
-    modalState: '',
-    warning: false,
-    warningMessage: '',
-  },
-});
+const globalContext = React.createContext({ global: defaultState });
 
 export { setGlobalContext, globalContext };

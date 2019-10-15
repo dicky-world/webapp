@@ -22,7 +22,22 @@ export interface AppState {
   warningMessage: string | null;
 }
 
-const globalReducer: Reducer<AppState, AnyAction> = (state, action) => {
+export const defaultState: AppState = {
+  apiUrl: 'https://api.dicky.world',
+  darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches || false,
+  fullName: localStorage.getItem('fullName') || '',
+  language: 'en',
+  loggedIn: !!localStorage.getItem('jwtToken'),
+  modal: false,
+  modalState: '',
+  warning: !!localStorage.getItem('warning'),
+  warningMessage: localStorage.getItem('warning'),
+};
+
+const globalReducer: Reducer<AppState, AnyAction> = (
+  state = defaultState,
+  action
+) => {
   switch (action.type) {
     case CHANGE_LANGUAGE:
       return {

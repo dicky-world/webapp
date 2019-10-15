@@ -1,47 +1,4 @@
-export interface Translations {
-  Join: string;
-  alreadyHaveAnAcocunt: string;
-  and: string;
-  byJoiningYouAgreeToOur: string;
-  confirmed: string;
-  dontHaveAnAccount: string;
-  email: string;
-  emailIsInvalid: string;
-  emailIsRequired: string;
-  emailSent: string;
-  enterYourEmailToReset: string;
-  forgotPassword: string;
-  fullNameIsRequired: string;
-  fullNameIsTooLong: string;
-  invalid: string;
-  join: string;
-  joinNow: string;
-  justRemembered: string;
-  language: string;
-  logIn: string;
-  login: string;
-  name: string;
-  offline: string;
-  online: string;
-  or: string;
-  password: string;
-  passwordIsRequired: string;
-  passwordLength: string;
-  pleaseConfirmYourEmail: string;
-  privacyPolicy: string;
-  resendConfirmation: string;
-  resetEmailSent: string;
-  resetPassword: string;
-  siteName: string;
-  termsOfService: string;
-  today: string;
-  updateYourEmail: string;
-  weWillSendPasswordResetIf: string;
-  welcomeBackTo: string;
-  your: string;
-}
-
-const TRANSLATIONS: { [x: string]: Translations } = {
+export const TRANSLATIONS: { [x: string]: { [y: string]: string } } = {
   cn: {
     Join: 'Join',
     alreadyHaveAnAcocunt: 'Already have an acocunt',
@@ -129,4 +86,3 @@ const TRANSLATIONS: { [x: string]: Translations } = {
     your: 'Your',
   },
 };
-export { TRANSLATIONS };
