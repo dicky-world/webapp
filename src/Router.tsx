@@ -3,25 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { globalContext, setGlobalContext } from './components/context';
 import { Layout } from './components/layout';
 
-import { AppState, globalReducer } from './components/reducer';
+import { defaultState, globalReducer } from './components/reducer';
 import { Face } from './routes/face';
 import { Home } from './routes/home';
 import { NotFound } from './routes/not-found';
 
-const initialState: AppState = {
-  apiUrl: 'https://api.dicky.world',
-  darkMode: window.matchMedia('(prefers-color-scheme: dark)').matches || false,
-  fullName: localStorage.getItem('fullName') || '',
-  language: 'en',
-  loggedIn: !!localStorage.getItem('jwtToken'),
-  modal: false,
-  modalState: '',
-  warning: !!localStorage.getItem('warning'),
-  warningMessage: localStorage.getItem('warning'),
-};
-
 export function Router(): JSX.Element {
-  const [global, setGlobal] = useReducer(globalReducer, initialState);
+  const [global, setGlobal] = useReducer(globalReducer, defaultState);
 
   return (
     <setGlobalContext.Provider value={{ setGlobal }}>
