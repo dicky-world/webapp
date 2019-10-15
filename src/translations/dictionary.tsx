@@ -1,6 +1,5 @@
 export const TRANSLATIONS: { [x: string]: { [y: string]: string } } = {
   cn: {
-    Join: 'Join',
     alreadyHaveAnAcocunt: 'Already have an acocunt',
     and: 'and',
     byJoiningYouAgreeToOur: 'By joining you agree to our',
@@ -43,7 +42,6 @@ export const TRANSLATIONS: { [x: string]: { [y: string]: string } } = {
     your: 'Your',
   },
   en: {
-    Join: 'Join',
     alreadyHaveAnAcocunt: 'Already have an acocunt',
     and: 'and',
     byJoiningYouAgreeToOur: 'By joining you agree to our',
