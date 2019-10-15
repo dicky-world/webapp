@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import loadingImg from '../images/loading.svg';
-import { Translations } from '../translations/dictionary';
-import { globalContext, setGlobalContext  } from './context';
+import { TRANSLATIONS } from '../translations/dictionary';
+import { globalContext, setGlobalContext } from './context';
 import { LOGGED_IN, OPEN_MODAL } from './reducer';
 
-const Login: React.FC = (props) => {
-  const { global } = useContext(globalContext) as {global: any};
-  const { setGlobal } = useContext(setGlobalContext) as {setGlobal: React.Dispatch<React.SetStateAction<any>>};
-  const [state, setState] = useState({loading: false, emailError: '', passwordError: ''});
-  const txt = Translations[global.language];
+export function Login(): JSX.Element {
+  const { global } = useContext(globalContext);
+  const { setGlobal } = useContext(setGlobalContext);
+  const [state, setState] = useState({
+    emailError: '',
+    loading: false,
+    passwordError: '',
+  });
+  const txt = TRANSLATIONS[global.language];
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const loginForm = useRef<HTMLFormElement>(null);
@@ -33,10 +37,10 @@ const Login: React.FC = (props) => {
     if (email.current) email.current.focus();
   }, [global, setGlobal]);
 
-  const join = () => setGlobal({type: OPEN_MODAL, value: 'join'});
-  const reset = () => setGlobal({type: OPEN_MODAL, value: 'reset'});
+  const join = () => setGlobal({ type: OPEN_MODAL, value: 'join' });
+  const reset = () => setGlobal({ type: OPEN_MODAL, value: 'reset' });
 
-  const login = async (event: any) => {
+  const login = async (event: React.MouseEvent) => {
     event.preventDefault();
     if (email.current && password.current) {
       const emailError = validateEmail(email.current.value);
@@ -45,29 +49,47 @@ const Login: React.FC = (props) => {
       if (!emailError && !passwordError) {
         loading = true;
       }
-      setState({...state, loading, emailError, passwordError});
+      setState({ ...state, loading, emailError, passwordError });
       setTimeout(() => {
-        setState({...state, emailError: '', passwordError: ''});
-       }, 2200);
-      if (loading === true) {
+        setState({ ...state, emailError: '', passwordError: '' });
+      }, 2200);
+      if (loading) {
         const response = await fetch(`${global.apiUrl}/login`, {
-          body: JSON.stringify({email: email.current.value, password: password.current.value}),
-          headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: email.current.value,
+            password: password.current.value,
+          }),
+          headers: {
+            // prettier-ignore
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
           method: 'POST',
         });
         const content = await response.json();
         if (response.status === 200) {
-            let warningMessage = '';
-            if (!content.emailConfirmed) {
-              warningMessage = 'confirm';
-              localStorage.setItem('warning', 'confirm');
-            }
-            localStorage.setItem('jwtToken', content.jwtToken);
-            localStorage.setItem('fullName', content.fullName);
-            setState({...state, loading: false, emailError: '', passwordError: ''});
-            setGlobal({type: LOGGED_IN, value: {name: content.fullName, warning: warningMessage} });
+          let warningMessage = '';
+          if (!content.emailConfirmed) {
+            warningMessage = 'confirm';
+            localStorage.setItem('warning', 'confirm');
+          }
+          localStorage.setItem('jwtToken', content.jwtToken);
+          localStorage.setItem('fullName', content.fullName);
+          setState({
+            ...state,
+            emailError: '',
+            loading: false,
+            passwordError: '',
+          });
+          setGlobal({
+            type: LOGGED_IN,
+            value: { name: content.fullName, warning: warningMessage },
+          });
         } else {
-          setState({...state, emailError: content.message || content[0].message});
+          setState({
+            ...state,
+            emailError: content.message || content[0].message,
+          });
         }
       }
     }
@@ -75,44 +97,51 @@ const Login: React.FC = (props) => {
 
   return (
     <div>
-        <h2>{txt.logIn}</h2>
-        <h3>{txt.welcomeBackTo} <span className='blue'>{txt.siteName}</span></h3>
-        <form ref={loginForm}>
+      <h2>{txt.logIn}</h2>
+      <h3>
+        {txt.welcomeBackTo} <span className='blue'>{txt.siteName}</span>
+      </h3>
+      <form ref={loginForm}>
+        <label>{txt.email}</label>
+        <input type='text' name='email' ref={email} />
+        <CSSTransition
+          in={!!state.emailError}
+          appear={!!state.emailError}
+          timeout={400}
+          classNames='error'
+        >
+          <small className='error'>{state.emailError}</small>
+        </CSSTransition>
 
-          <label>{txt.email}</label>
-          <input type='text' name='email' ref={email}/>
-          <CSSTransition
-            in={state.emailError ? true : false}
-            appear={state.emailError ? true : false}
-            timeout={400}
-            classNames='error'
-          >
-            <small className='error'>{state.emailError}</small>
-          </CSSTransition>
+        <label>{txt.password}</label>
+        <input type='password' name='password' ref={password} />
+        <CSSTransition
+          in={!!state.passwordError}
+          appear={!!state.passwordError}
+          timeout={400}
+          classNames='error'
+        >
+          <small className='error'>{state.passwordError}</small>
+        </CSSTransition>
 
-          <label>{txt.password}</label>
-          <input type='password' name='password' ref={password}/>
-          <CSSTransition
-            in={state.passwordError ? true : false}
-            appear={state.passwordError ? true : false}
-            timeout={400}
-            classNames='error'
-          >
-            <small className='error'>{state.passwordError}</small>
-          </CSSTransition>
+        <b className='right blue' onClick={reset}>
+          {txt.forgotPassword}?
+        </b>
 
-          <b className='right blue' onClick={reset}>{txt.forgotPassword}?</b>
-
-          <button color='primary' onClick={login}>
-            {!state.loading ? txt.login : <img src={loadingImg} alt='loading' className='loading'/>}
-          </button>
-
-        </form>
-        <p className='center'>{txt.dontHaveAnAccount}?
-          <b className='blue' onClick={join}>{txt.join} {txt.siteName}</b>
-        </p>
+        <button color='primary' onClick={login}>
+          {!state.loading ? (
+            txt.login
+          ) : (
+            <img src={loadingImg} alt='loading' className='loading' />
+          )}
+        </button>
+      </form>
+      <p className='center'>
+        {txt.dontHaveAnAccount}?
+        <b className='blue' onClick={join}>
+          {txt.join} {txt.siteName}
+        </b>
+      </p>
     </div>
   );
-};
-
-export { Login };
+}

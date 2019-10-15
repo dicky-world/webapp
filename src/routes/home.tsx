@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Home: React.FC = () => {
-
+const homeComponent: React.FC = () => {
   return (
     <span className='page'>
       <div>Home</div>
@@ -9,4 +8,4 @@ const Home: React.FC = () => {
   );
 };
 
-export { Home };
+export { homeComponent as Home };
