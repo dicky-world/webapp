@@ -15,7 +15,7 @@ const Profile: React.FC = () => {
     usernameError: '',
     webSite: '',
     webSiteError: '',
-    country: 'US',
+    country: 'GB',
     countryError: '',
     bio: '',
     bioError: '',
@@ -94,7 +94,7 @@ const Profile: React.FC = () => {
               onChange={onChange}
             />
             <small>
-              Your real name, that matches your government issued ID
+              Your real name, so your friends can find you.
             </small>
             <label>Username</label>
             <input
@@ -103,12 +103,14 @@ const Profile: React.FC = () => {
               value={username}
               onChange={onChange}
             />
+            <small>https://dicky.world/{username}</small>
             <label>Website</label>
             <input
               type='text'
               name='webSite'
               value={webSite}
               onChange={onChange}
+              placeholder='https://www.'
             />
             <label>Country</label>
             <select name='country' value={country} onChange={onChange}>
@@ -589,11 +591,11 @@ const Profile: React.FC = () => {
               <input
                 type='radio'
                 name='gender'
-                id='other'
+                id='undisclosed'
                 checked={gender === 'other'}
                 onChange={onChange}
               />
-              <span>Other</span>
+              <span>Undisclosed</span>
             </label>
           </div>
         </div>
