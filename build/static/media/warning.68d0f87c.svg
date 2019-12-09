@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2">
+            <rect id="Rectangle" fill="#FFFFFF" opacity="0.471493676" x="3" y="3" width="14" height="14"></rect>
+            <g id="Group" fill="#AF4544" fill-rule="nonzero">
+                <path d="M17,7 L17,3 L13,3 L10,0 L7,3 L3,3 L3,7 L0,10 L3,13 L3,17 L7,17 L10,20 L13,17 L17,17 L17,13 L20,10 L17,7 Z M15,12.2 L15,15 L12.2,15 L10,17.2 L7.8,15 L5,15 L5,12.2 L2.8,10 L5,7.8 L5,5 L7.8,5 L10,2.8 L12.2,5 L15,5 L15,7.8 L17.2,10 L15,12.2 Z" id="Shape"></path>
+                <rect id="Rectangle" x="9" y="6" width="2" height="5"></rect>
+                <rect id="Rectangle" x="9" y="12" width="2" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
