@@ -11,7 +11,7 @@ interface PropsInterface {
 const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
   const { dispatch } = useContext(Dispatch);
   const firstName = props.fullName.split(' ')[0];
-  const initial = firstName.charAt(0);
+  const initial = firstName.charAt(0).toLowerCase();
   const imagePath = props.avatar
     ? props.avatar
     : `/icons/initial/${initial}.png`;
