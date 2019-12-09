@@ -45,8 +45,10 @@
     ]
   },
   "devDependencies": {
-    "@types/redux": "^4.0.4",
-    "gh-pages": "^2.1.1",
-    "redux": "^4.0.4"
+    "@types/enzyme": "^3.10.3",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "enzyme-to-json": "^3.4.3",
+    "ts-jest": "^24.2.0"
   }
 }
