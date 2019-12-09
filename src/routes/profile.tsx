@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Photo } from '../components/photo';
 import { Global } from '../globalState';
-import { on } from 'cluster';
 
 const Profile: React.FC = () => {
   const { global } = useContext(Global);
-  const initial = global.shared.fullName.split(' ')[0].charAt(0);
+  const initial = global.shared.fullName.split(' ')[0].charAt(0).toLowerCase();
   const placeholder = `/icons/initial/${initial}.png`;
 
   const [state, setState] = useState({
