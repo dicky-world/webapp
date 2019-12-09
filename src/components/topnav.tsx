@@ -41,7 +41,7 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
       return (
         <div className='topnav--buttons'>
           <button color='primary' onClick={join}>
-            Join Site
+            Join Dicky
           </button>
           <button color='secondary' onClick={login}>
             Login
