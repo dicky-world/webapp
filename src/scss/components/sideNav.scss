@@ -1,0 +1,50 @@
+.side-nav {
+  background: $card-background;
+  border: 1px solid $secondary;
+  box-shadow: $depth-1;
+  border-radius: 5px;
+  width: 250px;
+  grid-gap: 12px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  size: 14px;
+
+  & a{
+    color: $secondary-text;
+  }
+
+  & a:hover {
+    text-decoration: none;
+  }
+
+  &--divider {
+    background-color: $secondary;
+    height: 1px;
+    display: block;
+    margin: 12px 0px;
+  }
+  &--item {
+    line-height: 30px;
+    grid-template-columns: 20px 1fr;
+    display: grid;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  &--item::before {
+    content: '';
+    width: 2px;
+    background-color: $transparent;
+  }
+  &--item:hover {
+    font-weight: 500;
+  }
+  &--selected {
+    font-weight: 700;
+    background-color: $secondary;
+  }
+  &--selected::before {
+    content: '';
+    width: 3px;
+    background-color: $primary;
+  }
+}

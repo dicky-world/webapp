@@ -1,34 +1,36 @@
 import React, { useReducer } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { globalContext, setGlobalContext } from './components/context';
 import { Layout } from './components/layout';
-
-import { defaultState, globalReducer } from './components/reducer';
-import { Face } from './routes/face';
+import { Dispatch, Global, InitialState, Reducer } from './globalState';
+import { ConfirmEmail } from './routes/confirmEmail';
 import { Home } from './routes/home';
-import { NotFound } from './routes/not-found';
+import { NotFound } from './routes/notFound';
+import { Profile } from './routes/profile';
+import { ResetPassword } from './routes/resetPassword';
 
-export function Router(): JSX.Element {
-  const [global, setGlobal] = useReducer(globalReducer, defaultState);
-
+const Router: React.FC = () => {
+  const [global, dispatch] = useReducer(Reducer, InitialState);
   return (
-    <setGlobalContext.Provider value={{ setGlobal }}>
-      <globalContext.Provider value={{ global }}>
+    <Dispatch.Provider value={{ dispatch }}>
+      <Global.Provider value={{ global }}>
         <BrowserRouter>
           <Route
             render={({ location }) => (
               <Layout location={location}>
                 <Switch location={location}>
                   <Route exact path='/' component={Home} />
-                  <Route exact path='/my/profile/' component={Home} />
-                  <Route exact path='/my/face/' component={Face} />
+                  <Route exact path='/my/profile' component={Profile} />
+                  <Route exact path='/confirm-email/:confirmationCode' component={ConfirmEmail} />
+                  <Route exact path='/reset-password/:resetPassword' component={ResetPassword} />
                   <Route component={NotFound} />
                 </Switch>
               </Layout>
             )}
           />
         </BrowserRouter>
-      </globalContext.Provider>
-    </setGlobalContext.Provider>
+      </Global.Provider>
+    </Dispatch.Provider>
   );
-}
+};
+
+export { Router };

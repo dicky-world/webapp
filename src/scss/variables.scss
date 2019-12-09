@@ -1,45 +1,46 @@
 // ------- FONTS -------
-$base-font: "Hanken Grotesk", "Helvetica Neue", sans-serif;
+$base-font: 'Hanken Grotesk', 'Helvetica Neue', sans-serif;
 
 // ------- SHADOWS -------
-$depth-1: 0 1px 0px rgba(0,0,0,0.03), 0 1px 1px rgba(0,0,0,0.05);
+$depth-1: 0 1px 0px rgba(0, 0, 0, 0.03), 0 1px 1px rgba(0, 0, 0, 0.05);
 
 // ------- COLORS -------
-// Highlight
-$blue-1: rgba(37, 129, 227, 1);
-$blue-2: rgba(0, 106, 194, 1);
-$green-1: rgba(113, 197, 136, 1);
-$green-2: rgba(79, 175, 78, 1);
-$white: rgba(255, 255, 255, 1);
-$black: rgba(0, 0, 0,1);
 
-// Backgrounds Dark
-$grey-5: rgba(50, 54, 57, 1);
-$grey-6: rgba(39, 43, 46, 1);
-
-// Backgrounds Light
-$grey-1: rgba(235, 236, 237, 1);
-
-// Text
-$grey-4: rgba(55, 61, 72, 1);
+$primary: rgb(37, 129, 227);
+$primary-dark: rgb(0, 85, 176);
+$primary-light: rgb(108, 176, 255);
+$primary-text: rgb(255, 255, 255);
+$secondary: rgb(237, 238, 240);
+$secondary-dark: rgb(187, 188, 190);
+$secondary-light: rgb(255, 255, 255);
+$secondary-text: rgb(55, 61, 72);
+$card-background: rgb(255, 255, 255);
+$background: rgb(235, 236, 237);
+$modal-background: rgba(0, 0, 0, 0.6);
 $transparent: rgba(255, 255, 255, 0);
+$input-background: rgb(220, 220, 220);
+$input-placeholder: rgb(159, 159, 159);
+$error-red: rgb(218, 137, 137);
 
-// Modal Backgrounds
-$modal-dark: rgba(0, 0, 0, 0.8);
-$modal-light: rgba(235, 236, 237, 0.85);
-
-
-$grey-2: rgba(208, 208, 208,1);
+$dark-purple: rgb(34, 31, 32);
+$purple-overlay: rgba(56, 53, 54, 1);
+$purple-light: rgba(43, 43, 43, 1);
+$gold: rgba(246, 196, 68, 1);
+$gold-edge: rgba(252, 208, 112, 1);
+$white: rgba(255, 255, 255, 1);
+$manatee: rgba(151, 151, 151, 1);
+$black: rgb(0, 0, 0);
 
 // ------- SIZES -------
-
-$warning-height: 32px;
+$logo-width: 84px;
+$logo-height: 20px;
 $topnav-height: 56px;
-$mobile-footer-height: 64px;
-$admin-nav-width: 165px;
-$page-max-width: 1150px;
+$warning-height: 42px;
 $spacing-1: 12px;
+$page-max-width: 1150px;
+
+$mobile-footer-height: 64px;
+$admin-nav-width: 250px;
 $tablet-breakpoint: 768px;
 $desktop-breakpoint: 1024px;
-
-
+$footer-height: 40px;

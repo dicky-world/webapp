@@ -1,143 +1,23 @@
-/* Mobile */
-.layout-grid {
+.layout {
     height: 100%;
     overflow-y: scroll;
     display: grid;
     grid-template-rows: auto 1fr auto;
 
-    .layout-header {
-        z-index: 10;
-        position: relative;
-        .warning {
-            display: none;
-            height: 0;
-            background: $blue-1;
-            color: $transparent;
-            overflow: hidden;
-        }
-        .layout-navigation {
-            background-color: $white;
-            height: $topnav-height;
-            box-shadow: $depth-1;
-            @import "components/topnav.scss";
-        }
-        @import "animations/warning.scss";
+    &--main {
+      max-width: $page-max-width;
+      margin: 0 auto;
+      width: 100%;
+      padding: 12px;
     }
-
-    .layout-admin {
-        margin: 0 auto;
-        padding-bottom: $mobile-footer-height;
-        max-width: $page-max-width;
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-gap: $spacing-1;
-        padding: 0 $spacing-1;
+    &--sidenav {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-gap: 10px;
     }
-    .layout-footer {
-        display: none;
-    }
-
-    @import "routes/home.scss";
-
-    .mobile-footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: $mobile-footer-height;
-        background: $white;
-    }
-
-    @import "animations/modal.scss";
+    
   }
-
-/* Tablets */
-@media only screen and (min-width : $tablet-breakpoint)  {
-    .layout-grid {
-      grid-template-rows: 1fr auto;
-      
-        .layout-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-        .layout-admin {
-            padding-bottom: 0;     
-            grid-template-columns: $admin-nav-width 1fr;
-
-            .admin-nav {
-                grid-row: 1; 
-                position: relative;
-
-                .admin-fixed {
-                    margin-top: $spacing-1;
-                    background-color: $white;
-                    width: $admin-nav-width;
-                    height: auto;
-                    position: fixed;
-                }
-        }
-    }
-    .layout-footer {
-        display: block;
-    }
-    .mobile-footer {
-        display: none;
-    }
-    @import "animations/warningbody.scss";
-    }
-}
-
-/* Desktops and laptops */
-@media only screen  and (min-width : $desktop-breakpoint) {
-    .layout-grid {
-        .layout-header {
-            z-index: 10;
-        }
-    }
-}
-
-
-@media (prefers-color-scheme: dark) {
-    .layout-grid {
-        .layout-header {
-            .layout-navigation {
-                background-color: $grey-6;
-            }
-        }
-        .layout-admin {
-            .admin-nav {
-                .admin-fixed {
-                    background-color: $grey-6;
-                }
-            }
-        }
-        .mobile-footer {
-            background-color: $grey-6;
-        }
-    }
+  .loading {
+    height: 10px;
   }
-  
-  @media (prefers-color-scheme: light) {
-    .layout-grid {
-        .layout-header {
-            .layout-navigation {
-                background-color: $white;
-            }
-        }
-        .layout-admin {
-            .admin-nav {
-                .admin-fixed {
-                    background-color: $white;
-                }
-            }
-        }
-        .mobile-footer {
-            background-color: $white;
-        }
-    }
-  }
-
-  

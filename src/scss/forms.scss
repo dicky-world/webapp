@@ -1,0 +1,96 @@
+.form {
+  background-color: $card-background;
+  padding: 0px;
+  border-radius: 5px;
+  border: 1px solid $secondary;
+  box-shadow: $depth-1;
+  &--dob-year {
+    max-width: 90px !important;
+  }
+  &--dob-month {
+    max-width: 150px !important;
+  }
+  &--dob-day {
+    max-width: 90px !important;
+  }
+  &--radio-label {
+    display: inline-block;
+    line-height: 24px;
+    width: auto;
+    cursor: pointer;
+    margin-top: 0px;
+  }
+  &--radio-label span{
+    font-weight: 400;
+    padding: 1px 25px 0 6px;
+  }
+  &--file-upload {
+    background-color: $dark-purple;
+    border-radius: 5px;
+    max-width: 250px;
+    padding: 11px 0;
+    text-align: center;
+    color: $white;
+    cursor: pointer;
+    border: 1px solid black;
+  }
+  &--photo-upload {
+    background-color: $dark-purple;
+    border-radius: 5px;
+    max-width: 250px;
+    padding: 11px 0;
+    text-align: center;
+    color: $white;
+    cursor: pointer;
+    border: 1px solid black;
+  }
+  &--title {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 17px;
+    border-bottom: 1px solid $background;
+  }
+  &--footer {
+    padding: 17px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    button {
+      margin: 0px;
+      width: 220px;
+      height: 34px;
+    }
+    small {
+      opacity: 0.5;
+      line-height: 34px;
+    }
+  }
+  &--body {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    justify-items: stretch;
+    align-items: stretch;
+    border-bottom: 1px solid $background;
+    padding: 17px 17px 47px 17px;
+    input[type='text'],
+    input[type='password'], 
+    input[type='number'], 
+    textarea, select {
+      max-width: 70%;
+      background-color: $secondary;
+    }
+    label {
+      font-weight: bold;
+      font-size: 13px;
+    }
+    small {
+      font-size: 12px;
+      padding: 6px 0px 12px;
+      display: block;
+      opacity: 0.5;
+    }
+  }
+}
+
+

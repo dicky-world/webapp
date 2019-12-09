@@ -1,20 +1,23 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { TRANSLATIONS } from '../translations/dictionary';
-import { globalContext, setGlobalContext } from './context';
-import { OPEN_WARNING } from './reducer';
+import { Global } from '../globalState';
+import { Dispatch, SET_SHARED, WARNING_MESSAGE } from '../globalState';
 
-export function Warning(): JSX.Element {
-  const { global } = useContext(globalContext);
-  const { setGlobal } = useContext(setGlobalContext);
-  const txt = TRANSLATIONS[global.language];
+interface PropsInterface {
+  message: string;
+}
 
-  const resend = async () => {
-    setGlobal({ type: OPEN_WARNING, value: 'sent' });
-    const jwtToken = localStorage.getItem('jwtToken');
-    const response = await fetch(`${global.apiUrl}/register/resend-email`, {
-      body: JSON.stringify({ jwtToken }),
+const Warning: React.FC<PropsInterface> = (props: PropsInterface) => {
+  const { global } = useContext(Global);
+  const { dispatch } = useContext(Dispatch);
+
+  const callApi = async () => {
+    dispatch({ type: WARNING_MESSAGE, value: 'sent' });
+    const response = await fetch(`${global.env.apiUrl}/join/resend-email`, {
+      body: JSON.stringify({
+        jwtToken: localStorage.getItem('jwtToken'),
+      }),
       headers: {
         // prettier-ignore
         'Accept': 'application/json',
@@ -22,39 +25,58 @@ export function Warning(): JSX.Element {
       },
       method: 'POST',
     });
+    const content = await response.json();
     if (response.status === 200) {
+      localStorage.setItem('jwtToken', content.jwtToken);
+      dispatch({ type: SET_SHARED, value: content.shared });
       setTimeout(() => {
-        setGlobal({ type: OPEN_WARNING, value: 'confirm' });
-      }, 3000);
+        dispatch({ type: WARNING_MESSAGE, value: 'verify' });
+       }, 2000);
+    } else {
+      // TODO: Display error to front end and style
+      console.log(content.error);
     }
   };
+
+  const getMessage = (messageKey: string) => {
+    if (messageKey === 'verify') {
+      return (
+        <div>
+          Please confirm your email address. If you haven't received anything
+          you can{' '}
+          <b>
+            <Link to={{ pathname: '/my/profile' }}>update your email</Link>
+          </b>
+          {' '} or <b onClick={callApi}>resend confirmation</b>.
+        </div>
+      );
+    }
+    if (messageKey === 'offline') return <div>offline</div>;
+    if (messageKey === 'sent') return <div>Email sent!</div>;
+  };
+
+  const displayText = getMessage(props.message);
+
   return (
-    <div className='layout-root'>
-      <TransitionGroup>
-        <CSSTransition
-          key={global.warningMessage || ''}
-          timeout={600}
-          classNames='warningtext'
-        >
-          <div className='warning-text'>
-            {global.warningMessage === 'confirm' && (
-              <p>
-                <span>{txt.pleaseConfirmYourEmail}</span>
-                <Link to={{ pathname: '/my/profile' }}>
-                  <b>{txt.updateYourEmail}</b>
-                </Link>
-                {txt.or}
-                <b onClick={resend}>{txt.resendConfirmation}</b>
-              </p>
-            )}
-            {global.warningMessage === 'sent' && <p>{txt.emailSent}</p>}
-            {global.warningMessage === 'invalid' && <p>{txt.invalid}</p>}
-            {global.warningMessage === 'confirmed' && <p>{txt.confirmed}</p>}
-            {global.warningMessage === 'offline' && <p>{txt.offline}</p>}
-            {global.warningMessage === 'online' && <p>{txt.online}</p>}
-          </div>
-        </CSSTransition>
-      </TransitionGroup>
-    </div>
+    <CSSTransition
+      in={!!props.message}
+      timeout={300}
+      unmountOnExit
+      classNames='warning'
+    >
+      <div className='warning'>
+        <TransitionGroup>
+          <CSSTransition
+            key={props.message || ''}
+            timeout={300}
+            classNames='warning-text'
+          >
+            <div className='warning-text'>{displayText}</div>
+          </CSSTransition>
+        </TransitionGroup>
+      </div>
+    </CSSTransition>
   );
-}
+};
+
+export { Warning };

@@ -1,46 +1,7 @@
-@import "variables.scss";
-@import "components.scss";
-
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  list-style: none;
-  quotes: none;
-  font-style: normal;
-  outline: none;
-  box-sizing: border-box;
-}
-*:focus {outline:none !important}
-input:focus, textarea:focus, select:focus{
-  outline: none;
-}
-
-html, body, #shell {
-  background: $grey-1;
-  color: $grey-4;
-  overflow-y: scroll;
-  cursor: default;
-  -webkit-font-smoothing: antialiased;
-  font-size: 13px;
-  font-family: $base-font;
-  display: block;
-  height: 100%;
-  @import "layout.scss";
-}
-
-@media (prefers-color-scheme: dark) {
-  html, body, #shell {
-      background: $grey-5;
-      color: $white;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-  html, body, #shell {
-      background: $grey-1;
-      color: $grey-4;
-    }
-}
+@import 'variables.scss'; // colors, shadows, spacing, border radius, set widths
+@import 'base.scss'; // default font family, all * and link colors. no classes or id selectors
+@import 'layout.scss'; // css that divides the page into major seections, header, body, footer, these are selected with ID not classes, also alighn left, right, center that can be applie anywhere as classes
+@import 'components.scss'; // resuable and modular elements, nav, modal card moule has a single dash and 2 words such as modal-card and the modal title would be defined as &--title
+@import 'themes.scss'; // dark and light themes
+@import 'state.scss'; // hiiden not hiddent, what elements looks like in a specific state, prefix with `is` such as &.is-selected
+@import 'forms.scss'; // form structure and layout

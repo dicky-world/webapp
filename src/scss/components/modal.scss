@@ -1,0 +1,49 @@
+.modal {
+  background-color: $modal-background;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  align-items: center;
+  z-index: 100;
+
+  & button {
+    height: 40px;
+    margin: 24px 0;
+  }
+
+  &-enter {
+    background-color: $transparent;
+  }
+  &-enter-active {
+    background-color: $modal-background;
+    transition: background-color 300ms ease-in;
+  }
+  &-exit {
+    background-color: $modal-background;
+  }
+  &-exit-active {
+    background-color: $transparent;
+    transition: background-color 300ms ease-in;
+  }
+  &--close-modal {
+    color: black;
+    position: fixed;
+    top: 3px;
+    right: 19px;
+    transform: rotateY(0deg) rotate(45deg);
+    font-size: 40px;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  &--modalCard {
+    width: 400px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: $secondary;
+    border-radius: 8px;
+    box-shadow: $depth-1;
+  }
+}

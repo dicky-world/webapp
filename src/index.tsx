@@ -4,5 +4,6 @@ import { Router } from './Router';
 import './scss/index.scss';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<Router />, document.getElementById('shell'));
-serviceWorker.register();
+ReactDOM.render(<Router />, document.getElementById('root'));
+
+serviceWorker.unregister();

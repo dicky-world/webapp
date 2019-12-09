@@ -1,56 +1,69 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { TRANSLATIONS } from '../translations/dictionary';
-import { globalContext, setGlobalContext } from './context';
-import { OPEN_MODAL } from './reducer';
+import { Dispatch, SET_MODAL } from '../globalState';
 
-export function TopNav(): JSX.Element {
-  const { global } = useContext(globalContext);
-  const { setGlobal } = useContext(setGlobalContext);
+interface PropsInterface {
+  avatar: string;
+  loggedIn: boolean;
+  fullName: string;
+}
 
-  const txt = TRANSLATIONS[global.language];
+const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
+  const { dispatch } = useContext(Dispatch);
+  const firstName = props.fullName.split(' ')[0];
+  const initial = firstName.charAt(0);
+  const imagePath = props.avatar
+    ? props.avatar
+    : `/icons/initial/${initial}.png`;
 
-  const openModal = (event: React.MouseEvent) => {
-    setGlobal({ type: OPEN_MODAL, value: (event.target as HTMLDivElement).id });
+  const login = () => {
+    dispatch({ type: SET_MODAL, value: 'login' });
   };
 
-  return (
-    <div className='topNav'>
-      <div>
-        <Link to={{ pathname: '/' }}>
-          <h1 className='logo'>{txt.siteName}</h1>
-        </Link>
-      </div>
-      <div />
-      {!global.loggedIn && (
-        <div>
-          <div className='buttons-desktop'>
-            <div onClick={openModal} id='join'>
-              <button className='joinButton'>
-                {txt.join} <span className='siteName'>{txt.siteName}</span>
-              </button>
+  const join = () => {
+    dispatch({ type: SET_MODAL, value: 'join' });
+  };
+
+  const determineButtons = () => {
+    if (props.loggedIn) {
+      return (
+        <div className='topnav--buttons'>
+          <Link to={{ pathname: '/my/profile' }}>
+            <div className='topnav--avatar'>
+              <img src={imagePath} alt='your first name initial' />
+              <div>{firstName}</div>
             </div>
-            <div onClick={openModal} id='login'>
-              <button className='loginButton'>{txt.login}</button>
-            </div>
-          </div>
-          <div className='buttons-mobile'>
-            <div>
-              <Link to={{ pathname: '/join' }}>
-                <button className='joinButton'>
-                  {txt.join} <span className='siteName'>{txt.siteName}</span>
-                </button>
-              </Link>
-            </div>
-            <div>
-              <Link to={{ pathname: '/login' }}>
-                <button className='loginButton'>{txt.login}</button>
-              </Link>
-            </div>
-          </div>
+          </Link>
         </div>
-      )}
-      {global.loggedIn && <div>{global.fullName}</div>}
-    </div>
+      );
+    }
+    if (!props.loggedIn) {
+      return (
+        <div className='topnav--buttons'>
+          <button color='primary' onClick={join}>
+            Join Site
+          </button>
+          <button color='secondary' onClick={login}>
+            Login
+          </button>
+        </div>
+      );
+    }
+  };
+
+  const buttons = determineButtons();
+
+  return (
+    <nav className='topnav'>
+      <div className='topnav--container'>
+        <div className='topnav--logo'>
+          <Link to='/'>Logo</Link>
+        </div>
+        <div className='topnav--search'></div>
+        {buttons}
+      </div>
+    </nav>
   );
-}
+};
+
+export { TopNav };

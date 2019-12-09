@@ -1,0 +1,16 @@
+.join {
+  &--terms {
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    font-weight: 200;
+    color: lighten($secondary-text, 30%);
+  }
+  &--terms a {
+    font-weight: 600;
+    font-size: 12px;
+  }
+  &--error {
+    border: 1px solid $error-red !important;
+  }
+}

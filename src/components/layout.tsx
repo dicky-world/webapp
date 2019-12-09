@@ -1,151 +1,92 @@
-import { Location } from 'history';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
-import { globalContext, setGlobalContext } from './context';
-import { Join } from './join';
-import { Login } from './login';
-import { CLOSE_MODAL, CLOSE_WARNING, OPEN_WARNING } from './reducer';
-import { Reset } from './reset';
-import { Sent } from './sent';
-import { TopNav } from './topnav';
+import React, { useContext, useEffect } from 'react';
+import { RouteProps } from 'react-router';
+import { Global } from '../globalState';
+import { Dispatch, SET_SHARED } from '../globalState';
+import { Footer } from './footer';
+import { Modal } from './modal';
+import { SideNav } from './sideNav';
+import { TopNav } from './topNav';
 import { Warning } from './warning';
 
-interface OwnProps {
-  children: JSX.Element;
-  location: Location;
+interface PropsInterface {
+  location: RouteProps['location'];
+  children: RouteProps['children'];
 }
 
-export function Layout(props: OwnProps): JSX.Element {
-  const { global } = useContext(globalContext);
-  const { setGlobal } = useContext(setGlobalContext);
+const Layout: React.FC<PropsInterface> = (props: PropsInterface) => {
+  const { global } = useContext(Global);
+  const { dispatch } = useContext(Dispatch);
 
-  const [state, setState] = useState({ admin: false });
+  useEffect(() => {
+    const callApi = async (path: string) => {
+      if (path) {
+        const response = await fetch(`${global.env.apiUrl}/my/location`, {
+          body: JSON.stringify({
+            jwtToken: localStorage.getItem('jwtToken'),
+            location: path,
+          }),
+          headers: {
+            // prettier-ignore
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          method: 'PUT',
+        });
+        const content = await response.json();
+        if (response.status === 200) {
+          localStorage.setItem('jwtToken', content.jwtToken);
+          dispatch({ type: SET_SHARED, value: content.shared });
+        } else {
+          localStorage.clear();
+          window.location.href = '/';
+        }
+      }
+    };
+    if (props.location && localStorage.getItem('jwtToken')) {
+      callApi(props.location.pathname);
+    }
+  }, [dispatch, global.env.apiUrl, props.location]);
 
-  const layoutGrid = useRef<HTMLDivElement>(null);
-  const layoutHeader = useRef<HTMLDivElement>(null);
+  let reveal = false;
 
-  const closeModal = () => {
-    setGlobal({ type: CLOSE_MODAL });
+  const determineLayout = (path: string) => {
+    if (['my'].includes(path)) {
+      return (
+        <div className='layout--sidenav'>
+          <SideNav location={props.location}></SideNav>
+          <div>{props.children}</div>
+        </div>
+      );
+    } else return <div>{props.children}</div>;
   };
 
-  useEffect(() => {
-    const currentFolder = props.location.pathname.split('/')[1];
-    currentFolder === 'my'
-      ? setState({ admin: true })
-      : setState({ admin: false });
-  }, [props.location]);
+  const first = props.location ? props.location.pathname.split('/')[1] : '';
 
-  useEffect(() => {
-    // const modeChanged = (event: { matches: boolean; }) => {
-    //   setGlobal({type: DARK_MODE, action: event.matches});
-    // };
-    const nowOffline = () => {
-      setGlobal({ type: OPEN_WARNING, action: 'offline' });
-    };
-    const nowOnline = () => {
-      setGlobal({ type: OPEN_WARNING, action: 'online' });
-      setTimeout(() => {
-        setGlobal({ type: CLOSE_WARNING, action: '' });
-      }, 3000);
-    };
-    // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', modeChanged);
-    window.addEventListener('online', nowOnline);
-    window.addEventListener('offline', nowOffline);
-    return () => {
-      // window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', modeChanged);
-      window.removeEventListener('online', nowOnline);
-      window.removeEventListener('offline', nowOffline);
-    };
-  }, [setGlobal]);
+  if (['my'].includes(first) && (!global.shared.loggedIn || !localStorage.getItem('jwtToken'))) {
+    window.location.href = '/';
+  } else reveal = true;
+
+  const layout = determineLayout(first);
 
   return (
-    <div className='layout-grid' ref={layoutGrid}>
-      <header className='layout-header' ref={layoutHeader}>
-        <CSSTransition
-          in={global.warning}
-          appear={global.warning}
-          timeout={400}
-          classNames='warning'
-        >
-          <div className='warning'>
-            <Warning />
-          </div>
-        </CSSTransition>
-        <div className='layout-navigation'>
-          <TopNav />
-        </div>
-      </header>
-
-      <CSSTransition
-        in={global.warning}
-        appear={global.warning}
-        timeout={400}
-        classNames='warningbody'
-      >
-        <span className='warning-false'>
-          {state.admin && (
-            <main className='layout-admin'>
-              <div className='page-holder'>{props.children}</div>
-              <CSSTransition
-                in={global.warning}
-                appear={global.warning}
-                timeout={400}
-                classNames='warningnav'
-              >
-                <div className='admin-nav'>
-                  <div className='admin-fixed'>Admin Nav</div>
-                </div>
-              </CSSTransition>
-            </main>
-          )}
-          {!state.admin && <div className='page-holder'>{props.children}</div>}
-        </span>
-      </CSSTransition>
-
-      <footer className='layout-footer'>Footer</footer>
-      <footer className='mobile-footer'>Mobile Footer</footer>
-
-      <CSSTransition
-        in={global.modal}
-        appear={global.modal}
-        timeout={400}
-        classNames='modal'
-      >
-        <div className='modal'>
-          <div className='closeModal' onClick={closeModal}>
-            +
-          </div>
-          <CSSTransition
-            in={global.modal}
-            appear={global.modal}
-            timeout={400}
-            classNames='modalWindow'
-          >
-            <div className='modalWindow'>
-              {global.modalState === 'join' && (
-                <div className='modalCard card'>
-                  <Join />
-                </div>
-              )}
-              {global.modalState === 'login' && (
-                <div className='modalCard card'>
-                  <Login />
-                </div>
-              )}
-              {global.modalState === 'reset' && (
-                <div className='modalCard card'>
-                  <Reset />
-                </div>
-              )}
-              {global.modalState === 'sent' && (
-                <div className='modalCard card'>
-                  <Sent />
-                </div>
-              )}
-            </div>
-          </CSSTransition>
-        </div>
-      </CSSTransition>
+    <div className='layout'>
+      {reveal && (
+        <React.Fragment>
+          <header>
+            <Modal screen={global.display.modal} />
+            <Warning message={global.shared.warningMessage} />
+            <TopNav
+              loggedIn={global.shared.loggedIn}
+              fullName={global.shared.fullName}
+              avatar={global.shared.avatarId}
+            />
+          </header>
+          <main className='layout--main'>{layout}</main>
+        </React.Fragment>
+      )}
+      <Footer />
     </div>
   );
-}
+};
+
+export { Layout };

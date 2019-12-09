@@ -1,0 +1,53 @@
+.warning {
+  height: $warning-height;
+  width: 100%;
+  position: relative;
+  display: grid;
+  align-items: center;
+  background-color: $primary;
+  color: $primary-text;
+  line-height: 27px;
+  
+  & a {
+    color: $primary-text;
+  }
+  &-enter {
+    height: 0px;
+    opacity: 0;
+  }
+  &-enter-active {
+    height: $warning-height;
+    opacity: 1;
+    transition: height 300ms ease-in, opacity 300ms ease-in;
+  }
+  &-exit {
+    height: $warning-height;
+    opacity: 1;
+  }
+  &-exit-active {
+    height: 0px;
+    opacity: 0;
+    transition: height 300ms ease-in, opacity 300ms ease-in;
+  }
+}
+
+.warning-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 7px;
+  &-enter {
+    opacity: 0;
+  }
+  &-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+  &-exit {
+    opacity: 1;
+  }
+  &-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+  }
+}
