@@ -34,12 +34,12 @@ const Home: React.FC = () => {
   };
   return (
     <section>
-      <button onClick={openWarning}>Open Warning</button><br/>
+      {/* <button onClick={openWarning}>Open Warning</button><br/>
       <button onClick={closeWarning}>Close Warning</button><br/>
       <button onClick={warningMessageVerify}>Verify Email</button><br/>
       <button onClick={warningMessageOffine}>Offline</button><br/>
       <button onClick={login}>Log In</button><br/>
-      <button onClick={logout}>Log Out</button><br/>
+      <button onClick={logout}>Log Out</button><br/> */}
     </section>
   );
 };
