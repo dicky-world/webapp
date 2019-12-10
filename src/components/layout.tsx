@@ -78,7 +78,7 @@ const Layout: React.FC<PropsInterface> = (props: PropsInterface) => {
             <TopNav
               loggedIn={global.shared.loggedIn}
               fullName={global.shared.fullName}
-              avatar={global.shared.avatarId}
+              avatar={global.env.imgUrl + global.shared.avatarId}
             />
           </header>
           <main className='layout--main'>{layout}</main>

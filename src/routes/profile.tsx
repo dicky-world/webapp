@@ -4,8 +4,16 @@ import { Global } from '../globalState';
 
 const Profile: React.FC = () => {
   const { global } = useContext(Global);
-  const initial = global.shared.fullName.split(' ')[0].charAt(0).toLowerCase();
-  const placeholder = `/icons/initial/${initial}.png`;
+  let placeholder: string;
+  if (!global.shared.avatarId) {
+  const initial = global.shared.fullName
+    .split(' ')[0]
+    .charAt(0)
+    .toLowerCase();
+  placeholder = `/icons/initial/${initial}.png`;
+  } else {
+    placeholder = global.env.imgUrl + global.shared.avatarId;
+  }
 
   const [state, setState] = useState({
     apiError: '',
@@ -69,10 +77,6 @@ const Profile: React.FC = () => {
     }
   };
 
-  const blob = (arg: string) => {
-    console.log(arg);
-  };
-
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
   };
@@ -85,7 +89,12 @@ const Profile: React.FC = () => {
           <div>Profile</div>
           <div>
             <label>Photo</label>
-            <Photo placeholder={placeholder} resizeTo={60} blob={blob} />
+            <Photo
+              placeholder={placeholder}
+              resizeTo={150}
+              signedUrl={`${global.env.apiUrl}/upload/signed-url`}
+              saveImg={`${global.env.apiUrl}/my/avatar`}
+            />
             <label>Full Name</label>
             <input
               type='text'
@@ -93,9 +102,7 @@ const Profile: React.FC = () => {
               value={fullName}
               onChange={onChange}
             />
-            <small>
-              Your real name, so your friends can find you.
-            </small>
+            <small>Your real name, so your friends can find you.</small>
             <label>Username</label>
             <input
               type='text'
@@ -365,11 +372,7 @@ const Profile: React.FC = () => {
               <option value='ZW'>Zimbabwe</option>
             </select>
             <label>Bio</label>
-            <textarea
-              name='bio'
-              value={bio}
-              onChange={onChange}
-            />
+            <textarea name='bio' value={bio} onChange={onChange} />
           </div>
         </div>
         <div className='form--body'>

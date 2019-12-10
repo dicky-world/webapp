@@ -6,6 +6,7 @@ interface StateInterface {
   };
   env: {
     apiUrl: string;
+    imgUrl: string;
   };
   shared: {
     avatarId: string;
@@ -46,6 +47,7 @@ const InitialState: StateInterface = {
       process.env.NODE_ENV === 'production'
         ? 'https://api.dicky.world'
         : 'http://localhost:8888',
+    imgUrl: 'https://s3-eu-west-1.amazonaws.com/img.dicky.world/',
   },
   shared: localShared || {
     avatarId: '',
