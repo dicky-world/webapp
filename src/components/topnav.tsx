@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { Global } from '../globalState';
 import { Dispatch, SET_MODAL } from '../globalState';
 
 interface PropsInterface {
@@ -9,11 +10,12 @@ interface PropsInterface {
 }
 
 const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
+  const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
   const firstName = props.fullName.split(' ')[0];
   const initial = firstName.charAt(0).toLowerCase();
   const imagePath = props.avatar
-    ? props.avatar
+    ? global.env.imgUrl + props.avatar
     : `/icons/initial/${initial}.png`;
 
   const login = () => {
