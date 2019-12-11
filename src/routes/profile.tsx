@@ -10,7 +10,7 @@ const Profile: React.FC = () => {
     .split(' ')[0]
     .charAt(0)
     .toLowerCase();
-  placeholder = global.env.imgUrl + `/initials/${initial}.png`;
+  placeholder = global.env.imgUrl + `initials/${initial}.png`;
   } else {
     placeholder = global.env.imgUrl + global.shared.avatarId;
   }

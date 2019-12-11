@@ -16,7 +16,7 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
   const initial = firstName.charAt(0).toLowerCase();
   const imagePath = props.avatar
     ? global.env.imgUrl + props.avatar
-    : global.env.imgUrl + `/initials/${initial}.png`;
+    : global.env.imgUrl + `initials/${initial}.png`;
 
   const login = () => {
     dispatch({ type: SET_MODAL, value: 'login' });
