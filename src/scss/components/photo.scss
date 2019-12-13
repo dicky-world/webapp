@@ -6,4 +6,8 @@
         border-radius: 50%;
         box-shadow: $depth-1;
     }
+    img {
+        border: 1px solid $secondary-dark;
+        box-shadow: $depth-1;
+    }
 }

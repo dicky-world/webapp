@@ -8,14 +8,16 @@ interface PropsInterface {
 const Error: React.FC<PropsInterface> = (props: PropsInterface) => {
   return (
     <React.Fragment>
-      <CSSTransition
-        in={!!props.error}
-        appear={!!props.error}
-        timeout={400}
-        classNames='error'
-      >
-        <small className='error'>{props.error}</small>
-      </CSSTransition>
+      {props.error && (
+        <CSSTransition
+          in={!!props.error}
+          appear={!!props.error}
+          timeout={400}
+          classNames='error'
+        >
+          <small className='error'>{props.error}</small>
+        </CSSTransition>
+      )}
     </React.Fragment>
   );
 };

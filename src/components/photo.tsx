@@ -111,7 +111,7 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
         };
         image.src = URL.createObjectURL(file);
       };
-      reader.readAsDataURL(file);
+      if (file) reader.readAsDataURL(file);
     }
   };
 

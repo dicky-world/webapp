@@ -158,8 +158,8 @@ const Join: React.FC = () => {
           className={fullNameError && 'join--error'}
           maxLength={70}
         />
-
         <Error error={fullNameError} />
+
         <label>Email</label>
         <input
           type='text'

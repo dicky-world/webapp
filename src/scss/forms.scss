@@ -4,6 +4,12 @@
   border-radius: 5px;
   border: 1px solid $secondary;
   box-shadow: $depth-1;
+  &--error {
+    border: 1px solid $error-red !important;
+  }
+  &--relative {
+    position: relative;
+  }
   &--dob-year {
     max-width: 90px !important;
   }
@@ -19,6 +25,9 @@
     width: auto;
     cursor: pointer;
     margin-top: 0px;
+  }
+  &--radio-label {
+    max-width: 100px;
   }
   &--radio-label span{
     font-weight: 400;
@@ -77,16 +86,20 @@
     input[type='password'], 
     input[type='number'], 
     textarea, select {
-      max-width: 70%;
+      max-width: 100%;
       background-color: $secondary;
     }
     label {
       font-weight: bold;
       font-size: 13px;
+      position: relative;
+      width: 80%;
+    }
+    span {
+      position: relative;
     }
     small {
       font-size: 12px;
-      padding: 6px 0px 12px;
       display: block;
       opacity: 0.5;
     }

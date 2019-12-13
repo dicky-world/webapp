@@ -10,16 +10,18 @@ interface StateInterface {
   };
   shared: {
     avatarId: string;
+    bio: string;
+    country: string;
+    dob: string;
     email: string;
     fullName: string;
-    investorConfirmed: boolean;
-    investorSubmitted: boolean;
+    gender: string;
     language: string;
     location: string;
     loggedIn: boolean;
+    username: string;
     warningMessage: string;
-    worbliAccountName: string;
-    worbliConfirmed: boolean;
+    webSite: string;
   };
 }
 
@@ -51,16 +53,18 @@ const InitialState: StateInterface = {
   },
   shared: localShared || {
     avatarId: '',
+    bio: '',
+    country: '',
+    dob: '2011-04-11',
     email: '',
-    fullName: 'John Doe',
-    investorConfirmed: false,
-    investorSubmitted: false,
+    fullName: '',
+    gender: 'other',
     language: 'en',
     location: '',
     loggedIn: false,
+    username: '',
     warningMessage: '',
-    worbliAccountName: '',
-    worbliConfirmed: false,
+    webSite: '',
   },
 };
 
@@ -68,13 +72,13 @@ const Global = createContext({
   global: InitialState,
 });
 
+const LOGGED_IN = 'LOGGED_IN';
 const SET_AVATAR = 'SET_AVATAR';
 const SET_EMAIL = 'SET_EMAIL';
 const SET_FULLNAME = 'SET_FULLNAME';
-const LOGGED_IN = 'LOGGED_IN';
 const SET_MODAL = 'SET_MODAL';
-const WARNING_MESSAGE = 'WARNING_MESSAGE';
 const SET_SHARED = 'SET_SHARED';
+const WARNING_MESSAGE = 'WARNING_MESSAGE';
 
 // tslint:disable-next-line: no-any
 const Reducer = (state: StateInterface, action: any) => {
@@ -122,15 +126,15 @@ const Reducer = (state: StateInterface, action: any) => {
 };
 
 export {
-  Reducer,
-  InitialState,
   Dispatch,
   Global,
-  SET_AVATAR,
-  WARNING_MESSAGE,
+  InitialState,
   LOGGED_IN,
+  Reducer,
+  SET_AVATAR,
   SET_EMAIL,
   SET_FULLNAME,
   SET_MODAL,
   SET_SHARED,
+  WARNING_MESSAGE,
 };

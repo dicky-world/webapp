@@ -1,91 +1,92 @@
 .errorContainer {
-    position: relative;
-  }
-  .error {
+  position: relative;
+}
+.error {
+  position: absolute;
+  left: 100%;
+  width: 160px;
+  z-index: 500;
+  padding: 12px;
+  background-color: $card-background;
+  transform: translate(16px, -45px);
+  border-radius: 3px;
+  border: 1px solid $secondary-dark;
+  display: none;
+  min-height: 40px;
+  box-shadow: $depth-1;
+  text-transform: none;
+
+  &::before {
+    content: '';
     position: absolute;
-    left: 100%;
-    width: 160px;
-    z-index: 500;
-    padding: 12px;
+    z-index: 99999;
+    border-left: 1.3px solid $secondary-dark;
+    width: 12px;
+    height: 12px;
+    transform: rotateY(0deg) rotate(45deg);
+    left: -7px;
     background-color: $card-background;
-    transform: translate(16px, -45px);
-    border-radius: 3px;
-    border: 1px solid $secondary-dark;
-    display: none;
-    min-height: 40px;
-    box-shadow: $depth-1;
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: 99999;
-      border-left: 1.3px solid $secondary-dark;
-      width: 12px;
-      height: 12px;
-      transform: rotateY(0deg) rotate(45deg);
-      left: -7px;
-      background-color: $card-background;
-      border-bottom: 1.3px solid $secondary-dark;
-      top: 13px;
-    }
-  
-    &-appear,
-    &-enter {
-      display: inline;
-      transform: translate(50px, -45px);
-      opacity: 0;
-    }
-    &-appear-active,
-    &-enter-active {
-      display: inline;
-      transform: translate(16px, -45px);
-      opacity: 1;
-      transition-delay: 1ms, 1ms;
-      transition-duration: 300ms, 300ms;
-      transition-property: opacity, transform;
-      transition-timing-function: ease-out, ease-out;
-    }
-    &-appear-done,
-    &-enter-done {
-      display: inline;
-      transform: translate(16px, -45px);
-      opacity: 1;
-    }
-    &-exit {
-      display: inline;
-      opacity: 1;
-    }
-    &-exit-active {
-      display: inline;
-      opacity: 0;
-      transition-delay: 1ms;
-      transition-duration: 200ms;
-      transition-property: opacity;
-      transition-timing-function: ease-in-out;
-    }
-    &-exit-done {
-      display: inline;
-      opacity: 0;
-    }
-    &--api {
-      border: 1px solid #c96363;
-      background-color: #da8989;
-      color: white;
-      border-radius: 5px;
-      padding: 12px;
-      font-weight: 600;
-      margin-bottom: 30px;
-      text-indent: 30px;
-      font-size: 14px;
-      height: 43px;
-    }
-    &--api::before {
-      background-image: url('../../images/warning.svg');
-      content: '';
-      width: 20px;
-      height: 20px;
-      display: block;
-      position: absolute;
-      top: 52px;
-    }
+    border-bottom: 1.3px solid $secondary-dark;
+    top: 13px;
   }
-  
+
+  &-appear,
+  &-enter {
+    display: inline;
+    transform: translate(50px, -45px);
+    opacity: 0;
+  }
+  &-appear-active,
+  &-enter-active {
+    display: inline;
+    transform: translate(16px, -45px);
+    opacity: 1;
+    transition-delay: 1ms, 1ms;
+    transition-duration: 300ms, 300ms;
+    transition-property: opacity, transform;
+    transition-timing-function: ease-out, ease-out;
+  }
+  &-appear-done,
+  &-enter-done {
+    display: inline;
+    transform: translate(16px, -45px);
+    opacity: 1;
+  }
+  &-exit {
+    display: inline;
+    opacity: 1;
+  }
+  &-exit-active {
+    display: inline;
+    opacity: 0;
+    transition-delay: 1ms;
+    transition-duration: 200ms;
+    transition-property: opacity;
+    transition-timing-function: ease-in-out;
+  }
+  &-exit-done {
+    display: inline;
+    opacity: 0;
+  }
+  &--api {
+    border: 1px solid #c96363;
+    background-color: #da8989;
+    color: white;
+    border-radius: 5px;
+    padding: 12px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-indent: 30px;
+    font-size: 14px;
+    height: auto;
+    max-width: 80%;
+  }
+  &--api::before {
+    background-image: url('../../images/warning.svg');
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: block;
+    position: absolute;
+  }
+}
