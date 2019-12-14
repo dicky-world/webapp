@@ -61,10 +61,10 @@ const Modal: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   return (
     <CSSTransition
+      classNames='modal'
       in={!!props.screen}
       timeout={300}
       unmountOnExit
-      classNames='modal'
     >
       <div className='modal' onClick={closeModal}>
         {screen}

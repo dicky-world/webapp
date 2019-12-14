@@ -90,6 +90,12 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
         image.onload = async (imageEvent) => {
           const canvas = document.createElement('canvas');
           const maxSize = props.resizeTo;
+          canvas.width = image.width;
+          canvas.height = image.height;
+          const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(image, 0, 0, image.width, image.height);
+          const base64 = canvas.toDataURL('image/jpeg');
           let width = image.width;
           let height = image.height;
           if (width > height && width > maxSize) {
@@ -99,19 +105,13 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
             width *= maxSize / height;
             height = maxSize;
           }
-          canvas.width = width;
-          canvas.height = height;
-          const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
-          ctx.imageSmoothingEnabled = false;
-          ctx.drawImage(image, 0, 0, width, height);
-          const base64 = canvas.toDataURL('image/jpeg');
-          setState((prev) => ({ ...prev, imageURL: base64 }));
+          setState((prev) => ({ ...prev, imageURL: base64, height, width }));
           const blob = dataURLToBlob(base64);
           uploadImg(blob);
         };
         image.src = URL.createObjectURL(file);
       };
-      if (file) reader.readAsDataURL(file);
+      if (reader) reader.readAsDataURL(file);
     }
   };
 
@@ -119,16 +119,16 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
     <div className='photo'>
       <label>
         <img
-          src={imageURL}
           alt='your first name initial'
           className='photo--preview'
+          src={imageURL}
         />
         <input
-          type='file'
+          accept='image/png, image/jpeg'
           id='photo'
           name='photo'
-          accept='image/png, image/jpeg'
           onChange={resizeImage}
+          type='file'
         ></input>
       </label>
     </div>

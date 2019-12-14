@@ -17,17 +17,15 @@ const Resetpassword: React.FC = () => {
     passwordError: '',
   });
 
-  const { apiError, password, passwordError } = state;
+  const { apiError, password, passwordError, loading } = state;
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
-    if (event.target.id === 'password' && state.passwordError) {
+    const { id, value } = event.target;
+    if (id === 'password' && state.passwordError) {
       validate('password');
     }
-    setState((prev) => ({
-      ...prev,
-      [event.target.id]: event.target.value,
-    }));
+    setState((prev) => ({ ...prev, [id]: value }));
   };
 
   interface PropsInterface {
@@ -36,6 +34,7 @@ const Resetpassword: React.FC = () => {
 
   const callApi = async (props: PropsInterface) => {
     if (props.password) {
+      setState((prev) => ({ ...prev, loading: true }));
       const resetCode = localStorage.getItem('resetCode');
       const response = await fetch(
         `${global.env.apiUrl}/login/confirm-password`,
@@ -58,7 +57,8 @@ const Resetpassword: React.FC = () => {
         localStorage.setItem('jwtToken', content.jwtToken);
         dispatch({ type: SET_SHARED, value: content.shared });
         dispatch({ type: SET_MODAL, value: '' });
-        // TODO: Redirect user
+        setState((prev) => ({ ...prev, loading: false }));
+        window.location.href = '/my/profile';
       } else {
         setState((prev) => ({ ...prev, apiError: content.error }));
       }
@@ -107,17 +107,17 @@ const Resetpassword: React.FC = () => {
         {apiError && <div className='error--api'>{apiError}</div>}
         <label>Password</label>
         <input
-          type='password'
-          placeholder='Create a password'
-          id='password'
-          value={password}
-          onChange={onChange}
-          onBlur={onBlur}
           className={passwordError && 'login--error'}
+          id='password'
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Create a password'
+          type='password'
+          value={password}
         />
         <Error error={passwordError} />
         <button color='primary'>
-          {!state.loading ? (
+          {!loading ? (
             'Save'
           ) : (
             <img src={loadingImg} alt='loadingd' className='loading' />

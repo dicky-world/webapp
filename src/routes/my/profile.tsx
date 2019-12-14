@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Error } from '../components/error';
-import { Photo } from '../components/photo';
-import { Global } from '../globalState';
-import { Dispatch, SET_SHARED } from '../globalState';
-import loadingImg from '../images/loading.svg';
+import { Error } from '../../components/error';
+import { Photo } from '../../components/photo';
+import { Global } from '../../globalState';
+import { Dispatch, SET_SHARED } from '../../globalState';
+import loadingImg from '../../images/loading.svg';
 
 const Profile: React.FC = () => {
   const { global } = useContext(Global);
@@ -74,20 +74,20 @@ const Profile: React.FC = () => {
     >
   ) => {
     event.persist();
-    if (event.target.name === 'fullName' && state.fullNameError) {
-      validate('fullName');
-    }
-    if (event.target.name === 'webSite' && state.webSiteError) {
-      validate('webSite');
-    }
-    if (event.target.name === 'bio' && state.bioError) {
-      validate('bio');
-    }
-    if (event.target.name === 'email' && state.emailError) {
-      validate('email');
-    }
     const { id, name, value, type } = event.target;
 
+    if (name === 'fullName' && fullNameError) {
+      validate('fullName');
+    }
+    if (name === 'webSite' && webSiteError) {
+      validate('webSite');
+    }
+    if (name === 'bio' && bioError) {
+      validate('bio');
+    }
+    if (name === 'email' && emailError) {
+      validate('email');
+    }
     if (type === 'radio') {
       setState((prev) => ({ ...prev, gender: id }));
     } else {
@@ -108,7 +108,7 @@ const Profile: React.FC = () => {
   }
   const callApi = async (props: PropsInterface) => {
     setState((prev) => ({ ...prev, loading: true }));
-    const emailChanged = (props.email === global.shared.email) ? false : true;
+    const emailChanged = props.email === global.shared.email ? false : true;
     const response = await fetch(`${global.env.apiUrl}/my/profile`, {
       body: JSON.stringify({
         bio: props.bio,
@@ -235,24 +235,25 @@ const Profile: React.FC = () => {
         <div className='form--body'>
           <div>Profile</div>
           <div className='form--relative'>
-          {apiError && <div className='error--api'>{apiError}</div>}
+            {apiError && <div className='error--api'>{apiError}</div>}
             <label>Photo</label>
             <Photo
               placeholder={placeholder}
-              resizeTo={150}
+              resizeTo={180}
               signedUrl={`${global.env.apiUrl}/upload/signed-url`}
               saveImg={`${global.env.apiUrl}/my/avatar`}
             />
             <label>
               Full Name
               <input
-                type='text'
-                name='fullName'
-                value={fullName}
-                onChange={onChange}
+                autoFocus
                 className={fullNameError && 'form--error'}
-                onBlur={onBlur}
                 maxLength={70}
+                name='fullName'
+                onBlur={onBlur}
+                onChange={onChange}
+                type='text'
+                value={fullName}
               />
               <Error error={fullNameError} />
             </label>
@@ -261,11 +262,11 @@ const Profile: React.FC = () => {
             <label>
               Username
               <input
-                type='text'
-                name='username'
-                value={username}
-                onChange={onChange}
                 disabled
+                name='username'
+                onChange={onChange}
+                type='text'
+                value={username}
               />
               <Error error={usernameError} />
             </label>
@@ -274,13 +275,13 @@ const Profile: React.FC = () => {
             <label>
               Website
               <input
-                type='text'
-                name='webSite'
-                value={webSite}
-                onChange={onChange}
                 className={webSiteError && 'form--error'}
+                name='webSite'
                 onBlur={onBlur}
+                onChange={onChange}
                 placeholder='https://www.'
+                type='text'
+                value={webSite}
               />
               <Error error={webSiteError} />
             </label>
@@ -544,10 +545,10 @@ const Profile: React.FC = () => {
             <label>
               Bio
               <textarea
-                name='bio'
-                value={bio}
-                onChange={onChange}
                 className={bioError && 'form--error'}
+                name='bio'
+                onChange={onChange}
+                value={bio}
               />
               <Error error={bioError} />
             </label>
@@ -559,13 +560,13 @@ const Profile: React.FC = () => {
             <label>
               Email Address
               <input
-                type='text'
+                className={emailError && 'form--error'}
                 id='email'
                 name='email'
-                value={email}
-                onChange={onChange}
                 onBlur={onBlur}
-                className={emailError && 'form--error'}
+                onChange={onChange}
+                type='text'
+                value={email}
               />
               <Error error={emailError} />
             </label>
@@ -575,8 +576,8 @@ const Profile: React.FC = () => {
             <select
               className='form--dob-year'
               name='year'
-              value={year}
               onChange={onChange}
+              value={year}
             >
               <option value='0'>Year</option>
               <option value='2019'>2019</option>
@@ -703,8 +704,8 @@ const Profile: React.FC = () => {
             <select
               className='form--dob-month'
               name='month'
-              value={month}
               onChange={onChange}
+              value={month}
             >
               <option value='0'>Month</option>
               <option value='1'>January</option>
@@ -721,10 +722,10 @@ const Profile: React.FC = () => {
               <option value='12'>December</option>
             </select>
             <select
-              name='day'
-              value={day}
-              onChange={onChange}
               className={`form--dob-day ${dobError && 'form--error'}`}
+              name='day'
+              onChange={onChange}
+              value={day}
             >
               <option value='0'>Day</option>
               <option value='1'>1</option>
@@ -763,31 +764,31 @@ const Profile: React.FC = () => {
             <label>Gender</label>
             <label className='form--radio-label'>
               <input
-                type='radio'
-                name='gender'
-                id='male'
                 checked={gender === 'male'}
+                id='male'
+                name='gender'
                 onChange={onChange}
+                type='radio'
               />
               <span>Male</span>
             </label>
             <label className='form--radio-label'>
               <input
-                type='radio'
-                name='gender'
-                id='female'
                 checked={gender === 'female'}
+                id='female'
+                name='gender'
                 onChange={onChange}
+                type='radio'
               />
               <span>Female</span>
             </label>
             <label className='form--radio-label'>
               <input
-                type='radio'
-                name='gender'
-                id='other'
                 checked={gender === 'other'}
+                id='other'
+                name='gender'
                 onChange={onChange}
+                type='radio'
               />
               <span>Other</span>
             </label>

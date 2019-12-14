@@ -19,15 +19,15 @@
     "typescript": "3.6.4"
   },
   "scripts": {
+    "build": "react-scripts build",
     "deploy": "yarn build && gh-pages -d build",
-    "dockerClean": "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)",
+    "dev": "set NODE_ENV=development && react-scripts start",
     "docker": "tsc && docker-compose up --build",
+    "dockerClean": "docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)",
+    "eject": "react-scripts eject",
     "lint": "tslint -c tslint.json --project tsconfig.json",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "dev": "set NODE_ENV=development && react-scripts start",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,12 +1,12 @@
 .modal {
+  align-items: center;
   background-color: $modal-background;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
   display: grid;
-  align-items: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
   z-index: 100;
 
   & button {
@@ -30,20 +30,20 @@
   }
   &--close-modal {
     color: black;
-    position: fixed;
-    top: 3px;
-    right: 19px;
-    transform: rotateY(0deg) rotate(45deg);
+    cursor: pointer;
     font-size: 40px;
     font-weight: 400;
-    cursor: pointer;
+    position: fixed;
+    right: 19px;
+    top: 3px;
+    transform: rotateY(0deg) rotate(45deg);
   }
   &--modalCard {
-    width: 400px;
-    margin: 0 auto;
-    padding: 40px;
     background-color: $secondary;
     border-radius: 8px;
     box-shadow: $depth-1;
+    margin: 0 auto;
+    padding: 40px;
+    width: 400px;
   }
 }

@@ -1,23 +1,30 @@
 .layout {
-    height: 100%;
-    overflow-y: scroll;
     display: grid;
     grid-template-rows: auto 1fr auto;
+    height: 100%;
+    overflow-y: scroll;
 
     &--main {
-      max-width: $page-max-width;
       margin: 0 auto;
-      width: 100%;
+      max-width: $page-max-width;
       padding: 12px;
+      width: 100%;
     }
     &--sidenav {
-      width: 100%;
       display: grid;
-      grid-template-columns: 250px 1fr;
       grid-gap: 10px;
+      width: 100%;
     }
     
   }
   .loading {
     height: 10px;
+  }
+
+  @media (min-width:641px) {
+    .layout {
+      &--sidenav {
+        grid-template-columns: 2fr 7fr;
+      }
+    }
   }

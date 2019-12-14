@@ -1,9 +1,9 @@
 .form {
   background-color: $card-background;
-  padding: 0px;
   border-radius: 5px;
   border: 1px solid $secondary;
   box-shadow: $depth-1;
+  padding: 0px;
   &--error {
     border: 1px solid $error-red !important;
   }
@@ -20,11 +20,11 @@
     max-width: 90px !important;
   }
   &--radio-label {
+    cursor: pointer;
     display: inline-block;
     line-height: 24px;
-    width: auto;
-    cursor: pointer;
     margin-top: 0px;
+    width: auto;
   }
   &--radio-label {
     max-width: 100px;
@@ -36,74 +36,84 @@
   &--file-upload {
     background-color: $dark-purple;
     border-radius: 5px;
+    border: 1px solid black;
+    color: $white;
+    cursor: pointer;
     max-width: 250px;
     padding: 11px 0;
     text-align: center;
-    color: $white;
-    cursor: pointer;
-    border: 1px solid black;
   }
   &--photo-upload {
     background-color: $dark-purple;
     border-radius: 5px;
+    border: 1px solid black;
+    color: $white;
+    cursor: pointer;
     max-width: 250px;
     padding: 11px 0;
     text-align: center;
-    color: $white;
-    cursor: pointer;
-    border: 1px solid black;
   }
   &--title {
+    border-bottom: 1px solid $background;
     font-size: 16px;
     font-weight: 700;
     padding: 17px;
-    border-bottom: 1px solid $background;
   }
   &--footer {
-    padding: 17px;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto;
+    padding: 17px;
     button {
+      height: 35px;
       margin: 0px;
-      width: 220px;
-      height: 34px;
     }
     small {
-      opacity: 0.5;
       line-height: 34px;
+      opacity: 0.5;
     }
   }
   &--body {
+    align-items: stretch;
+    border-bottom: 1px solid $background;
     display: grid;
-    grid-template-columns: 180px 1fr;
     grid-column-gap: 20px;
     grid-row-gap: 20px;
     justify-items: stretch;
-    align-items: stretch;
-    border-bottom: 1px solid $background;
     padding: 17px 17px 47px 17px;
     input[type='text'],
     input[type='password'], 
     input[type='number'], 
     textarea, select {
-      max-width: 100%;
       background-color: $secondary;
+      max-width: 100%;
     }
     label {
-      font-weight: bold;
       font-size: 13px;
+      font-weight: bold;
       position: relative;
-      width: 80%;
     }
     span {
       position: relative;
     }
     small {
-      font-size: 12px;
       display: block;
-      opacity: 0.5;
+      font-size: 12px;
+      color: $secondary-dark;
+      font-weight: 600;
     }
   }
 }
 
-
+@media (min-width:641px) {
+  .form {
+    &--body {
+      grid-template-columns: 1fr 4fr;
+      label {
+        width: 65%;
+      }
+    }
+    &--footer {
+      grid-template-columns: 1fr auto;
+    }
+  }
+}

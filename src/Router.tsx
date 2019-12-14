@@ -4,8 +4,9 @@ import { Layout } from './components/layout';
 import { Dispatch, Global, InitialState, Reducer } from './globalState';
 import { ConfirmEmail } from './routes/confirmEmail';
 import { Home } from './routes/home';
+import { Password } from './routes/my/password';
+import { Profile } from './routes/my/profile';
 import { NotFound } from './routes/notFound';
-import { Profile } from './routes/profile';
 import { ResetPassword } from './routes/resetPassword';
 
 const Router: React.FC = () => {
@@ -20,6 +21,7 @@ const Router: React.FC = () => {
                 <Switch location={location}>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/my/profile' component={Profile} />
+                  <Route exact path='/my/password' component={Password} />
                   <Route exact path='/confirm-email/:confirmationCode' component={ConfirmEmail} />
                   <Route exact path='/reset-password/:resetPassword' component={ResetPassword} />
                   <Route component={NotFound} />

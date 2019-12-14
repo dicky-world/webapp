@@ -1,13 +1,13 @@
 .photo {
-    &--preview {
-        width: 75px;
-        height: 75px;
-        cursor: pointer;
-        border-radius: 50%;
-        box-shadow: $depth-1;
-    }
-    img {
-        border: 1px solid $secondary-dark;
-        box-shadow: $depth-1;
-    }
+  &--preview {
+    border-radius: 50%;
+    box-shadow: $depth-1;
+    cursor: pointer;
+    height: 90px;
+    width: 90px;
+  }
+  img {
+    border: 1px solid $secondary-dark;
+    box-shadow: $depth-1;
+  }
 }

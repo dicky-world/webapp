@@ -33,7 +33,7 @@ const Warning: React.FC<PropsInterface> = (props: PropsInterface) => {
         dispatch({ type: WARNING_MESSAGE, value: 'verify' });
        }, 2000);
     } else {
-      // TODO: Display error to front end and style
+      // TODO: Display error to front end and style, modal error?
       console.log(content.error);
     }
   };

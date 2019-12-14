@@ -10,10 +10,10 @@ const Error: React.FC<PropsInterface> = (props: PropsInterface) => {
     <React.Fragment>
       {props.error && (
         <CSSTransition
-          in={!!props.error}
           appear={!!props.error}
-          timeout={400}
           classNames='error'
+          in={!!props.error}
+          timeout={400}
         >
           <small className='error'>{props.error}</small>
         </CSSTransition>

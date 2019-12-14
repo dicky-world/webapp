@@ -17,18 +17,23 @@ const Login: React.FC = () => {
     passwordError: '',
   });
 
-  const { apiError, email, emailError, password, passwordError } = state;
+  const {
+    apiError,
+    email,
+    emailError,
+    password,
+    passwordError,
+    loading,
+  } = state;
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
-    if (event.target.id === 'email' && state.emailError) validate('email');
-    if (event.target.id === 'password' && state.passwordError) {
+    const { id, value } = event.target;
+    if (id === 'email' && state.emailError) validate('email');
+    if (id === 'password' && state.passwordError) {
       validate('password');
     }
-    setState((prev) => ({
-      ...prev,
-      [event.target.id]: event.target.value,
-    }));
+    setState((prev) => ({ ...prev, [id]: value }));
   };
 
   interface PropsInterface {
@@ -38,6 +43,7 @@ const Login: React.FC = () => {
 
   const callApi = async (props: PropsInterface) => {
     if (props.email && props.password) {
+      setState((prev) => ({ ...prev, loading: true }));
       const response = await fetch(`${global.env.apiUrl}/login`, {
         body: JSON.stringify({
           email: props.email,
@@ -54,6 +60,7 @@ const Login: React.FC = () => {
       if (response.status === 200) {
         localStorage.setItem('jwtToken', content.jwtToken);
         dispatch({ type: SET_SHARED, value: content.shared });
+        setState((prev) => ({ ...prev, loading: false }));
       } else {
         setState((prev) => ({ ...prev, apiError: content.error }));
       }
@@ -69,10 +76,7 @@ const Login: React.FC = () => {
     const emailValidation = validate('email');
     const passwordValidation = validate('password');
     if (emailValidation && passwordValidation) {
-      callApi({
-        email: state.email,
-        password: state.password,
-      });
+      callApi({ email, password });
     }
   };
 
@@ -120,31 +124,31 @@ const Login: React.FC = () => {
         {apiError && <div className='error--api'>{apiError}</div>}
         <label>Email</label>
         <input
-          type='text'
-          placeholder='Email address'
-          id='email'
-          value={email}
-          onChange={onChange}
-          onBlur={onBlur}
           className={emailError && 'login--error'}
+          id='email'
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Email address'
+          type='text'
+          value={email}
         />
         <Error error={emailError} />
         <label>Password</label>
         <input
-          type='password'
-          placeholder='Create a password'
-          id='password'
-          value={password}
-          onChange={onChange}
-          onBlur={onBlur}
           className={passwordError && 'login--error'}
+          id='password'
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Create a password'
+          type='password'
+          value={password}
         />
         <small className='login--right' onClick={forgottenPassword}>
           Forgotten Password?
         </small>
         <Error error={passwordError} />
         <button color='primary'>
-          {!state.loading ? (
+          {!loading ? (
             'Login'
           ) : (
             <img src={loadingImg} alt='loadingd' className='loading' />

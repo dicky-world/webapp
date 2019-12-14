@@ -26,23 +26,22 @@ const Join: React.FC = () => {
     emailError,
     fullName,
     fullNameError,
+    loading,
     password,
     passwordError,
   } = state;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
-    if (event.target.id === 'email' && state.emailError) validate('email');
-    if (event.target.id === 'fullName' && state.fullNameError) {
+    const { id, value } = event.target;
+    if (id === 'email' && emailError) validate('email');
+    if (id === 'fullName' && fullNameError) {
       validate('fullName');
     }
-    if (event.target.id === 'password' && state.passwordError) {
+    if (id === 'password' && passwordError) {
       validate('password');
     }
-    setState((prev) => ({
-      ...prev,
-      [event.target.id]: event.target.value,
-    }));
+    setState((prev) => ({ ...prev, [id]: value }));
   };
 
   interface PropsInterface {
@@ -149,43 +148,43 @@ const Join: React.FC = () => {
         {apiError && <div className='error--api'>{apiError}</div>}
         <label>Name</label>
         <input
-          type='text'
-          placeholder='Full name'
-          id='fullName'
-          value={fullName}
-          onChange={onChange}
-          onBlur={onBlur}
           className={fullNameError && 'join--error'}
+          id='fullName'
           maxLength={70}
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Full name'
+          type='text'
+          value={fullName}
         />
         <Error error={fullNameError} />
 
         <label>Email</label>
         <input
-          type='text'
-          placeholder='Email address'
-          id='email'
-          value={email}
-          onChange={onChange}
-          onBlur={onBlur}
           className={emailError && 'join--error'}
+          id='email'
           maxLength={320}
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Email address'
+          type='text'
+          value={email}
         />
         <Error error={emailError} />
         <label>Password</label>
         <input
-          type='password'
-          placeholder='Create a password'
-          id='password'
-          value={password}
-          onChange={onChange}
-          onBlur={onBlur}
           className={passwordError && 'join--error'}
+          id='password'
           maxLength={70}
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Create a password'
+          type='password'
+          value={password}
         />
         <Error error={passwordError} />
         <button color='primary'>
-          {!state.loading ? (
+          {!loading ? (
             'Join Now'
           ) : (
             <img src={loadingImg} alt='loading' className='loading' />

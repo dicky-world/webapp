@@ -6,41 +6,39 @@ $depth-1: 0 1px 0px rgba(0, 0, 0, 0.03), 0 1px 1px rgba(0, 0, 0, 0.05);
 
 // ------- COLORS -------
 
-$primary: rgb(37, 129, 227);
+$background: rgb(235, 236, 237);
+$black: rgb(0, 0, 0);
+$card-background: rgb(255, 255, 255);
+$dark-purple: rgb(34, 31, 32);
+$error-red: rgb(218, 137, 137);
+$input-background: rgb(220, 220, 220);
+$input-placeholder: rgb(159, 159, 159);
+$manatee: rgba(151, 151, 151, 1);
+$modal-background: rgba(0, 0, 0, 0.6);
 $primary-dark: rgb(0, 85, 176);
 $primary-light: rgb(108, 176, 255);
 $primary-text: rgb(255, 255, 255);
-$secondary: rgb(237, 238, 240);
+$primary: rgb(37, 129, 227);
+$purple-light: rgba(43, 43, 43, 1);
+$purple-overlay: rgba(56, 53, 54, 1);
 $secondary-dark: rgb(187, 188, 190);
 $secondary-light: rgb(255, 255, 255);
 $secondary-text: rgb(55, 61, 72);
-$card-background: rgb(255, 255, 255);
-$background: rgb(235, 236, 237);
-$modal-background: rgba(0, 0, 0, 0.6);
+$secondary: rgb(237, 238, 240);
 $transparent: rgba(255, 255, 255, 0);
-$input-background: rgb(220, 220, 220);
-$input-placeholder: rgb(159, 159, 159);
-$error-red: rgb(218, 137, 137);
-
-$dark-purple: rgb(34, 31, 32);
-$purple-overlay: rgba(56, 53, 54, 1);
-$purple-light: rgba(43, 43, 43, 1);
-$gold: rgba(246, 196, 68, 1);
-$gold-edge: rgba(252, 208, 112, 1);
 $white: rgba(255, 255, 255, 1);
-$manatee: rgba(151, 151, 151, 1);
-$black: rgb(0, 0, 0);
 
 // ------- SIZES -------
-$logo-width: 84px;
-$logo-height: 20px;
-$topnav-height: 56px;
-$warning-height: 42px;
-$spacing-1: 12px;
-$page-max-width: 1150px;
 
-$mobile-footer-height: 64px;
 $admin-nav-width: 250px;
-$tablet-breakpoint: 768px;
 $desktop-breakpoint: 1024px;
 $footer-height: 40px;
+$logo-height: 20px;
+$logo-width: 84px;
+$mobile-footer-height: 64px;
+$page-max-width: 1150px;
+$spacing-1: 12px;
+$tablet-breakpoint: 768px;
+$topnav-height: 56px;
+$warning-height: 42px;
+$warning-height-mobile: 50px;

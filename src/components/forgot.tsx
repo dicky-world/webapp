@@ -17,18 +17,16 @@ const Forgot: React.FC = () => {
     passwordError: '',
   });
 
-  const { apiError, email, emailError, passwordError } = state;
+  const { apiError, email, emailError, passwordError, loading } = state;
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
-    if (event.target.id === 'email' && state.emailError) validate('email');
-    if (event.target.id === 'password' && state.passwordError) {
+    const { id, value } = event.target;
+    if (id === 'email' && emailError) validate('email');
+    if (id === 'password' && passwordError) {
       validate('password');
     }
-    setState((prev) => ({
-      ...prev,
-      [event.target.id]: event.target.value,
-    }));
+    setState((prev) => ({ ...prev, [id]: value }));
   };
 
   interface PropsInterface {
@@ -37,6 +35,7 @@ const Forgot: React.FC = () => {
 
   const callApi = async (props: PropsInterface) => {
     if (props.email) {
+      setState((prev) => ({ ...prev, loading: true }));
       const response = await fetch(
         `${global.env.apiUrl}/login/reset-password`,
         {
@@ -54,6 +53,7 @@ const Forgot: React.FC = () => {
       const content = await response.json();
       if (response.status === 200) {
         dispatch({ type: SET_MODAL, value: 'resetsent' });
+        setState((prev) => ({ ...prev, loading: false }));
       } else {
         setState((prev) => ({ ...prev, apiError: content.error }));
       }
@@ -68,9 +68,7 @@ const Forgot: React.FC = () => {
     event.preventDefault();
     const emailValidation = validate('email');
     if (emailValidation) {
-      callApi({
-        email: state.email,
-      });
+      callApi({ email });
     }
   };
 
@@ -101,13 +99,13 @@ const Forgot: React.FC = () => {
         {apiError && <div className='error--api'>{apiError}</div>}
         <label>Email</label>
         <input
-          type='text'
-          placeholder='Email address'
-          id='email'
-          value={email}
-          onChange={onChange}
-          onBlur={onBlur}
           className={emailError && 'forgot--error'}
+          id='email'
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder='Email address'
+          type='text'
+          value={email}
         />
         <Error error={emailError} />
         <small className='forgot--right' onClick={justRemembered}>
@@ -115,7 +113,7 @@ const Forgot: React.FC = () => {
         </small>
         <Error error={passwordError} />
         <button color='primary'>
-          {!state.loading ? (
+          {!loading ? (
             'Reset Password'
           ) : (
             <img src={loadingImg} alt='loadingd' className='loading' />

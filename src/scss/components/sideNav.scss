@@ -1,12 +1,11 @@
 .side-nav {
   background: $card-background;
+  border-radius: 5px;
   border: 1px solid $secondary;
   box-shadow: $depth-1;
-  border-radius: 5px;
-  width: 250px;
   grid-gap: 12px;
-  padding-top: 12px;
   padding-bottom: 12px;
+  padding-top: 12px;
   size: 14px;
 
   & a{
@@ -19,32 +18,32 @@
 
   &--divider {
     background-color: $secondary;
-    height: 1px;
     display: block;
+    height: 1px;
     margin: 12px 0px;
   }
   &--item {
-    line-height: 30px;
-    grid-template-columns: 20px 1fr;
     display: grid;
     font-size: 14px;
     font-weight: 400;
+    grid-template-columns: 20px 1fr;
+    line-height: 30px;
   }
   &--item::before {
+    background-color: $transparent;
     content: '';
     width: 2px;
-    background-color: $transparent;
   }
   &--item:hover {
     font-weight: 500;
   }
   &--selected {
-    font-weight: 700;
     background-color: $secondary;
+    font-weight: 700;
   }
   &--selected::before {
+    background-color: $primary;
     content: '';
     width: 3px;
-    background-color: $primary;
   }
 }
