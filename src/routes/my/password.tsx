@@ -115,7 +115,9 @@ const Password: React.FC = () => {
   };
 
   const onBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
-    validate(event.target.name, event.target.value);
+    if (event.target.value && event.target.value.length >= 1) {
+      validate(event.target.name, event.target.value);
+    }
   };
 
   const validate = (name: string, password: string) => {
@@ -166,7 +168,7 @@ const Password: React.FC = () => {
               <Error error={currentPasswordError} />
             </label>
 
-            <small onClick={forgottenPassword}>Forgot your password?</small>
+            <small onClick={forgottenPassword} className='form--link'>Forgot your password?</small>
 
             <label>
               New Password

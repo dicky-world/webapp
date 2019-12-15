@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Global } from '../globalState';
-import { Dispatch, SET_MODAL } from '../globalState';
+import { Dispatch, LOGGED_IN, SET_MODAL } from '../globalState';
 
 interface PropsInterface {
   avatar: string;
@@ -17,6 +17,9 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
   const imagePath = props.avatar
     ? global.env.imgUrl + props.avatar
     : global.env.imgUrl + `initials/${initial}.png`;
+  const [state, setState] = useState({
+    dropDownStatus: false,
+  });
 
   const login = () => {
     dispatch({ type: SET_MODAL, value: 'login' });
@@ -26,16 +29,52 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
     dispatch({ type: SET_MODAL, value: 'join' });
   };
 
+  const logOut = () => {
+    localStorage.clear();
+    dispatch({ type: LOGGED_IN, value: false });
+  };
+
+  const dropDown = () => {
+    setState((prev) => ({
+      ...prev,
+      dropDownStatus: true,
+    }));
+  };
+
+  window.onclick = (event: any) => {
+    if (
+      event.target.id !== 'dropdown'
+    ) {
+      setState((prev) => ({
+        ...prev,
+        dropDownStatus: false,
+      }));
+    }
+  };
+
   const determineButtons = () => {
     if (props.loggedIn) {
       return (
-        <div className='topnav--buttons'>
-          <Link to={{ pathname: '/my/profile' }}>
-            <div className='topnav--avatar'>
-              <img src={imagePath} alt='your first name initial' />
-              <div>{firstName}</div>
+        <div className='topnav--buttons' onClick={dropDown} id='dropdown'>
+          <div className='topnav--avatar' id='dropdown'>
+            <img src={imagePath} alt='your first name initial' id='dropdown'/>
+            <div id='dropdown'>{firstName}</div>
+            <div
+            className={`topnav--dropdown ${state.dropDownStatus === true &&
+              'topnav--dropdownon'}`}
+          >
+            <Link to={{ pathname: `/${global.shared.username}` }}>
+              <div className='topnav--item'>Profile</div>
+            </Link>
+            <hr />
+            <Link to={{ pathname: `/my/profile` }}>
+              <div className='topnav--item'>Settings</div>
+            </Link>
+            <div className='topnav--item' onClick={logOut}>
+              Logout
             </div>
-          </Link>
+          </div>
+          </div>
         </div>
       );
     }

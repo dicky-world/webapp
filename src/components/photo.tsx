@@ -90,21 +90,21 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
         image.onload = async (imageEvent) => {
           const canvas = document.createElement('canvas');
           const maxSize = props.resizeTo;
-          canvas.width = image.width;
-          canvas.height = image.height;
+          canvas.width = maxSize;
+          canvas.height = maxSize;
           const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
           ctx.imageSmoothingEnabled = false;
-          ctx.drawImage(image, 0, 0, image.width, image.height);
-          const base64 = canvas.toDataURL('image/jpeg');
           let width = image.width;
           let height = image.height;
           if (width > height && width > maxSize) {
-            height *= maxSize / width;
-            width = maxSize;
-          } else if (height > maxSize) {
             width *= maxSize / height;
             height = maxSize;
+          } else if (height > maxSize) {
+            height *= maxSize / width;
+            width = maxSize;
           }
+          ctx.drawImage(image, 0, 0, width, height);
+          const base64 = canvas.toDataURL('image/jpeg');
           setState((prev) => ({ ...prev, imageURL: base64, height, width }));
           const blob = dataURLToBlob(base64);
           uploadImg(blob);

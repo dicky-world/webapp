@@ -6,6 +6,7 @@ import { ConfirmEmail } from './routes/confirmEmail';
 import { Home } from './routes/home';
 import { Password } from './routes/my/password';
 import { Profile } from './routes/my/profile';
+import { Settings } from './routes/my/settings';
 import { NotFound } from './routes/notFound';
 import { ResetPassword } from './routes/resetPassword';
 
@@ -20,10 +21,11 @@ const Router: React.FC = () => {
               <Layout location={location}>
                 <Switch location={location}>
                   <Route exact path='/' component={Home} />
-                  <Route exact path='/my/profile' component={Profile} />
+                  <Route exact path='/my/profile' component={Settings} />
                   <Route exact path='/my/password' component={Password} />
                   <Route exact path='/confirm-email/:confirmationCode' component={ConfirmEmail} />
                   <Route exact path='/reset-password/:resetPassword' component={ResetPassword} />
+                  <Route exact path='/:username' component={Profile} />
                   <Route component={NotFound} />
                 </Switch>
               </Layout>

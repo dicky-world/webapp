@@ -3,24 +3,21 @@ $base-font: 'Hanken Grotesk', 'Helvetica Neue', sans-serif;
 
 // ------- SHADOWS -------
 $depth-1: 0 1px 0px rgba(0, 0, 0, 0.03), 0 1px 1px rgba(0, 0, 0, 0.05);
+$depth-2: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.2);
 
 // ------- COLORS -------
 
 $background: rgb(235, 236, 237);
 $black: rgb(0, 0, 0);
 $card-background: rgb(255, 255, 255);
-$dark-purple: rgb(34, 31, 32);
 $error-red: rgb(218, 137, 137);
 $input-background: rgb(220, 220, 220);
 $input-placeholder: rgb(159, 159, 159);
-$manatee: rgba(151, 151, 151, 1);
 $modal-background: rgba(0, 0, 0, 0.6);
 $primary-dark: rgb(0, 85, 176);
 $primary-light: rgb(108, 176, 255);
 $primary-text: rgb(255, 255, 255);
 $primary: rgb(37, 129, 227);
-$purple-light: rgba(43, 43, 43, 1);
-$purple-overlay: rgba(56, 53, 54, 1);
 $secondary-dark: rgb(187, 188, 190);
 $secondary-light: rgb(255, 255, 255);
 $secondary-text: rgb(55, 61, 72);

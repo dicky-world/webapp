@@ -4,6 +4,13 @@
   border: 1px solid $secondary;
   box-shadow: $depth-1;
   padding: 0px;
+  &--link {
+    cursor: pointer;
+  }
+  &--link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
   &--error {
     border: 1px solid $error-red !important;
   }
@@ -34,7 +41,6 @@
     padding: 1px 25px 0 6px;
   }
   &--file-upload {
-    background-color: $dark-purple;
     border-radius: 5px;
     border: 1px solid black;
     color: $white;
@@ -44,7 +50,6 @@
     text-align: center;
   }
   &--photo-upload {
-    background-color: $dark-purple;
     border-radius: 5px;
     border: 1px solid black;
     color: $white;

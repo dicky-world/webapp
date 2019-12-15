@@ -1,0 +1,70 @@
+.profile {
+  display: grid;
+  grid-template-columns: 2fr 7fr;
+  grid-gap: 12px;
+  width: 100%;
+  padding-top: 6px;
+
+  &--avatar {
+    border-radius: 50%;
+    margin-bottom: 24px;
+  }
+  &--name {
+    font-size: 24px;
+  }
+  &--username {
+    line-height: 1em;
+    font-size: 15px;
+    margin: 6px 0;
+    padding: 0;
+    font-weight: 300;
+  }
+  &--bio {
+    line-height: 1em;
+    font-size: 15px;
+    margin: 24px 0;
+  }
+  &--header {
+    display: grid;
+    grid-template-rows: 300px 100px;
+    width: 100%;
+    max-height: 360px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: $depth-1;
+    background-color: $card-background;
+  }
+  &--cover {
+    background-color: grey;
+    height: 300px;
+  }
+  &--nav {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 12px;
+    height: 60px;
+    padding-left: 12px;
+  }
+  &--button {
+      display: inline;
+      background-color: $secondary;
+      margin: 11px 11px 11px 0;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      color: $secondary-text;
+  }
+  &--follow {
+    display: inline;
+    background-color: $primary;
+    margin: 11px 11px 11px 0;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    color: $primary-text;
+}
+}

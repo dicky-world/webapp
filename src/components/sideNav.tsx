@@ -1,20 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { RouteProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Dispatch, LOGGED_IN } from '../globalState';
 
 interface PropsInterface {
   location: RouteProps['location'];
 }
 
 const SideNav: React.FC<PropsInterface> = (props: PropsInterface) => {
-  const { dispatch } = useContext(Dispatch);
-
-  const logOut = () => {
-    localStorage.clear();
-    dispatch({ type: LOGGED_IN, value: false });
-  };
-
   const second = props.location ? props.location.pathname.split('/')[2] : '';
 
   return (
@@ -25,7 +17,7 @@ const SideNav: React.FC<PropsInterface> = (props: PropsInterface) => {
             className={`side-nav--item ${second === 'profile' &&
               'side-nav--selected'}`}
           >
-            Profile
+            Edit Profile
           </div>
         </Link>
         <Link to={{ pathname: '/my/password' }}>
@@ -34,15 +26,6 @@ const SideNav: React.FC<PropsInterface> = (props: PropsInterface) => {
               'side-nav--selected'}`}
           >
             Password
-          </div>
-        </Link>
-        <Link to={{ pathname: '/' }}>
-          <div
-            className={`side-nav--item ${second === 'logout' &&
-              'side-nav--selected'}`}
-            onClick={logOut}
-          >
-            Logout
           </div>
         </Link>
       </aside>
