@@ -20,6 +20,14 @@ const SideNav: React.FC<PropsInterface> = (props: PropsInterface) => {
             Edit Profile
           </div>
         </Link>
+        <Link to={{ pathname: '/my/preferences' }}>
+          <div
+            className={`side-nav--item ${second === 'preferences' &&
+              'side-nav--selected'}`}
+          >
+            Preferences
+          </div>
+        </Link>
         <Link to={{ pathname: '/my/password' }}>
           <div
             className={`side-nav--item ${second === 'password' &&
@@ -28,6 +36,7 @@ const SideNav: React.FC<PropsInterface> = (props: PropsInterface) => {
             Password
           </div>
         </Link>
+
       </aside>
     </div>
   );

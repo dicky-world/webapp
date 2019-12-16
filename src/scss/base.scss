@@ -139,18 +139,22 @@ input[type='radio'],
 input[type='checkbox'] {
   -moz-appearance: none;
   -webkit-appearance: none;
-  background: #fff;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  background: $input-background;
+  border: 1px solid $secondary-dark;
   display: inline-block;
-  height: 18px;
+  width: 21px;
+  height: 21px;
   margin-top: -3px;
   padding: 0;
   vertical-align: middle;
-  width: 18px;
 }
 
 input[type='radio']:checked {
-  box-shadow: inset 0 0 0 6px #2785fa;
+  background-color: $card-background;
+  box-shadow: inset 0 0 0 6px $primary;
+  border: 1px solid $card-background;
+  width: 21px;
+  height: 21px;
 }
 
 input::placeholder {
@@ -186,7 +190,7 @@ select {
   -webkit-padding-end: 30px;
   appearance: none;
   background-color: $input-background;
-  background: url(../images/chevron-down-dark.svg) no-repeat calc(100% - 12px) 50%;
+  background: $chevron;
   border-radius: 5px;
   border: 1px solid $secondary-dark;
   box-sizing: border-box;

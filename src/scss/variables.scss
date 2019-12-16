@@ -1,3 +1,7 @@
+// ------- IMAGES -------
+$logo: url('../../images/logo.svg');
+$chevron: url('../images/chevron-down-dark.svg') no-repeat calc(100% - 12px) 50%;
+
 // ------- FONTS -------
 $base-font: 'Hanken Grotesk', 'Helvetica Neue', sans-serif;
 
@@ -24,6 +28,24 @@ $secondary-text: rgb(55, 61, 72);
 $secondary: rgb(237, 238, 240);
 $transparent: rgba(255, 255, 255, 0);
 $white: rgba(255, 255, 255, 1);
+
+// $background: rgb(34, 31, 32);
+// $black: rgb(0, 0, 0);
+// $card-background: #1d181b;
+// $error-red: rgb(218, 137, 137);
+// $input-background: #221f20;
+// $input-placeholder: rgb(159, 159, 159);
+// $modal-background: rgba(0, 0, 0, 0.6);
+// $primary-dark: #fcd070;
+// $primary-light: rgb(108, 176, 255);
+// $primary-text: #221f20;
+// $primary: rgb(246, 196, 68);
+// $secondary-dark: rgb(97, 87, 91);
+// $secondary-light: rgb(43, 43, 43);
+// $secondary-text: rgb(255, 255, 255);
+// $secondary: rgb(56, 53, 54);
+// $transparent: rgba(255, 255, 255, 0);
+// $white: rgba(255, 255, 255, 1);
 
 // ------- SIZES -------
 

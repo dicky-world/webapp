@@ -43,6 +43,7 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   window.onclick = (event: any) => {
     if (
+      // TODO: change to useref
       event.target.id !== 'dropdown'
     ) {
       setState((prev) => ({

@@ -2,6 +2,7 @@
   background-color: $card-background;
   box-shadow: $depth-1;
   height: $topnav-height;
+  border: 1px solid $secondary;
 
   &--container {
     align-items: center;
@@ -13,7 +14,7 @@
     padding: 0 $spacing-1;
   }
   &--logo a {
-    background-image: url(../../images/logo.svg);
+    background-image: $logo;
     background-repeat: no-repeat;
     display: block;
     height: $logo-height;
@@ -35,10 +36,11 @@
     display: block !important;
   }
   &--dropdown {
+    border: 1px solid $secondary;
     display: none;
     position: absolute;
     width: 200px;
-    top: 40px;
+    top: 38px;
     right: 0px;
     background-color: $card-background;
     border-radius: 5px;
