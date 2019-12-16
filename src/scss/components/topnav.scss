@@ -4,6 +4,22 @@
   height: $topnav-height;
   border: 1px solid $secondary;
 
+  &--profile {
+    padding-left: 24px;
+  }
+  &--profile::before {
+    content: '';
+    width: 30px;
+    position: relative;
+    left: -6px;
+    top: 7px;
+    background-image: url(../../images/icons.svg);
+    background-position: -14px 0px;
+    background-size: 418%;
+    height: 16px;
+    width: 19px;
+    background-repeat: no-repeat;
+  }
   &--container {
     align-items: center;
     display: grid;

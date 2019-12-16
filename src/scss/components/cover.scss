@@ -1,0 +1,40 @@
+.cover {
+    position: relative;
+
+  &--label {
+    color: $white;
+    background-color: $black;
+    width: auto;
+    position: absolute;
+    right: 12px;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: 700;
+    width: 190px;
+    padding-left: 40px;
+    cursor: pointer;
+    height: 45px;
+  }
+  &--upload {
+    height: 25px;
+    padding-left: 20px;
+    display: block;
+    top: -13px;
+    left: -12px;
+    position: relative;
+  }
+  &--upload::before {
+    content: '';
+    position: relative;
+    left: -25px;
+    top: 16px;
+    background-image: url('../../images/icons.svg');
+    background-position: -64px -17px;
+    background-size: 418%;
+    height: 16px;
+    width: 19px;
+    background-repeat: no-repeat;
+    display: block;
+    background-color: black;
+  }
+}

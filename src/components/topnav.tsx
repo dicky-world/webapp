@@ -65,7 +65,7 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
               'topnav--dropdownon'}`}
           >
             <Link to={{ pathname: `/${global.shared.username}` }}>
-              <div className='topnav--item'>Profile</div>
+              <div className='topnav--item topnav--profile'>Profile</div>
             </Link>
             <hr />
             <Link to={{ pathname: `/my/profile` }}>

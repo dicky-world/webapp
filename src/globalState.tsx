@@ -12,6 +12,7 @@ interface StateInterface {
     avatarId: string;
     bio: string;
     country: string;
+    coverId: string;
     currency: string;
     dob: string;
     email: string;
@@ -56,6 +57,7 @@ const InitialState: StateInterface = {
     avatarId: '',
     bio: '',
     country: '',
+    coverId: '',
     currency: 'USD',
     dob: '2011-04-11',
     email: '',

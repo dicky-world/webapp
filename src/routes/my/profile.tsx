@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { Cover } from '../../components/cover';
 import { Global } from '../../globalState';
 
 interface ConfirmProps extends RouteComponentProps<{ username: string }> {}
@@ -7,17 +8,19 @@ interface ConfirmProps extends RouteComponentProps<{ username: string }> {}
 const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   const { global } = useContext(Global);
   const username = props.match.params.username;
+  const placeholder = global.env.imgUrl + global.shared.coverId;
 
   const [state, setState] = useState({
     avatarId: '',
     bio: '',
+    country: '',
     fullName: '',
     isMe: false,
     loading: true,
     webSite: '',
   });
 
-  const { avatarId, bio, fullName, isMe, loading, webSite } = state;
+  const { avatarId, bio, country, fullName, isMe, loading, webSite } = state;
 
   const profile = () => {
     props.history.push('/my/profile');
@@ -38,10 +41,12 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
           ...prev,
           avatarId: content.avatarId,
           bio: content.bio,
+          country: content.country,
           fullName: content.fullName,
           isMe: global.shared.username === content.username ? true : false,
           loading: false,
           webSite: content.webSite,
+
         }));
       }
     }
@@ -63,18 +68,29 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
             <h1 className='profile--name'>{fullName}</h1>
             <h2 className='profile--username'>@{username}</h2>
             <p className='profile--bio'>{bio}</p>
-            0 Followers
+            <p className='profile--followers'>
+              <b>20</b> Followers
+            </p>
+            <p className='profile--following'>
+              <b>32</b> Following
+            </p>
             <br />
-            0 Following
-            <br />
-            <br />
-            United States
-            <br />
-            <a href={webSite}>{webSite}</a>
+            <p className='profile--country'>{country}</p>
+            <p className='profile--website'>
+              <a href={webSite} target='_blank'>
+                {webSite.replace(/(^\w+:|^)\/\//, '')}
+              </a>
+            </p>
           </div>
           <div>
             <div className='profile--header'>
-              <div className='profile--cover'></div>
+              <Cover
+                isMe={isMe}
+                placeholder={placeholder}
+                resizeTo={900}
+                signedUrl={`${global.env.apiUrl}/upload/signed-url`}
+                saveImg={`${global.env.apiUrl}/my/cover`}
+              />
               <div className='profile--nav'>
                 <div>
                   <button className='profile--button'>Items</button>
@@ -82,14 +98,14 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
                 </div>
                 <div>
                   {isMe && (
-                  <button className='profile--button' onClick={profile}>
-                    Edit Profile
-                  </button>
+                    <button className='profile--button' onClick={profile}>
+                      Edit Profile
+                    </button>
                   )}
                   {!isMe && (
-                  <button className='profile--follow' onClick={profile}>
-                    + Follow
-                  </button>
+                    <button className='profile--follow' onClick={profile}>
+                      + Follow
+                    </button>
                   )}
                 </div>
               </div>
