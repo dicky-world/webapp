@@ -1,0 +1,33 @@
+export const MONTHS: { [x: string]: { [y: number]: string } } = {
+  zhhans: {
+    0: '月',
+    1: '一月',
+    2: '二月',
+    3: '游行',
+    4: '四月',
+    5: '可以',
+    6: '六月',
+    7: '七月',
+    8: '八月',
+    9: '九月',
+    10: '十月',
+    11: '十一月',
+    12: '十二月',
+
+  },
+  en: {
+    0: 'Month',
+    1: 'January',
+    2: 'February',
+    3: 'March',
+    4: 'April',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December',
+  },
+};

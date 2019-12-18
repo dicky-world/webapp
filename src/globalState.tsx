@@ -16,6 +16,8 @@ interface StateInterface {
     currency: string;
     dob: string;
     email: string;
+    followers: string,
+    following: string,
     fullName: string;
     gender: string;
     language: string;
@@ -61,6 +63,8 @@ const InitialState: StateInterface = {
     currency: 'USD',
     dob: '2011-04-11',
     email: '',
+    followers: 0,
+    following: 0,
     fullName: '',
     gender: 'other',
     language: 'en',
