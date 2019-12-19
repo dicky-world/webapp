@@ -6,14 +6,17 @@
 
     &--main {
       margin: 0 auto;
-      max-width: $page-max-width;
-      padding: 12px;
+      // max-width: $page-max-width;
+      // padding: 12px;
       width: 100%;
     }
     &--sidenav {
       display: grid;
       grid-gap: 10px;
       width: 100%;
+      max-width: 1150px;
+      margin: 0 auto;
+      padding-top: 12px;
     }
     
   }

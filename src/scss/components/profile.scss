@@ -3,14 +3,16 @@
   grid-template-columns: 2fr 7fr;
   grid-gap: 12px;
   width: 100%;
-  padding-top: 6px;
+  max-width: 1150px;
+  margin: auto;
+  padding: 12px;
 
-  &--followers{
+  &--followers {
     cursor: pointer;
     font-size: 14px;
     margin: 2px 0;
   }
-  &--following{
+  &--following {
     cursor: pointer;
     font-size: 14px;
     margin: 2px 0;
@@ -90,15 +92,15 @@
     padding-left: 12px;
   }
   &--button {
-      display: inline;
-      background-color: $secondary;
-      margin: 11px 11px 11px 0;
-      padding: 10px 24px;
-      border-radius: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 13px;
-      color: $secondary-text;
+    display: inline;
+    background-color: $secondary;
+    margin: 11px 11px 11px 0;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    color: $secondary-text;
   }
   &--follow {
     display: inline;
@@ -110,5 +112,5 @@
     cursor: pointer;
     font-size: 13px;
     color: $primary-text;
-}
+  }
 }

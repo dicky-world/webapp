@@ -1,7 +1,7 @@
 import React from 'react';
-
+import { Carousel } from '../components/carousel';
 const Home: React.FC = () => {
-  return <section></section>;
+  return <section><Carousel /></section>;
 };
 
 export { Home };

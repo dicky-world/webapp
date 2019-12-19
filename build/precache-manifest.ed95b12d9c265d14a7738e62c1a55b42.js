@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "017d998e4e55a6fb7632f2d32a145938",
+    "revision": "4609301423ee3dcfa68d4c524b426115",
     "url": "/index.html"
   },
   {
-    "revision": "73557da6e62a6db5467c",
-    "url": "/static/css/main.f6e61879.chunk.css"
+    "revision": "3958ae661a4fe7626ca5",
+    "url": "/static/css/main.7951841d.chunk.css"
   },
   {
-    "revision": "bf1e1dc2b6f1d42e415b",
-    "url": "/static/js/2.03ff2501.chunk.js"
+    "revision": "f2b6fc1e2e8de6c5d5f2",
+    "url": "/static/js/2.1b91dd14.chunk.js"
   },
   {
-    "revision": "73557da6e62a6db5467c",
-    "url": "/static/js/main.7622e5f1.chunk.js"
+    "revision": "3958ae661a4fe7626ca5",
+    "url": "/static/js/main.0d8af82b.chunk.js"
   },
   {
     "revision": "308a7aff82113781e491",
@@ -60,12 +60,48 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/icons.94e82cd6.svg"
   },
   {
+    "revision": "a6136ec52012965a2f8da893dc7b8d71",
+    "url": "/static/media/left-dark.a6136ec5.svg"
+  },
+  {
+    "revision": "1b991c132f26c2dbc663f871bf816363",
+    "url": "/static/media/left-light.1b991c13.svg"
+  },
+  {
     "revision": "6a19979e43662a352f388f616bc73a86",
     "url": "/static/media/loading.6a19979e.svg"
   },
   {
     "revision": "b132417bfab1dc3d9e88921f84f8bbda",
     "url": "/static/media/logo.b132417b.svg"
+  },
+  {
+    "revision": "194954724d1513c46d74ff3915c678ed",
+    "url": "/static/media/right-dark.19495472.svg"
+  },
+  {
+    "revision": "f009f6f0dc38866377f27c775e64f0dd",
+    "url": "/static/media/right-light.f009f6f0.svg"
+  },
+  {
+    "revision": "32dfd94e1145396850cf8800656553e2",
+    "url": "/static/media/screen-1.32dfd94e.jpg"
+  },
+  {
+    "revision": "41ec88a4c84165f132940546b550d3f8",
+    "url": "/static/media/screen-2.41ec88a4.jpg"
+  },
+  {
+    "revision": "c5bb5f193fcaa9d29689703490236aae",
+    "url": "/static/media/screen-3.c5bb5f19.jpg"
+  },
+  {
+    "revision": "49c23892dc16c9377ef6ae27c10d3d54",
+    "url": "/static/media/screen-4.49c23892.jpg"
+  },
+  {
+    "revision": "2e5c95c9ce40c544609ca5a7eebd5678",
+    "url": "/static/media/screen-5.2e5c95c9.jpg"
   },
   {
     "revision": "68d0f87c9d81af1ad982438e8f075881",
