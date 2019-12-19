@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dispatch, SET_SHARED } from '../globalState';
 
 interface PropsInterface {
@@ -12,16 +12,22 @@ interface PropsInterface {
 const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
   const { dispatch } = useContext(Dispatch);
   const [state, setState] = useState({
-    imageURL: props.placeholder,
     isMe: props.isMe,
+    placeholder: props.placeholder || '',
+    resizeTo: props.resizeTo,
+    saveImg: props.saveImg,
+    signedUrl: props.signedUrl,
   });
 
-  const { imageURL, isMe } = state;
-  const hasImg = imageURL.length > 51 ? true : false;
+  const { placeholder } = state;
+
+  useEffect(() => {
+    setState((prev) => ({ ...prev, placeholder: props.placeholder }));
+  }, [props.placeholder]);
+
   let divStyle = {};
 
-
-  if (!hasImg) {
+  if (!placeholder) {
   divStyle = {
     backgroundColor: 'grey',
     backgroundSize: 'cover',
@@ -31,8 +37,8 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
   };
 } else  {
   divStyle = {
-    background: `url(${imageURL}) no-repeat center center`,
-    backgroundColor: 'grey',
+    background: `url(${placeholder}) no-repeat center center`,
+    backgroundColor: 'red',
     backgroundSize: 'cover',
     height: '300px',
     overflow: 'hidden',
@@ -123,7 +129,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
           width = 900;
           ctx.drawImage(image, 0, 0, width, height);
           const base64 = canvas.toDataURL('image/jpeg');
-          setState((prev) => ({ ...prev, imageURL: base64, height, width }));
+          setState((prev) => ({ ...prev, placeholder: base64, height, width }));
           const blob = dataURLToBlob(base64);
           uploadImg(blob);
         };
