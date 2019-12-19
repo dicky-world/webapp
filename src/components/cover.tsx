@@ -17,8 +17,20 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
   });
 
   const { imageURL, isMe } = state;
+  const hasImg = imageURL.length > 51 ? true : false;
+  let divStyle = {};
 
-  const divStyle = {
+
+  if (!hasImg) {
+  divStyle = {
+    backgroundColor: 'grey',
+    backgroundSize: 'cover',
+    height: '300px',
+    overflow: 'hidden',
+    width: '100%',
+  };
+} else  {
+  divStyle = {
     background: `url(${imageURL}) no-repeat center center`,
     backgroundColor: 'grey',
     backgroundSize: 'cover',
@@ -26,6 +38,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
     overflow: 'hidden',
     width: '100%',
   };
+}
 
   // tslint:disable-next-line: no-any
   const uploadImg = async (resizedBlob: any) => {
@@ -122,7 +135,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   return (
     <div className='cover' style={divStyle}>
-      {isMe && (
+      {props.isMe && (
         <label className='cover--label'>
           <span className='cover--upload'>Upload cover image</span>
           <input

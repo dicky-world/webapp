@@ -89,7 +89,6 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
       });
       const content = await response.json();
       if (response.status === 200) {
-        console.log(content.shared);
         setState((prev) => ({ ...prev, pageLoading: false }));
         setUser(() => (content.shared));
       }
@@ -135,7 +134,6 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
           </div>
           <div>
             <div className='profile--header'>
-              {coverId &&
               <Cover
                 isMe={isMe}
                 placeholder={global.env.imgUrl + coverId}
@@ -143,7 +141,6 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
                 signedUrl={`${global.env.apiUrl}/upload/signed-url`}
                 saveImg={`${global.env.apiUrl}/my/cover`}
               />
-              }
               <div className='profile--nav'>
                 <div>
                   <button className='profile--button'>Items</button>
