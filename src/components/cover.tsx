@@ -27,7 +27,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   let divStyle = {};
 
-  if (!placeholder) {
+  if (placeholder.length <= 51) {
   divStyle = {
     backgroundColor: 'grey',
     backgroundSize: 'cover',
@@ -38,7 +38,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
 } else  {
   divStyle = {
     background: `url(${placeholder}) no-repeat center center`,
-    backgroundColor: 'red',
+    backgroundColor: 'grey',
     backgroundSize: 'cover',
     height: '300px',
     overflow: 'hidden',
