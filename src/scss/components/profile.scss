@@ -5,6 +5,16 @@
   width: 100%;
   padding-top: 6px;
 
+  &--followers{
+    cursor: pointer;
+    font-size: 14px;
+    margin: 2px 0;
+  }
+  &--following{
+    cursor: pointer;
+    font-size: 14px;
+    margin: 2px 0;
+  }
   &--website {
     height: 25px;
     padding-left: 20px;

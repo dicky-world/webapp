@@ -33,8 +33,25 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
     webSite: '',
   });
   const { followLoading, pageLoading } = state;
-  const { avatarId, bio, canFollow, coverId, country, fullName, isMe, webSite, followers, following } = user;
+  const {
+    avatarId,
+    bio,
+    canFollow,
+    coverId,
+    country,
+    fullName,
+    isMe,
+    webSite,
+    followers,
+    following,
+  } = user;
 
+  const openFollowers = () => {
+    dispatch({ type: SET_MODAL, value: 'followers' });
+  };
+  const openFollowing = () => {
+    dispatch({ type: SET_MODAL, value: 'following' });
+  };
   const callApi2 = async (path: string) => {
     setState((prev) => ({ ...prev, followLoading: true }));
     const response = await fetch(`${global.env.apiUrl}/user/${path}`, {
@@ -52,7 +69,7 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
     const content = await response.json();
     if (response.status === 200) {
       setState((prev) => ({ ...prev, followLoading: false }));
-      setUser(() => (content.shared));
+      setUser(() => content.shared);
     }
   };
   const profile = () => {
@@ -90,7 +107,7 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
       const content = await response.json();
       if (response.status === 200) {
         setState((prev) => ({ ...prev, pageLoading: false }));
-        setUser(() => (content.shared));
+        setUser(() => content.shared);
       }
     }
     if (username) {
@@ -102,35 +119,34 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
       {!pageLoading && (
         <React.Fragment>
           <div>
-            {avatarId &&
-            <img
-              src={global.env.imgUrl + avatarId}
-              className='profile--avatar'
-              alt={fullName}
-            />
-            }
+            {avatarId && (
+              <img
+                src={global.env.imgUrl + avatarId}
+                className='profile--avatar'
+                alt={fullName}
+              />
+            )}
             <br />
             <h1 className='profile--name'>{fullName}</h1>
             <h2 className='profile--username'>@{username}</h2>
             <p className='profile--bio'>{bio}</p>
-            <p className='profile--followers'>
+            <p className='profile--followers' onClick={openFollowers}>
               <b>{followers}</b> Followers
             </p>
-            <p className='profile--following'>
+            <p className='profile--following' onClick={openFollowing}>
               <b>{following}</b> Following
             </p>
             <br />
-            {country &&
-            <p className='profile--country'>{countries[country]}</p>
-            }
-            {webSite &&
-            <p className='profile--website'>
-              <a href={webSite} target='_blank' rel='noopener noreferrer'>
-                {webSite.replace(/(^\w+:|^)\/\//, '')}
-              </a>
-            </p>
-            }
-
+            {country && (
+              <p className='profile--country'>{countries[country]}</p>
+            )}
+            {webSite && (
+              <p className='profile--website'>
+                <a href={webSite} target='_blank' rel='noopener noreferrer'>
+                  {webSite.replace(/(^\w+:|^)\/\//, '')}
+                </a>
+              </p>
+            )}
           </div>
           <div>
             <div className='profile--header'>
@@ -154,21 +170,31 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
                   )}
                   {!isMe && canFollow && (
                     <button className='profile--follow' onClick={follow}>
-                    {!followLoading ? (
-                      <span className='profile--followIcon'>+ Follow</span>
-                    ) : (
-                      <img src={loadingImg} alt='loading' className='loading' />
-                    )}
-                  </button>
+                      {!followLoading ? (
+                        <span className='profile--followIcon'>+ Follow</span>
+                      ) : (
+                        <img
+                          src={loadingImg}
+                          alt='loading'
+                          className='loading'
+                        />
+                      )}
+                    </button>
                   )}
                   {!isMe && !canFollow && (
                     <button className='profile--follow' onClick={unfollow}>
-                    {!followLoading ? (
-                      <span className='profile--unfollowIcon'>X Unfollow</span>
-                    ) : (
-                      <img src={loadingImg} alt='loading' className='loading' />
-                    )}
-                  </button>
+                      {!followLoading ? (
+                        <span className='profile--unfollowIcon'>
+                          X Unfollow
+                        </span>
+                      ) : (
+                        <img
+                          src={loadingImg}
+                          alt='loading'
+                          className='loading'
+                        />
+                      )}
+                    </button>
                   )}
                 </div>
               </div>

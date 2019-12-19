@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Dispatch, SET_MODAL } from '../globalState';
+import { Followers } from './followers';
+import { Following } from './following';
 import { Forgot } from './forgot';
 import { Join } from './join';
 import { Login } from './login';
@@ -17,6 +19,20 @@ const Modal: React.FC<PropsInterface> = (props: PropsInterface) => {
     event.stopPropagation();
   };
   const determineScreen = () => {
+    if (props.screen === 'following') {
+      return (
+        <div className='modal--modalCard' onClick={preventDefault}>
+          <Following />
+        </div>
+      );
+    }
+    if (props.screen === 'followers') {
+      return (
+        <div className='modal--modalCard' onClick={preventDefault}>
+          <Followers />
+        </div>
+      );
+    }
     if (props.screen === 'join') {
       return (
         <div className='modal--modalCard' onClick={preventDefault}>
