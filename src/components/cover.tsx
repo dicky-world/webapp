@@ -26,8 +26,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
   }, [props.placeholder]);
 
   let divStyle = {};
-
-  if (placeholder.length <= 51) {
+  if (placeholder.length <= 60) {
   divStyle = {
     backgroundColor: 'grey',
     backgroundSize: 'cover',
