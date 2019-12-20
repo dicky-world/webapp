@@ -11,8 +11,7 @@ import image5 from '../images/carousel/screen-5.jpg';
 
 const Carousel: React.FC = () => {
   interface StateInterface {
-    // tslint:disable-next-line: no-any
-    showImage: any;
+    showImage: string;
     startSlide: number;
     index: number;
   }
@@ -114,8 +113,6 @@ const Carousel: React.FC = () => {
   };
 
   useEffect(() => {
-    // tslint:disable-next-line: no-shadowed-variable
-    const images = [image1, image2, image3, image4, image5];
     let currentIndex = state.startSlide;
     if (currentIndex < 4) currentIndex++;
     else currentIndex = 0;
