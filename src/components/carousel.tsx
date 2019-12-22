@@ -66,7 +66,7 @@ const Carousel: React.FC = () => {
     if (index === 4) {
       return (
         <div className='carousel--text-container'>
-          <h3 className='carousel--top-title'>Top title 5</h3>
+          <h3 className='carousel--top-title'>Go the distance and create an account on Dicky</h3>
           <h2 className='carousel--main-title'>Coaches</h2>
         </div>
       );
