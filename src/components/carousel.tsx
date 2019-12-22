@@ -34,7 +34,7 @@ const Carousel: React.FC = () => {
     if (index === 0) {
       return (
         <div className='carousel--text-container'>
-          <h3 className='carousel--top-title'>Stay on top of all the double decker pictures from the community</h3>
+          <h3 className='carousel--top-title'>Stay on top of all the double decker pictures</h3>
           <h2 className='carousel--main-title'>Double Deckers</h2>
         </div>
       );
@@ -42,7 +42,7 @@ const Carousel: React.FC = () => {
     if (index === 1) {
       return (
         <div className='carousel--text-container'>
-          <h3 className='carousel--top-title'>Top title 2</h3>
+          <h3 className='carousel--top-title'>Stay grounded and tag some signle deckers</h3>
           <h2 className='carousel--main-title'>Single Deckers</h2>
         </div>
       );
