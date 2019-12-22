@@ -35,7 +35,7 @@ const Carousel: React.FC = () => {
       return (
         <div className='carousel--text-container'>
           <h3 className='carousel--top-title'>Top title 1</h3>
-          <h2 className='carousel--main-title'>Main Title 1</h2>
+          <h2 className='carousel--main-title'>Double Deckers</h2>
         </div>
       );
     }
@@ -43,7 +43,7 @@ const Carousel: React.FC = () => {
       return (
         <div className='carousel--text-container'>
           <h3 className='carousel--top-title'>Top title 2</h3>
-          <h2 className='carousel--main-title'>Main Title 2</h2>
+          <h2 className='carousel--main-title'>Single Deckers</h2>
         </div>
       );
     }
@@ -51,7 +51,7 @@ const Carousel: React.FC = () => {
       return (
         <div className='carousel--text-container'>
           <h3 className='carousel--top-title'>Top title 3</h3>
-          <h2 className='carousel--main-title'>Main Title 3</h2>
+          <h2 className='carousel--main-title'>Midi's</h2>
         </div>
       );
     }
@@ -59,7 +59,7 @@ const Carousel: React.FC = () => {
       return (
         <div className='carousel--text-container'>
           <h3 className='carousel--top-title'>Top title 4</h3>
-          <h2 className='carousel--main-title'>Main Title 4</h2>
+          <h2 className='carousel--main-title'>Mini's</h2>
         </div>
       );
     }
@@ -67,7 +67,7 @@ const Carousel: React.FC = () => {
       return (
         <div className='carousel--text-container'>
           <h3 className='carousel--top-title'>Top title 5</h3>
-          <h2 className='carousel--main-title'>Main Title 5</h2>
+          <h2 className='carousel--main-title'>Coaches</h2>
         </div>
       );
     }
