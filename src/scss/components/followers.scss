@@ -1,0 +1,39 @@
+.followers {
+  h2 {
+    margin-bottom: 24px;
+  }
+  &--grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 10px;
+    margin-bottom: 12px;
+  }
+  &--image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 6px;
+    cursor: pointer;
+  }
+  &--name {
+    font-size: 17px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+  &--username {
+    font-size: 12px;
+    cursor: pointer;
+  }
+  &--follow {
+    text-align: center;
+    background-color: $primary;
+    height: 35px;
+    width: 90px;
+    line-height: 35px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    color: white;
+  }
+}
