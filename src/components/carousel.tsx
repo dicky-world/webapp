@@ -50,7 +50,7 @@ const Carousel: React.FC = () => {
     if (index === 2) {
       return (
         <div className='carousel--text-container'>
-          <h3 className='carousel--top-title'>Top title 3</h3>
+          <h3 className='carousel--top-title'>Dont get stuck in the middle, explore the midi collection</h3>
           <h2 className='carousel--main-title'>Midi's</h2>
         </div>
       );
@@ -58,7 +58,7 @@ const Carousel: React.FC = () => {
     if (index === 3) {
       return (
         <div className='carousel--text-container'>
-          <h3 className='carousel--top-title'>Top title 4</h3>
+          <h3 className='carousel--top-title'>Add some comments to the mighty mini's</h3>
           <h2 className='carousel--main-title'>Mini's</h2>
         </div>
       );
