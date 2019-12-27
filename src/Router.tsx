@@ -8,6 +8,7 @@ import { Password } from './routes/my/password';
 import { Preferences } from './routes/my/preferences';
 import { Profile } from './routes/my/profile';
 import { Settings } from './routes/my/settings';
+import { Verification } from './routes/my/verification';
 import { NotFound } from './routes/notFound';
 import { ResetPassword } from './routes/resetPassword';
 
@@ -25,6 +26,7 @@ const Router: React.FC = () => {
                   <Route exact path='/my/profile' component={Settings} />
                   <Route exact path='/my/password' component={Password} />
                   <Route exact path='/my/preferences' component={Preferences} />
+                  <Route exact path='/my/verification' component={Verification} />
                   <Route exact path='/confirm-email/:confirmationCode' component={ConfirmEmail} />
                   <Route exact path='/reset-password/:resetPassword' component={ResetPassword} />
                   <Route exact path='/:username' component={Profile} />

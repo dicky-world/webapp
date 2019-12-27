@@ -5,6 +5,7 @@ import { Global } from '../../globalState';
 import { Dispatch, SET_SHARED } from '../../globalState';
 import loadingImg from '../../images/loading.svg';
 import { COUNTRIES } from '../../translations/countries';
+import { DIALCODES } from '../../translations/dialcodes';
 import { MONTHS } from '../../translations/months';
 
 const Settings: React.FC = () => {
@@ -12,6 +13,7 @@ const Settings: React.FC = () => {
   const { dispatch } = useContext(Dispatch);
 
   const countries = COUNTRIES[global.shared.language];
+  const dialcodes = DIALCODES[global.shared.language];
   const months = MONTHS[global.shared.language];
 
   const dob = global.shared.dob
@@ -45,6 +47,8 @@ const Settings: React.FC = () => {
     fullNameError: '',
     gender: global.shared.gender || 'other',
     loading: false,
+    mobileCode: global.shared.mobileCode,
+    mobileNumber: global.shared.mobileNumber,
     month: dobMonth.toString(),
     username: global.shared.username || '',
     usernameError: '',
@@ -65,6 +69,8 @@ const Settings: React.FC = () => {
     fullNameError,
     gender,
     loading,
+    mobileCode,
+    mobileNumber,
     month,
     username,
     usernameError,
@@ -78,7 +84,7 @@ const Settings: React.FC = () => {
     const startYear = 1900;
     const endYear = new Date().getFullYear();
     for (let i = endYear; i >= startYear; i--) {
-      arr.push(<option value={i}>{i}</option>);
+      arr.push(<option key={i} value={i}>{i}</option>);
     }
     return arr;
   };
@@ -88,7 +94,7 @@ const Settings: React.FC = () => {
     const startDay = 1;
     const endDay = 31;
     for (let i = startDay; i <= endDay; i++) {
-      arr.push(<option value={i}>{i}</option>);
+      arr.push(<option key={i} value={i}>{i}</option>);
     }
     return arr;
   };
@@ -127,6 +133,8 @@ const Settings: React.FC = () => {
     email: string;
     fullName: string;
     gender: string;
+    mobileCode: string;
+    mobileNumber: string;
     month: string;
     webSite: string;
     year: string;
@@ -144,6 +152,8 @@ const Settings: React.FC = () => {
         fullName: props.fullName,
         gender: props.gender,
         jwtToken: localStorage.getItem('jwtToken'),
+        mobileCode: props.mobileCode,
+        mobileNumber: props.mobileNumber,
         month: props.month,
         webSite: props.webSite || '',
         year: props.year,
@@ -185,6 +195,8 @@ const Settings: React.FC = () => {
         email: state.email,
         fullName: state.fullName,
         gender: state.gender,
+        mobileCode: state.mobileCode,
+        mobileNumber: state.mobileNumber,
         month: state.month,
         webSite: state.webSite,
         year: state.year,
@@ -354,6 +366,27 @@ const Settings: React.FC = () => {
               <Error error={emailError} />
             </label>
             <small>Email will not be publicly displayed.</small>
+
+            <label>
+              Mobile Number
+              <span className='form--mobile'>
+              <select name='mobileCode' value={mobileCode} onChange={onChange} className='form--dialcode'>
+                <option data-countrycode='0' key='0' value='0'>Select...</option>
+                {Object.entries(dialcodes).map(([key, display]) => (
+                  <option data-countrycode={key} key={key} value={display.value}>{display.txt}</option>
+                ))}
+              </select>
+              <input
+                id='mobileNumber'
+                name='mobileNumber'
+                onBlur={onBlur}
+                onChange={onChange}
+                type='text'
+                value={mobileNumber}
+              />
+              </span>
+            </label>
+            <small>Mobile number will not be publicly displayed.</small>
 
             <label>Birthday</label>
             <select

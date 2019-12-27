@@ -36,6 +36,14 @@ const SideNav: React.FC<PropsInterface> = (props: PropsInterface) => {
             Password
           </div>
         </Link>
+        <Link to={{ pathname: '/my/verification' }}>
+          <div
+            className={`side-nav--item ${second === 'verification' &&
+              'side-nav--selected'}`}
+          >
+            Verification
+          </div>
+        </Link>
 
       </aside>
     </div>

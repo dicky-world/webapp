@@ -1,3 +1,4 @@
+import * as QRCode from 'qrcode.react';
 import React, { useContext, useState } from 'react';
 import { Error } from '../../components/error';
 import { Global } from '../../globalState';
@@ -14,9 +15,13 @@ const Password: React.FC = () => {
     confirmPasswordError: '',
     currentPassword: '',
     currentPasswordError: '',
+    formattedKey: '',
     loading: false,
     newPassword: '',
     newPasswordError: '',
+    sixDigitCode: '',
+    totpUri: '',
+    twofactor: global.shared.twofactor,
   });
   const {
     apiError,
@@ -24,12 +29,39 @@ const Password: React.FC = () => {
     confirmPasswordError,
     currentPassword,
     currentPasswordError,
+    formattedKey,
     newPassword,
     newPasswordError,
+    sixDigitCode,
+    totpUri,
+    twofactor,
   } = state;
 
   const forgottenPassword = () => {
     dispatch({ type: SET_MODAL, value: 'forgot' });
+  };
+
+  const sendCode = async (value: string) => {
+    const response = await fetch(`${global.env.apiUrl}/login/2fa`, {
+      body: JSON.stringify({
+        jwtToken: localStorage.getItem('jwtToken'),
+        twoFactorCode: value,
+      }),
+      headers: {
+        // prettier-ignore
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+    const content = await response.json();
+    if (response.status === 200) {
+      localStorage.setItem('jwtToken', content.jwtToken);
+      dispatch({ type: SET_SHARED, value: content.shared });
+      setState((prev) => ({ ...prev, totpUri: '', formattedKey: '' }));
+    } else {
+      setState((prev) => ({ ...prev, apiError: content.error }));
+    }
   };
 
   const onChange = (
@@ -39,6 +71,9 @@ const Password: React.FC = () => {
   ) => {
     event.persist();
     const { name, value } = event.target;
+    if (name === 'sixDigitCode' && value.length === 6 ) {
+      sendCode(value);
+    }
     if (name === 'currentPassword' && currentPasswordError) {
       validate('currentPassword', currentPassword);
     }
@@ -144,6 +179,43 @@ const Password: React.FC = () => {
     }
   };
 
+  const twoFactorAuthentication = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name } = event.target;
+    if (name === 'twofactor' && !twofactor) {
+      setState((prev) => ({ ...prev, [name]: true }));
+    } else {
+      setState((prev) => ({ ...prev, [name]: false }));
+    }
+
+    if (event.target.checked) {
+      const response = await fetch(`${global.env.apiUrl}/my/2fa`, {
+        body: JSON.stringify({
+          jwtToken: localStorage.getItem('jwtToken'),
+        }),
+        headers: {
+          // prettier-ignore
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+      const content = await response.json();
+      if (response.status === 200) {
+        setState((prev) => ({
+          ...prev,
+          formattedKey: content.formattedKey,
+          totpUri: content.totpUri,
+        }));
+      } else {
+        setState((prev) => ({ ...prev, apiError: content.error }));
+      }
+    } else {
+      setState((prev) => ({ ...prev, totpUri: '', formattedKey: '' }));
+    }
+  };
+
   return (
     <span className='page'>
       <form onSubmit={onSubmit} className='form'>
@@ -168,7 +240,9 @@ const Password: React.FC = () => {
               <Error error={currentPasswordError} />
             </label>
 
-            <small onClick={forgottenPassword} className='form--link'>Forgot your password?</small>
+            <small onClick={forgottenPassword} className='form--link'>
+              Forgot your password?
+            </small>
 
             <label>
               New Password
@@ -197,6 +271,48 @@ const Password: React.FC = () => {
               />
               <Error error={confirmPasswordError} />
             </label>
+          </div>
+        </div>
+        <div className='form--body'>
+          <div>Authentication</div>
+          <div className='form--relative'>
+            <label>Enable two factor authentication</label>
+            <label className='form--switch'>
+              <input
+                className='form--inputs'
+                type='checkbox'
+                onChange={twoFactorAuthentication}
+                checked={twofactor}
+                name='twofactor'
+              />
+              <span className='form--slider'></span>
+            </label>
+            <br />
+            {totpUri && (
+              <div>
+                <br/>
+                <QRCode value={totpUri} />
+                <label>
+                  Key
+                  <input
+                    disabled
+                    name='formattedKey'
+                    type='text'
+                    value={formattedKey}
+                  />
+                </label>
+                <label>
+                  Six digit code
+                  <input
+                    maxLength={6}
+                    name='sixDigitCode'
+                    onChange={onChange}
+                    type='password'
+                  />
+                  <small>Scan the QR code with the Google Authenticator app</small>
+                </label>
+              </div>
+            )}
           </div>
         </div>
         <div className='form--footer'>

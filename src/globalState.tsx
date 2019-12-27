@@ -23,6 +23,9 @@ interface StateInterface {
     language: string;
     location: string;
     loggedIn: boolean;
+    mobileCode: string;
+    mobileNumber: string;
+    twofactor: boolean;
     username: string;
     warningMessage: string;
     webSite: string;
@@ -70,6 +73,9 @@ const InitialState: StateInterface = {
     language: 'en',
     location: '',
     loggedIn: false,
+    mobileCode: '',
+    mobileNumber: '',
+    twofactor: false,
     username: '',
     warningMessage: '',
     webSite: '',
