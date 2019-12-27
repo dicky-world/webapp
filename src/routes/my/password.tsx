@@ -44,8 +44,8 @@ const Password: React.FC = () => {
   const sendCode = async (value: string) => {
     const response = await fetch(`${global.env.apiUrl}/login/2fa`, {
       body: JSON.stringify({
+        formattedToken: value,
         jwtToken: localStorage.getItem('jwtToken'),
-        twoFactorCode: value,
       }),
       headers: {
         // prettier-ignore
@@ -56,6 +56,7 @@ const Password: React.FC = () => {
     });
     const content = await response.json();
     if (response.status === 200) {
+      console.log(content);
       localStorage.setItem('jwtToken', content.jwtToken);
       dispatch({ type: SET_SHARED, value: content.shared });
       setState((prev) => ({ ...prev, totpUri: '', formattedKey: '' }));

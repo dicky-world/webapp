@@ -12,18 +12,24 @@ const Login: React.FC = () => {
     apiError: '',
     email: '',
     emailError: '',
+    formattedToken: '',
+    formattedTokenError: '',
     loading: false,
     password: '',
     passwordError: '',
+    twoFactor: false,
   });
 
   const {
     apiError,
     email,
     emailError,
+    formattedToken,
+    formattedTokenError,
+    loading,
     password,
     passwordError,
-    loading,
+    twoFactor,
   } = state;
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +45,7 @@ const Login: React.FC = () => {
   interface PropsInterface {
     email: string;
     password: string;
+    formattedToken: string;
   }
 
   const callApi = async (props: PropsInterface) => {
@@ -47,6 +54,7 @@ const Login: React.FC = () => {
       const response = await fetch(`${global.env.apiUrl}/login`, {
         body: JSON.stringify({
           email: props.email,
+          formattedToken: props.formattedToken,
           password: props.password,
         }),
         headers: {
@@ -58,11 +66,16 @@ const Login: React.FC = () => {
       });
       const content = await response.json();
       if (response.status === 200) {
-        localStorage.setItem('jwtToken', content.jwtToken);
-        dispatch({ type: SET_SHARED, value: content.shared });
-        setState((prev) => ({ ...prev, loading: false }));
+        if (!content.twoFactor) {
+          localStorage.setItem('jwtToken', content.jwtToken);
+          dispatch({ type: SET_SHARED, value: content.shared });
+          setState((prev) => ({ ...prev, loading: false }));
+        }
+        if (content.twoFactor) {
+          setState((prev) => ({ ...prev, loading: false, twoFactor: true }));
+        }
       } else {
-        setState((prev) => ({ ...prev, apiError: content.error }));
+        setState((prev) => ({ ...prev, apiError: content.error, loading: false }));
       }
     }
   };
@@ -75,8 +88,9 @@ const Login: React.FC = () => {
     event.preventDefault();
     const emailValidation = validate('email');
     const passwordValidation = validate('password');
-    if (emailValidation && passwordValidation) {
-      callApi({ email, password });
+    const formattedTokenValidation = validate('formattedToken');
+    if (emailValidation && passwordValidation && formattedTokenValidation) {
+      callApi({ email, password, formattedToken });
     }
   };
 
@@ -114,6 +128,15 @@ const Login: React.FC = () => {
         return true;
       }
     }
+    if (id === 'formattedToken') {
+      if (formattedToken.length === 0 || formattedToken.length === 6) {
+        setState((prev) => ({ ...prev, formattedTokenError: '' }));
+        return true;
+      } else {
+        setState((prev) => ({ ...prev, formattedTokenError: 'Must be six charectors' }));
+        return false;
+      }
+    }
   };
 
   return (
@@ -124,6 +147,7 @@ const Login: React.FC = () => {
         {apiError && <div className='error--api'>{apiError}</div>}
         <label>Email</label>
         <input
+          autoFocus
           className={emailError && 'login--error'}
           id='email'
           onBlur={onBlur}
@@ -147,6 +171,21 @@ const Login: React.FC = () => {
           Forgotten Password?
         </small>
         <Error error={passwordError} />
+        {twoFactor && (
+          <span>
+            <label>Two factor authentication</label>
+            <input
+              autoFocus
+              id='formattedToken'
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder='Six digit code'
+              type='password'
+              value={formattedToken}
+            />
+            <Error error={formattedTokenError} />
+          </span>
+        )}
         <button color='primary'>
           {!loading ? (
             'Login'
