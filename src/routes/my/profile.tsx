@@ -119,6 +119,13 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
       {!pageLoading && (
         <React.Fragment>
           <div>
+            {!avatarId && (
+              <img
+                src={global.env.imgUrl + 'initials/' + fullName.toLowerCase().charAt(0) + '.png'}
+                className='profile--avatar'
+                alt={fullName}
+              />
+            )}
             {avatarId && (
               <img
                 src={global.env.imgUrl + avatarId}

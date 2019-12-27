@@ -56,7 +56,6 @@ const Password: React.FC = () => {
     });
     const content = await response.json();
     if (response.status === 200) {
-      console.log(content);
       localStorage.setItem('jwtToken', content.jwtToken);
       dispatch({ type: SET_SHARED, value: content.shared });
       setState((prev) => ({ ...prev, totpUri: '', formattedKey: '' }));
