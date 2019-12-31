@@ -101,7 +101,15 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
         <div className='topnav--logo'>
           <Link to='/'>Logo</Link>
         </div>
-        <div className='topnav--search'></div>
+        <div className='topnav--search'>
+          <form className='topnav--search-form'>
+            <input
+            type='text'
+            className='topnav--search-input'
+            placeholder='Search for names'
+            />
+          </form>
+        </div>
         {buttons}
       </div>
     </nav>

@@ -32,7 +32,6 @@ const Password: React.FC = () => {
     formattedKey,
     newPassword,
     newPasswordError,
-    sixDigitCode,
     totpUri,
     twofactor,
   } = state;
@@ -318,7 +317,7 @@ const Password: React.FC = () => {
         <div className='form--footer'>
           <small></small>
           <div>
-            <button color='primary'>
+            <button color='primary' className='form--save-changes'>
               {!state.loading ? (
                 'Save Changes'
               ) : (

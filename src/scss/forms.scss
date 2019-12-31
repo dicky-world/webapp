@@ -4,6 +4,9 @@
   border: 1px solid $secondary;
   box-shadow: $depth-1;
   padding: 0px;
+  &--save-changes {
+    width: 150px;
+  }
   &--dialcode {
     width: 250px;
     height: 40px;

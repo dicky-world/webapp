@@ -3,7 +3,28 @@
   box-shadow: $depth-1;
   height: $topnav-height;
   border: 1px solid $secondary;
+  &--search {
+    margin: 0 24px;
+  }
+  &--search-form {
+    padding: 0px !important;
+  }
+  &--search-input {
+    height: 34px !important;
+    background-color: $background !important;
+    border: 1px solid transparent !important;
+    text-indent: 30px;
+    background-image: url(../../images/search.svg);
+    background-repeat: no-repeat;
+    background-position-x: 12px;
+    background-position-y: 9px;
+  }
 
+  &--search-input:focus {
+    height: 34px !important;
+    background-color: $background !important;
+    border: 1px solid $primary !important;
+  }
   &--profile {
     padding-left: 24px;
   }

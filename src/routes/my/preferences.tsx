@@ -9,8 +9,8 @@ const Preferences: React.FC = () => {
 
   const [state, setState] = useState({
     apiError: '',
-    language: global.shared.language,
     currency: global.shared.currency,
+    language: global.shared.language,
     loading: false,
   });
   const {
@@ -19,7 +19,6 @@ const Preferences: React.FC = () => {
     currency,
     loading,
   } = state;
-
 
   const onChange = (
     event: React.ChangeEvent<
@@ -62,7 +61,7 @@ const Preferences: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    callApi({language, currency})
+    callApi({language, currency});
   };
 
   return (
@@ -177,7 +176,7 @@ const Preferences: React.FC = () => {
         <div className='form--footer'>
           <small></small>
           <div>
-            <button color='primary'>
+            <button color='primary' className='form--save-changes'>
               {!loading ? (
                 'Save Changes'
               ) : (

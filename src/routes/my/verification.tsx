@@ -1,6 +1,6 @@
-import React, { lazy, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Global } from '../../globalState';
-import { Dispatch } from '../../globalState';
+// import { Dispatch } from '../../globalState';
 
 // import ScatterJS from 'scatterjs-core';
 // import ScatterEOS from 'scatterjs-plugin-eosjs2';

@@ -63,12 +63,14 @@ const Followers: React.FC = () => {
               <img
                 src={global.env.imgUrl + person.avatarId}
                 className='followers--image'
+                alt='Avatar'
               />
             )}
             {!person.avatarId && (
               <img
                 src={getAvatar(person.fullName)}
                 className='followers--image'
+                alt='Avatar'
               />
             )}
           </div>

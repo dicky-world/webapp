@@ -52,7 +52,6 @@ const Following: React.FC = () => {
       '.png'
     );
   };
-
   return (
     <div className='followers'>
       <h2>Following</h2>
@@ -64,12 +63,14 @@ const Following: React.FC = () => {
               <img
                 src={global.env.imgUrl + person.avatarId}
                 className='followers--image'
+                alt='Avatar'
               />
             )}
             {!person.avatarId && (
               <img
                 src={getAvatar(person.fullName)}
                 className='followers--image'
+                alt='Avatar'
               />
             )}
           </div>

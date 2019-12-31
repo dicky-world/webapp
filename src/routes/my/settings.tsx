@@ -456,7 +456,7 @@ const Settings: React.FC = () => {
         <div className='form--footer'>
           <small></small>
           <div>
-            <button color='primary'>
+            <button color='primary' className='form--save-changes'>
               {!loading ? (
                 'Save Changes'
               ) : (
