@@ -41,6 +41,11 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
     }));
   };
 
+  const search = (event: React.FormEvent) => {
+    event.preventDefault();
+    //history.push('/my/profile');
+  };
+
   window.onclick = (event: any) => {
     if (
       // TODO: change to useref
@@ -102,7 +107,7 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
           <Link to='/'>Logo</Link>
         </div>
         <div className='topnav--search'>
-          <form className='topnav--search-form'>
+          <form className='topnav--search-form' onSubmit={search}>
             <input
             type='text'
             className='topnav--search-input'
