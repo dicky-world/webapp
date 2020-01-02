@@ -1,19 +1,67 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { Global } from '../../globalState';
+import { Dispatch, SET_MODAL } from '../../globalState';
 
 const Photos: React.FC = () => {
+  const { global } = useContext(Global);
+  const { dispatch } = useContext(Dispatch);
+
+  const [state, setState] = useState({
+    activeTab: 'All',
+    data: [
+      {
+        busNumber: 102,
+        category: 'Double Deckers',
+        country: 'United Kingdom',
+        published: true,
+      },
+      {
+        busNumber: 973,
+        category: 'Double Deckers',
+        country: 'United Kingdom',
+        published: true,
+      },
+      {
+        busNumber: 814,
+        category: 'Double Deckers',
+        country: 'United Kingdom',
+        published: true,
+      },
+      {
+        busNumber: 7734,
+        category: 'Double Deckers',
+        country: 'United Kingdom',
+        published: true,
+      },
+      {
+        busNumber: 104,
+        category: 'Single Deckers',
+        country: 'China',
+        published: true,
+      },
+      {
+        busNumber: 496,
+        category: 'Single Deckers',
+        country: 'China',
+        published: true,
+      },
+      {
+        busNumber: 80,
+        category: 'Single Deckers',
+        country: 'China',
+        published: true,
+      },
+      {
+        busNumber: 712,
+        category: 'Single Deckers',
+        country: 'China',
+        published: true,
+      },
+    ],
+  });
+  const { data, activeTab } = state;
 
   // TODO: onload get the dtata from the api and pipe it into body, add alternating background colors
-  const data = [
-    { category: 'Double Deckers', busNumber: 102, country: 'United Kingdom', published: true },
-    { category: 'Double Deckers', busNumber: 973, country: 'United Kingdom', published: true },
-    { category: 'Double Deckers', busNumber: 814, country: 'United Kingdom', published: true },
-    { category: 'Double Deckers', busNumber: 7734, country: 'United Kingdom', published: true },
-    { category: 'Single Deckers', busNumber: 104, country: 'China', published: true },
-    { category: 'Single Deckers', busNumber: 496, country: 'China', published: true },
-    { category: 'Single Deckers', busNumber: 80, country: 'China', published: true },
-    { category: 'Single Deckers', busNumber: 712, country: 'China', published: true },
-  ];
-
   interface CountProps {
     category: string;
     busNumber: number;
@@ -21,7 +69,7 @@ const Photos: React.FC = () => {
     published: boolean;
   }
 
-  const count = (dataToCount: CountProps[]) => {
+  const makeTabs = (dataToCount: CountProps[]) => {
     return dataToCount.reduce(
       (reducedData: Array<{ category: string; total: number }>, v) => {
         const f = reducedData.find((i) => i.category === v.category);
@@ -32,9 +80,9 @@ const Photos: React.FC = () => {
       []
     );
   };
-  // const summary = count(data);
+  //  const summary = makeTabs(data);
 
-  const sort = (
+  const sortGrid = (
     dataToSort: CountProps[],
     onlyShow: string,
     sortBy: keyof CountProps,
@@ -42,7 +90,7 @@ const Photos: React.FC = () => {
   ) => {
     if (onlyShow !== 'any') {
       dataToSort
-        .filter((v) => v.category === onlyShow)
+        .filter((dataToFilter) => dataToFilter.category === onlyShow)
         .sort((a, b) => {
           let aValue = a[sortBy];
           let bValue = b[sortBy];
@@ -58,29 +106,57 @@ const Photos: React.FC = () => {
         });
     }
   };
-  // const sortedData = sort(data, 'Double Deckers', 'country', -1);
+  // const sortedData = sortGrid(data, 'Double Deckers', 'country', -1);
+
+  const generateTabs = () => {
+    const tabs = makeTabs(data);
+    const arr = [];
+    for (let i = 0; i < tabs.length; i++) {
+      arr.push(
+        <div
+          key={i}
+          className='grid--tab'
+          id={tabs[i].category}
+          onClick={changeTab}
+          style={tabOn(tabs[i].category)}
+        >
+          {tabs[i].category} <small>({tabs[i].total})</small>
+        </div>
+      );
+    }
+    return arr;
+  };
+
+  const changeTab = (event: React.MouseEvent<HTMLElement>) => {
+    const { id } = event.currentTarget;
+    setState((prev) => ({ ...prev, activeTab: id }));
+  };
+
+  const tabOn = (tab: string) => {
+    const on = {
+      backgroundColor: 'rgb(255,255,255)',
+      borderBottom: 'none',
+    };
+    const off = {
+      backgroundColor: 'rgb(235, 236, 237)',
+      borderBottom: '1px solid rgb(187, 188, 190)',
+    };
+    if (tab === activeTab) return on;
+    else return off;
+  };
 
   return (
     <div className='photos'>
       <div className='grid'>
-        <div className='grid--tab grid--selected'>
-          All <small>(3000)</small>
+        <div
+          className='grid--tab'
+          id='All'
+          onClick={changeTab}
+          style={tabOn('All')}
+        >
+          All <small>({Object.keys(data).length})</small>
         </div>
-        <div className='grid--tab'>
-          Double Deckers <small>(3000)</small>
-        </div>
-        <div className='grid--tab'>
-          Single Deckers <small>(3000)</small>
-        </div>
-        <div className='grid--tab'>
-          Midi'd <small>(3000)</small>
-        </div>
-        <div className='grid--tab'>
-          Mini's <small>(3000)</small>
-        </div>
-        <div className='grid--tab'>
-          Coaches <small>(3000)</small>
-        </div>
+        <div className='grid--tab-area'>{generateTabs()}</div>
         <div className='grid--blank'></div>
         <div className='grid--blank'>
           <button color='primary'>Add Photo</button>
