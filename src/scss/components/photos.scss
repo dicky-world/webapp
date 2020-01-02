@@ -62,4 +62,8 @@
     background-color: $background;
     cursor: pointer;
   }
+  &--blank-header {
+    background-color: $background;
+    cursor: auto;
+  }
 }

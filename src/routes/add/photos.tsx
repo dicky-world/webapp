@@ -145,6 +145,16 @@ const Photos: React.FC = () => {
     else return off;
   };
 
+  const sortByMe = (event: React.MouseEvent<HTMLElement>) => {
+    const { id } = event.currentTarget;
+    // tslint:disable-next-line: no-console
+    console.log(id);
+  };
+
+  const openPhotoModal = () => {
+    dispatch({ type: SET_MODAL, value: 'photo' });
+  };
+
   return (
     <div className='photos'>
       <div className='grid'>
@@ -159,15 +169,15 @@ const Photos: React.FC = () => {
         <div className='grid--tab-area'>{generateTabs()}</div>
         <div className='grid--blank'></div>
         <div className='grid--blank'>
-          <button color='primary'>Add Photo</button>
+          <button color='primary' onClick={openPhotoModal}>Add Photo</button>
         </div>
         <div className='grid--body'>
-          <div className='grid--header'>Preview</div>
-          <div className='grid--header'>Published</div>
-          <div className='grid--header'>Number</div>
-          <div className='grid--header'>Licence</div>
-          <div className='grid--header'>Country</div>
-          <div className='grid--header'>Date</div>
+          <div className='grid--blank-header'>Preview</div>
+          <div className='grid--header' id='date' onClick={sortByMe}>Date</div>
+          <div className='grid--header' id='published' onClick={sortByMe}>Published</div>
+          <div className='grid--header' id='number' onClick={sortByMe}>Number</div>
+          <div className='grid--header' id='licence' onClick={sortByMe}>Licence</div>
+          <div className='grid--header' id='country' onClick={sortByMe}>Country</div>
           <div className='grid--row'>
             <div>body</div>
           </div>
