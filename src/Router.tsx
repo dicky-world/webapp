@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Layout } from './components/layout';
 import { Dispatch, Global, InitialState, Reducer } from './globalState';
+import { Photos } from './routes/add/photos';
 import { ConfirmEmail } from './routes/confirmEmail';
 import { Home } from './routes/home';
 import { Password } from './routes/my/password';
@@ -23,6 +24,7 @@ const Router: React.FC = () => {
               <Layout location={location}>
                 <Switch location={location}>
                   <Route exact path='/' component={Home} />
+                  <Route exact path='/add/photos' component={Photos} />
                   <Route exact path='/my/profile' component={Settings} />
                   <Route exact path='/my/password' component={Password} />
                   <Route exact path='/my/preferences' component={Preferences} />

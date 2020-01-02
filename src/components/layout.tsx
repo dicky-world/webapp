@@ -57,12 +57,17 @@ const Layout: React.FC<PropsInterface> = (props: PropsInterface) => {
           <div>{props.children}</div>
         </div>
       );
-    } else return <div>{props.children}</div>;
+    } else {
+      return <div>{props.children}</div>;
+    }
   };
 
   const first = props.location ? props.location.pathname.split('/')[1] : '';
 
-  if (['my'].includes(first) && (!global.shared.loggedIn || !localStorage.getItem('jwtToken'))) {
+  if (
+    ['my'].includes(first) &&
+    (!global.shared.loggedIn || !localStorage.getItem('jwtToken'))
+  ) {
     window.location.href = '/';
   } else reveal = true;
 

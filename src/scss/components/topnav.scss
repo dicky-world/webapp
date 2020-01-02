@@ -25,7 +25,7 @@
     background-color: $background !important;
     border: 1px solid $primary !important;
   }
-  &--profile, &--add-photo {
+  &--profile, &--add-photos {
     padding-left: 24px;
   }
   &--profile::before {
@@ -40,7 +40,7 @@
     width: 18px;
     background-repeat: no-repeat;
   }
-  &--add-photo::before {
+  &--add-photos::before {
     content: '';
     width: 30px;
     position: relative;

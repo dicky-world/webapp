@@ -3,7 +3,7 @@
   grid-template-columns: 2fr 7fr;
   grid-gap: 12px;
   width: 100%;
-  max-width: 1150px;
+  max-width: $page-max-width;
   margin: auto;
   padding: 12px;
 
