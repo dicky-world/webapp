@@ -25,7 +25,7 @@
     background-color: $background !important;
     border: 1px solid $primary !important;
   }
-  &--profile {
+  &--profile, &--add-photo {
     padding-left: 24px;
   }
   &--profile::before {
@@ -36,6 +36,18 @@
     top: 7px;
     background-image: url(../../images/icons.svg);
     background-position: -14px 0px;
+    height: 16px;
+    width: 18px;
+    background-repeat: no-repeat;
+  }
+  &--add-photo::before {
+    content: '';
+    width: 30px;
+    position: relative;
+    left: -6px;
+    top: 7px;
+    background-image: url(../../images/icons.svg);
+    background-position: -46px 0px;
     height: 16px;
     width: 18px;
     background-repeat: no-repeat;

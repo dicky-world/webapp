@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Global } from '../globalState';
 import { Dispatch, LOGGED_IN, SET_MODAL } from '../globalState';
 
+//interface PropsInterface extends RouteComponentProps {
 interface PropsInterface {
   avatar: string;
   loggedIn: boolean;
@@ -19,7 +20,18 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
     : global.env.imgUrl + `initials/${initial}.png`;
   const [state, setState] = useState({
     dropDownStatus: false,
+    search: '',
   });
+
+  const {
+    search,
+  } = state;
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+    const { id, value } = event.target;
+    setState((prev) => ({ ...prev, [id]: value }));
+  };
 
   const login = () => {
     dispatch({ type: SET_MODAL, value: 'login' });
@@ -41,9 +53,9 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
     }));
   };
 
-  const search = (event: React.FormEvent) => {
+  const searchApi = (event: React.FormEvent) => {
     event.preventDefault();
-    //history.push('/my/profile');
+    // props.history.push(`/search/${search}`);
   };
 
   window.onclick = (event: any) => {
@@ -69,6 +81,9 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
             className={`topnav--dropdown ${state.dropDownStatus === true &&
               'topnav--dropdownon'}`}
           >
+            <Link to={{ pathname: `/add/photo` }}>
+              <div className='topnav--item topnav--add-photo'>Add photo</div>
+            </Link>
             <Link to={{ pathname: `/${global.shared.username}` }}>
               <div className='topnav--item topnav--profile'>Profile</div>
             </Link>
@@ -107,11 +122,13 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
           <Link to='/'>Logo</Link>
         </div>
         <div className='topnav--search'>
-          <form className='topnav--search-form' onSubmit={search}>
+          <form className='topnav--search-form' onSubmit={searchApi}>
             <input
             type='text'
             className='topnav--search-input'
             placeholder='Search for names'
+            onChange={onChange}
+            id='search'
             />
           </form>
         </div>
