@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Dispatch, SET_MODAL } from '../globalState';
+import { AddPhoto } from './addPhoto';
 import { Followers } from './followers';
 import { Following } from './following';
 import { Forgot } from './forgot';
@@ -65,6 +66,13 @@ const Modal: React.FC<PropsInterface> = (props: PropsInterface) => {
       return (
         <div className='modal--modalCard' onClick={preventDefault}>
           <Resetpassword />
+        </div>
+      );
+    }
+    if (props.screen === 'photo') {
+      return (
+        <div className='modal--modalCard' onClick={preventDefault}>
+          <AddPhoto />
         </div>
       );
     }

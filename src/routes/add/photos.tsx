@@ -84,26 +84,26 @@ const Photos: React.FC = () => {
 
   const sortGrid = (
     dataToSort: CountProps[],
-    onlyShow: string,
-    sortBy: keyof CountProps,
-    ascDesc: -1 | 1
+    onlyShow: string
+    // sortBy: keyof CountProps,
+    // ascDesc: -1 | 1
   ) => {
     if (onlyShow !== 'any') {
       dataToSort
-        .filter((dataToFilter) => dataToFilter.category === onlyShow)
-        .sort((a, b) => {
-          let aValue = a[sortBy];
-          let bValue = b[sortBy];
-          if (typeof aValue === 'string') {
-            aValue = aValue.toLocaleUpperCase();
-          }
-          if (typeof bValue === 'string') {
-            bValue = bValue.toLocaleUpperCase();
-          }
-          if (aValue < bValue) return ascDesc;
-          if (aValue > bValue) return ascDesc * -1;
-          return 0;
-        });
+        .filter((dataToFilter) => dataToFilter.category === onlyShow);
+        // .sort((a, b) => {
+        //   let aValue = a[sortBy];
+        //   let bValue = b[sortBy];
+        //   if (typeof aValue === 'string') {
+        //     aValue = aValue.toLocaleUpperCase();
+        //   }
+        //   if (typeof bValue === 'string') {
+        //     bValue = bValue.toLocaleUpperCase();
+        //   }
+        //   if (aValue < bValue) return ascDesc;
+        //   if (aValue > bValue) return ascDesc * -1;
+        //   return 0;
+        // });
     }
   };
   // const sortedData = sortGrid(data, 'Double Deckers', 'country', -1);
@@ -147,8 +147,7 @@ const Photos: React.FC = () => {
 
   const sortByMe = (event: React.MouseEvent<HTMLElement>) => {
     const { id } = event.currentTarget;
-    // tslint:disable-next-line: no-console
-    console.log(id);
+    // dont sort within the data we have, get new data!!
   };
 
   const openPhotoModal = () => {
@@ -173,11 +172,11 @@ const Photos: React.FC = () => {
         </div>
         <div className='grid--body'>
           <div className='grid--blank-header'>Preview</div>
-          <div className='grid--header' id='date' onClick={sortByMe}>Date</div>
-          <div className='grid--header' id='published' onClick={sortByMe}>Published</div>
-          <div className='grid--header' id='number' onClick={sortByMe}>Number</div>
-          <div className='grid--header' id='licence' onClick={sortByMe}>Licence</div>
-          <div className='grid--header' id='country' onClick={sortByMe}>Country</div>
+          <div className='grid--header' id='Date' onClick={sortByMe}>Date</div>
+          <div className='grid--header' id='Published' onClick={sortByMe}>Published</div>
+          <div className='grid--header' id='Number' onClick={sortByMe}>Number</div>
+          <div className='grid--header' id='Licence' onClick={sortByMe}>Licence</div>
+          <div className='grid--header' id='Country' onClick={sortByMe}>Country</div>
           <div className='grid--row'>
             <div>body</div>
           </div>
