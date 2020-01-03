@@ -40,9 +40,10 @@
     margin-top: 0px;
   }
   &--canvas {
-    border: 1px solid $secondary-dark;
+    // border: 1px solid $secondary-dark;
     border-radius: 5px;
     margin-top: 4px;
     cursor: move;
+    box-shadow: $depth-2;
   }
 }

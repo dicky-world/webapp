@@ -9,6 +9,7 @@ const AddPhoto: React.FC = () => {
   const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
   const canvas = useRef<HTMLCanvasElement>(null);
+  let originalImage: HTMLImageElement;
 
   const [state, setState] = useState({
     category: '',
@@ -43,8 +44,9 @@ const AddPhoto: React.FC = () => {
     }
   };
 
-  const canvasControl = (image: HTMLImageElement) => {
+  const canvasControl = () => {
     const ctx: CanvasRenderingContext2D | null = canvas.current ? canvas.current.getContext('2d') : null;
+    const image = originalImage;
     if (ctx) {
       ctx.imageSmoothingEnabled = true;
       let width = image.width;
@@ -73,8 +75,14 @@ const AddPhoto: React.FC = () => {
       reader.onload = (readerEvent) => {
         const image = new Image();
         image.onload = async (imageEvent) => {
-          setState((prev) => ({ ...prev, loading: false, showResizer: true }));
-          canvasControl(image);
+          if (image.width > 1000 && image.height > 1000) {
+            setState((prev) => ({ ...prev, loading: false, showResizer: true }));
+            originalImage = image;
+            canvasControl();
+          } else {
+            setState((prev) => ({ ...prev, loading: false }));
+            alert('image too small');
+          }
         };
         image.src = URL.createObjectURL(file);
       };
@@ -91,8 +99,14 @@ const AddPhoto: React.FC = () => {
       reader.onload = (readerEvent) => {
         const image = new Image();
         image.onload = async (imageEvent) => {
-          setState((prev) => ({ ...prev, loading: false, showResizer: true }));
-          canvasControl(image);
+          if (image.width > 1000 && image.height > 1000) {
+            setState((prev) => ({ ...prev, loading: false, showResizer: true }));
+            originalImage = image;
+            canvasControl();
+          } else {
+            setState((prev) => ({ ...prev, loading: false }));
+            alert('image too small');
+          }
         };
         image.src = URL.createObjectURL(request.response);
       };
