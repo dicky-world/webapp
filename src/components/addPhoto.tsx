@@ -35,12 +35,45 @@ const AddPhoto: React.FC = () => {
         return false;
       } else {
         setState((prev) => ({ ...prev, imageUrlError: '' }));
+        loadImageFromUrl(value);
         return true;
       }
     }
   };
-  const onSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+
+  const loadImageFromFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files) {
+      const file = event.currentTarget.files[0];
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const image = new Image();
+        image.onload = async (imageEvent) => {
+          // tslint:disable-next-line: no-console
+          console.log(image);
+        };
+        image.src = URL.createObjectURL(file);
+      };
+      if (reader) reader.readAsDataURL(file);
+    }
+  };
+  const loadImageFromUrl = (url: string) => {
+    const request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'blob';
+    request.onload = () => {
+
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const image = new Image();
+        image.onload = async (imageEvent) => {
+          // tslint:disable-next-line: no-console
+          console.log(image);
+        };
+        image.src = URL.createObjectURL(request.response);
+      };
+      if (reader) reader.readAsDataURL(request.response);
+    };
+    request.send();
   };
 
   return (
@@ -54,6 +87,7 @@ const AddPhoto: React.FC = () => {
             accept='image/png, image/jpeg'
             id='photo'
             name='photo'
+            onChange={loadImageFromFile}
             type='file'
           ></input>
         </label>
@@ -64,7 +98,6 @@ const AddPhoto: React.FC = () => {
         <label className='add-photo--paste-label'>Paste image url</label>
         <input
           id='imageUrl'
-          maxLength={70}
           onChange={onChange}
           placeholder='http://www.'
           type='text'
