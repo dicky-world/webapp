@@ -1,42 +1,48 @@
 .add-photo {
-    &--hr {
-        border-bottom: 1px solid $secondary-dark;
-    }
-    &--hr-span {
-        position: relative;
-        margin-top: 30px;
-        display: block;
-    }
-    &--or {
-        position: relative;
-        width: 50px;
-        display: block;
-        margin: 0 auto;
-        top: -10px;
-        text-align: center;
-        background-color: $background;
-        font-style: italic;
-        font-weight: 600;
-    }
-    &--button {
-        background-color: $primary;
-        border-radius: 5px;
-        border: 1px solid $primary-dark;
-        color: $primary-text;
-        cursor: pointer;
-        display: block;
-        font-size: 14px;
-        font-weight: 600;
-        font-weight: 700;
-        height: 35px;
-        line-height: 35px;
-        padding: 0 30px;
-        text-decoration: none;
-        transition: background-color 200ms ease-in;
-        width: 100%;
-        text-align: center;
-    }
-    &--paste-label {
-        margin-top: 0px ;
-    }
+  &--hr {
+    border-bottom: 1px solid $secondary-dark;
+  }
+  &--hr-span {
+    position: relative;
+    margin-top: 30px;
+    display: block;
+  }
+  &--or {
+    position: relative;
+    width: 50px;
+    display: block;
+    margin: 0 auto;
+    top: -10px;
+    text-align: center;
+    background-color: $background;
+    font-style: italic;
+    font-weight: 600;
+  }
+  &--button {
+    background-color: $primary;
+    border-radius: 5px;
+    border: 1px solid $primary-dark;
+    color: $primary-text;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    font-weight: 700;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 30px;
+    text-decoration: none;
+    transition: background-color 200ms ease-in;
+    width: 100%;
+    text-align: center;
+  }
+  &--paste-label {
+    margin-top: 0px;
+  }
+  &--canvas {
+    border: 1px solid $secondary-dark;
+    border-radius: 5px;
+    margin-top: 4px;
+    cursor: move;
+  }
 }

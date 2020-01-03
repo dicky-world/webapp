@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Global } from '../globalState';
 import { Dispatch, LOGGED_IN, SET_MODAL } from '../globalState';
 
-//interface PropsInterface extends RouteComponentProps {
+// interface PropsInterface extends RouteComponentProps {
 interface PropsInterface {
   avatar: string;
   loggedIn: boolean;
@@ -138,4 +138,5 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
   );
 };
 
+// export withRouter(TopNav);
 export { TopNav };
