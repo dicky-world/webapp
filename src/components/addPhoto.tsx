@@ -1,44 +1,48 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Global } from '../globalState';
-import { Dispatch, SET_SHARED } from '../globalState';
+import { Dispatch, Global, SET_MODAL } from '../globalState';
 import loadingImg from '../images/loading.svg';
 import { Error } from './error';
 
 const AddPhoto: React.FC = () => {
+  const canvas = useRef<HTMLCanvasElement>(null);
   const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
-  const canvas = useRef<HTMLCanvasElement>(null);
-//  let originalImage: HTMLImageElement;
 
   interface StateInterface {
-  category: string;
-  imageUrl: string;
-  imageUrlError: string;
-  loading: boolean;
-  orientation: string;
-  originalImage: HTMLImageElement;
-  showResizer: boolean;
-}
+    category: string;
+    imageFileError: string;
+    imageUrl: string;
+    imageUrlError: string;
+    loading: boolean;
+    orientation: string;
+    originalImage: HTMLImageElement;
+    positionId: string;
+    showResizer: boolean;
+  }
 
   const [state, setState] = useState<StateInterface>({
     category: '',
+    imageFileError: '',
     imageUrl: '',
     imageUrlError: '',
     loading: false,
     orientation: '',
     originalImage: new Image(),
+    positionId: '',
     showResizer: false,
   });
 
   const {
     category,
+    imageFileError,
     imageUrl,
     imageUrlError,
     loading,
-    showResizer,
     orientation,
     originalImage,
+    positionId,
+    showResizer,
   } = state;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +69,7 @@ const AddPhoto: React.FC = () => {
   };
 
   const canvasControl = (image: HTMLImageElement) => {
-    setState((prev) => ({...prev, originalImage: image }));
+    setState((prev) => ({ ...prev, originalImage: image }));
     const ctx: CanvasRenderingContext2D | null = canvas.current
       ? canvas.current.getContext('2d')
       : null;
@@ -108,7 +112,11 @@ const AddPhoto: React.FC = () => {
             canvasControl(image);
           } else {
             setState((prev) => ({ ...prev, loading: false }));
-            alert('image too small');
+            setState((prev) => ({
+              ...prev,
+              imageFileError: 'Image is too small',
+              loading: false,
+            }));
           }
         };
         image.src = URL.createObjectURL(file);
@@ -195,27 +203,156 @@ const AddPhoto: React.FC = () => {
         width *= maxSize / height;
         height = maxSize;
         if (id === 'll') pos = 0;
-        if (id === 'lc') pos = - (width - maxSize) / 2;
-        if (id === 'lr') pos = - (width - maxSize);
+        if (id === 'lc') pos = -(width - maxSize) / 2;
+        if (id === 'lr') pos = -(width - maxSize);
         ctx.drawImage(image, pos, 0, width, height);
-        setState((prev) => ({ ...prev, orientation: 'landscape' }));
+        setState((prev) => ({
+          ...prev,
+          orientation: 'landscape',
+          positionId: id,
+        }));
       } else if (height > maxSize) {
         height *= maxSize / width;
         width = maxSize;
         if (id === 'pt') pos = 0;
-        if (id === 'pc') pos = - (height - maxSize) / 2;
-        if (id === 'pb') pos = - (height - maxSize);
+        if (id === 'pc') pos = -(height - maxSize) / 2;
+        if (id === 'pb') pos = -(height - maxSize);
         ctx.drawImage(image, 0, pos, width, height);
-        setState((prev) => ({ ...prev, orientation: 'portrait' }));
+        setState((prev) => ({
+          ...prev,
+          orientation: 'portrait',
+          positionId: id,
+        }));
       }
     }
+  };
+
+  const getSignedUrl = async () => {
+    const response = await fetch(`${global.env.apiUrl}/upload/signed-url`, {
+      body: JSON.stringify({
+        jwtToken: localStorage.getItem('jwtToken'),
+      }),
+      headers: {
+        // prettier-ignore
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+    const content = await response.json();
+    if (response.status === 200) {
+      return content.signedUrl;
+    } else return null;
+  };
+
+  const dataURLToBlob = (dataURL: string) => {
+    const BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) === -1) {
+      const theParts = dataURL.split(',');
+      const theContentType = theParts[0].split(':')[1];
+      const theRaw = theParts[1];
+      return new Blob([theRaw], { type: theContentType });
+    }
+    const parts = dataURL.split(BASE64_MARKER);
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], { type: contentType });
+  };
+
+  const resizeImage = async (maxSize: number) => {
+    try {
+      const image = originalImage;
+      const resizeCanvas = document.createElement('canvas');
+      resizeCanvas.width = maxSize;
+      resizeCanvas.height = maxSize;
+      const ctx: CanvasRenderingContext2D = resizeCanvas.getContext('2d')!;
+      ctx.imageSmoothingEnabled = true;
+      let width = image.width;
+      let height = image.height;
+      let pos = 0;
+      if (width > height && width > maxSize) {
+        const id = positionId || 'lc';
+        width *= maxSize / height;
+        height = maxSize;
+        if (id === 'll') pos = 0;
+        if (id === 'lc') pos = -(width - maxSize) / 2;
+        if (id === 'lr') pos = -(width - maxSize);
+        ctx.drawImage(image, pos, 0, width, height);
+      } else if (height > maxSize) {
+        const id = positionId || 'pc';
+        height *= maxSize / width;
+        width = maxSize;
+        if (id === 'pt') pos = 0;
+        if (id === 'pc') pos = -(height - maxSize) / 2;
+        if (id === 'pb') pos = -(height - maxSize);
+        ctx.drawImage(image, 0, pos, width, height);
+      }
+      const base64 = resizeCanvas.toDataURL('image/jpeg');
+      const blob = dataURLToBlob(base64);
+      if (blob) {
+        return blob;
+      } else return null;
+    } catch (err) {
+      //
+    }
+  };
+
+  const uploadToS3 = async (signedUrl: string, resizedBlob: Blob) => {
+    const response = await fetch(signedUrl, {
+      body: resizedBlob,
+      headers: {
+        // prettier-ignore
+        'Accept': 'application/json',
+        'Content-Type': 'image/jpeg',
+      },
+      method: 'PUT',
+    });
+    if (response.status === 200) {
+      const fileId = `${response.url.split('/')[4]}/${
+        response.url.split('/')[5].split('?')[0]
+      }`;
+      return fileId;
+    } else return null;
+  };
+
+  const uploadImages = async (event: React.FormEvent) => {
+    event.preventDefault();
+    let thumbnailId;
+    let previewId;
+    let zoomId;
+    setState((prev) => ({ ...prev, loading: true }));
+    const thumbnailSignedUrl = await getSignedUrl();
+    const resizedThumbnail = await resizeImage(180);
+    if (thumbnailSignedUrl && resizedThumbnail) {
+      thumbnailId = await uploadToS3(thumbnailSignedUrl, resizedThumbnail);
+    } else alert('s3 error');
+    const previewSignedUrl = await getSignedUrl();
+    const resizedPreview = await resizeImage(530);
+    if (previewSignedUrl && resizedPreview) {
+      previewId = await uploadToS3(previewSignedUrl, resizedPreview);
+    } else alert('s3 error');
+    const zoomSignedUrl = await getSignedUrl();
+    const resizedZoom = await resizeImage(1000);
+    if (zoomSignedUrl && resizedZoom) {
+      zoomId = await uploadToS3(zoomSignedUrl, resizedZoom);
+    } else alert('s3 error');
+    if (thumbnailId && previewId && zoomId) {
+      // save all to api
+    } else alert('err');
+    setState((prev) => ({ ...prev, loading: false }));
+    dispatch({ type: SET_MODAL, value: '' });
   };
 
   return (
     <div className='add-photo'>
       <h2>Add Photo</h2>
-      <h3>Minimum size of 1000x1000px</h3>
-      <form>
+      <h3>Minimum photo size of 1000x1000px</h3>
+      <form onSubmit={uploadImages}>
         {!showResizer && (
           <React.Fragment>
             <label>
@@ -228,6 +365,7 @@ const AddPhoto: React.FC = () => {
                 type='file'
               ></input>
             </label>
+            <Error error={imageFileError} />
             <span className='add-photo--hr-span'>
               <hr className='add-photo--hr' />
               <div className='add-photo--or'>Or</div>
@@ -247,7 +385,7 @@ const AddPhoto: React.FC = () => {
 
         {showResizer && (
           <span className='add-photo--preview'>
-            <label>Preview</label>
+            <label>Position</label>
             <canvas
               ref={canvas}
               width={315}

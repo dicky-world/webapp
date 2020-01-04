@@ -16,8 +16,7 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   const { imageURL } = state;
 
-  // tslint:disable-next-line: no-any
-  const uploadImg = async (resizedBlob: any) => {
+  const uploadImg = async (resizedBlob: Blob) => {
     const response = await fetch(props.signedUrl, {
       body: JSON.stringify({
         jwtToken: localStorage.getItem('jwtToken'),

@@ -137,4 +137,5 @@ const TopNavWithRouter: React.FC<PropsInterface> = (props: PropsInterface) => {
   );
 };
 
-export const TopNav = withRouter(TopNavWithRouter);
+const TopNav = withRouter(TopNavWithRouter);
+export { TopNav };
