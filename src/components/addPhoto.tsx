@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Dispatch, Global, SET_MODAL } from '../globalState';
 import loadingImg from '../images/loading.svg';
 import { ResizeImage } from '../utils/resizeImage';
+import { SaveImage } from '../utils/saveImage';
 import { SignedUrl } from '../utils/signedUrl';
 import { UploadToS3 } from '../utils/uploadToS3';
 import { Error } from './error';
@@ -48,7 +49,9 @@ const AddPhoto: React.FC = () => {
     showResizer,
   } = state;
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     event.persist();
     const { id, value } = event.target;
     setState((prev) => ({ ...prev, [id]: value }));
@@ -76,7 +79,7 @@ const AddPhoto: React.FC = () => {
     const ctx: CanvasRenderingContext2D | null = canvas.current
       ? canvas.current.getContext('2d')
       : null;
-    const maxSize = 315;
+    const maxSize = 320;
     if (ctx) {
       ctx.imageSmoothingEnabled = true;
       let width = image.width;
@@ -127,6 +130,7 @@ const AddPhoto: React.FC = () => {
       if (reader) reader.readAsDataURL(file);
     }
   };
+
   const loadImageFromUrl = (url: string) => {
     setState((prev) => ({ ...prev, loading: true }));
     const request = new XMLHttpRequest();
@@ -197,7 +201,7 @@ const AddPhoto: React.FC = () => {
     const ctx: CanvasRenderingContext2D | null = canvas.current
       ? canvas.current.getContext('2d')
       : null;
-    const maxSize = 315;
+    const maxSize = 320;
     if (ctx) {
       ctx.imageSmoothingEnabled = true;
       let width = image.width;
@@ -232,8 +236,9 @@ const AddPhoto: React.FC = () => {
   };
 
   const uploadImages = async (event: React.FormEvent) => {
-    const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
     event.preventDefault();
+    const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
+    const saveImageApiEndpoint = `${global.env.apiUrl}/my/images`;
     let thumbnailId;
     let previewId;
     let zoomId;
@@ -254,7 +259,8 @@ const AddPhoto: React.FC = () => {
       zoomId = await UploadToS3(zoomSignedUrl, resizedZoom);
     } else alert('s3 error');
     if (thumbnailId && previewId && zoomId) {
-      // save all to api
+      const imagesSaved = await SaveImage(saveImageApiEndpoint);
+      console.log(imagesSaved);
     } else alert('err');
     setState((prev) => ({ ...prev, loading: false }));
     dispatch({ type: SET_MODAL, value: '' });
@@ -297,11 +303,12 @@ const AddPhoto: React.FC = () => {
 
         {showResizer && (
           <span className='add-photo--preview'>
+            <div>
             <label>Position</label>
             <canvas
               ref={canvas}
-              width={315}
-              height={315}
+              width={320}
+              height={320}
               className='add-photo--canvas'
             />
             <div className='add-photo--close' onClick={clearImage}></div>
@@ -343,6 +350,15 @@ const AddPhoto: React.FC = () => {
                 ></div>
               </React.Fragment>
             )}
+            </div>
+            <select id='category' value={category} onChange={onChange} className='add-photo--category'>
+              <option key='Select' value=''>Select...</option>
+              <option key='Double Decker' value='Double Decker'>Double Decker</option>
+              <option key='Single Decker' value='Single Decker'>Single Decker</option>
+              <option key='Midi' value='Midi'>Midi</option>
+              <option key='Mini' value='Mini'>Mini</option>
+              <option key='Coaches' value='Coaches'>Coaches</option>
+            </select>
             <button color='primary'>
               {!loading ? (
                 'Upload Photo'

@@ -51,7 +51,7 @@
   &--close {
     position: absolute;
     top: 48px;
-    right: 10px;
+    right: 16px;
     background-image: url(../../images/icons.svg);
     background-repeat: no-repeat;
     height: 24px;
@@ -73,42 +73,44 @@
     border-radius: 5px;
     border: 1px solid black;
     cursor: pointer;
-
   }
   &--portrait-top {
-    bottom: 68px;
-    right: 10px;
+    bottom: 103px;
+    right: 16px;
     background-position-x: -122px;
     background-position-y: 3px;
   }
   &--portrait-center {
-    bottom: 40px;
-    right: 10px;
+    bottom: 74px;
+    right: 16px;
     background-position-x: -241px;
     background-position-y: 3px;
   }
   &--portrait-bottom {
-    bottom: 12px;
-    right: 10px;
+    bottom: 45px;
+    right: 16px;
     background-position-x: -146px;
     background-position-y: 4px;
   }
   &--landscape-right {
-    bottom: 12px;
-    right: 10px;
+    bottom: 45px;
+    right: 16px;
     background-position-x: -195px;
     background-position-y: 3px;
   }
   &--landscape-center {
-    bottom: 12px;
-    right: 40px;
+    bottom: 45px;
+    right: 46px;
     background-position-x: -241px;
     background-position-y: 3px;
   }
   &--landscape-left {
-    bottom: 12px;
-    right: 70px;
+    bottom: 45px;
+    right: 76px;
     background-position-x: -169px;
     background-position-y: 3px;
+  }
+  &--category {
+    margin-top: 12px;
   }
 }
