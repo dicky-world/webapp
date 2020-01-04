@@ -9,17 +9,37 @@ const AddPhoto: React.FC = () => {
   const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
   const canvas = useRef<HTMLCanvasElement>(null);
-  let originalImage: HTMLImageElement;
+//  let originalImage: HTMLImageElement;
 
-  const [state, setState] = useState({
+  interface StateInterface {
+  category: string;
+  imageUrl: string;
+  imageUrlError: string;
+  loading: boolean;
+  orientation: string;
+  originalImage: HTMLImageElement;
+  showResizer: boolean;
+}
+
+  const [state, setState] = useState<StateInterface>({
     category: '',
     imageUrl: '',
     imageUrlError: '',
     loading: false,
+    orientation: '',
+    originalImage: new Image(),
     showResizer: false,
   });
 
-  const { category, imageUrl, imageUrlError, loading, showResizer } = state;
+  const {
+    category,
+    imageUrl,
+    imageUrlError,
+    loading,
+    showResizer,
+    orientation,
+    originalImage,
+  } = state;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -44,25 +64,29 @@ const AddPhoto: React.FC = () => {
     }
   };
 
-  const canvasControl = () => {
-    const ctx: CanvasRenderingContext2D | null = canvas.current ? canvas.current.getContext('2d') : null;
-    const image = originalImage;
+  const canvasControl = (image: HTMLImageElement) => {
+    setState((prev) => ({...prev, originalImage: image }));
+    const ctx: CanvasRenderingContext2D | null = canvas.current
+      ? canvas.current.getContext('2d')
+      : null;
+    const maxSize = 315;
     if (ctx) {
       ctx.imageSmoothingEnabled = true;
       let width = image.width;
       let height = image.height;
       let pos: number;
-      const maxSize = 315;
       if (width > height && width > maxSize) {
         width *= maxSize / height;
         height = maxSize;
         pos = (width - maxSize) / 2;
-        ctx.drawImage(image, - pos, 0, width, height);
+        ctx.drawImage(image, -pos, 0, width, height);
+        setState((prev) => ({ ...prev, orientation: 'landscape' }));
       } else if (height > maxSize) {
         height *= maxSize / width;
         width = maxSize;
         pos = (height - maxSize) / 2;
-        ctx.drawImage(image, 0, - pos, width, height);
+        ctx.drawImage(image, 0, -pos, width, height);
+        setState((prev) => ({ ...prev, orientation: 'portrait' }));
       }
     }
   };
@@ -76,9 +100,12 @@ const AddPhoto: React.FC = () => {
         const image = new Image();
         image.onload = async (imageEvent) => {
           if (image.width > 1000 && image.height > 1000) {
-            setState((prev) => ({ ...prev, loading: false, showResizer: true }));
-            originalImage = image;
-            canvasControl();
+            setState((prev) => ({
+              ...prev,
+              loading: false,
+              showResizer: true,
+            }));
+            canvasControl(image);
           } else {
             setState((prev) => ({ ...prev, loading: false }));
             alert('image too small');
@@ -93,6 +120,7 @@ const AddPhoto: React.FC = () => {
     setState((prev) => ({ ...prev, loading: true }));
     const request = new XMLHttpRequest();
     request.open('GET', url, true);
+    request.timeout = 1000;
     request.responseType = 'blob';
     request.onload = () => {
       const reader = new FileReader();
@@ -100,25 +128,93 @@ const AddPhoto: React.FC = () => {
         const image = new Image();
         image.onload = async (imageEvent) => {
           if (image.width > 1000 && image.height > 1000) {
-            setState((prev) => ({ ...prev, loading: false, showResizer: true }));
-            originalImage = image;
-            canvasControl();
+            setState((prev) => ({
+              ...prev,
+              loading: false,
+              showResizer: true,
+            }));
+            canvasControl(image);
           } else {
-            setState((prev) => ({ ...prev, loading: false }));
-            alert('image too small');
+            setState((prev) => ({
+              ...prev,
+              imageUrl: '',
+              imageUrlError: 'Image is too small',
+              loading: false,
+            }));
           }
         };
         image.src = URL.createObjectURL(request.response);
       };
       if (reader) reader.readAsDataURL(request.response);
     };
+    request.onerror = () => {
+      setState((prev) => ({
+        ...prev,
+        imageUrlError: 'Image cant be loaded',
+        loading: false,
+      }));
+    };
+    request.ontimeout = () => {
+      setState((prev) => ({
+        ...prev,
+        imageUrlError: 'Image cant be loaded',
+        loading: false,
+      }));
+    };
     request.send();
+  };
+  const onBlur = () => {
+    setState((prev) => ({
+      ...prev,
+      imageUrl: '',
+      imageUrlError: '',
+      loading: false,
+    }));
+  };
+
+  const clearImage = () => {
+    setState((prev) => ({
+      ...prev,
+      showResizer: false,
+    }));
+  };
+
+  const moveImage = (event: React.MouseEvent<HTMLElement>) => {
+    const image = originalImage;
+    const { id } = event.currentTarget;
+    const ctx: CanvasRenderingContext2D | null = canvas.current
+      ? canvas.current.getContext('2d')
+      : null;
+    const maxSize = 315;
+    if (ctx) {
+      ctx.imageSmoothingEnabled = true;
+      let width = image.width;
+      let height = image.height;
+      let pos = 0;
+      if (width > height && width > maxSize) {
+        width *= maxSize / height;
+        height = maxSize;
+        if (id === 'll') pos = 0;
+        if (id === 'lc') pos = - (width - maxSize) / 2;
+        if (id === 'lr') pos = - (width - maxSize);
+        ctx.drawImage(image, pos, 0, width, height);
+        setState((prev) => ({ ...prev, orientation: 'landscape' }));
+      } else if (height > maxSize) {
+        height *= maxSize / width;
+        width = maxSize;
+        if (id === 'pt') pos = 0;
+        if (id === 'pc') pos = - (height - maxSize) / 2;
+        if (id === 'pb') pos = - (height - maxSize);
+        ctx.drawImage(image, 0, pos, width, height);
+        setState((prev) => ({ ...prev, orientation: 'portrait' }));
+      }
+    }
   };
 
   return (
     <div className='add-photo'>
       <h2>Add Photo</h2>
-      <h3>Contribute to the largest repository of bus photos online</h3>
+      <h3>Minimum size of 1000x1000px</h3>
       <form>
         {!showResizer && (
           <React.Fragment>
@@ -140,6 +236,7 @@ const AddPhoto: React.FC = () => {
             <input
               id='imageUrl'
               onChange={onChange}
+              onBlur={onBlur}
               placeholder='http://www.'
               type='text'
               value={imageUrl}
@@ -149,7 +246,7 @@ const AddPhoto: React.FC = () => {
         )}
 
         {showResizer && (
-          <React.Fragment>
+          <span className='add-photo--preview'>
             <label>Preview</label>
             <canvas
               ref={canvas}
@@ -157,6 +254,45 @@ const AddPhoto: React.FC = () => {
               height={315}
               className='add-photo--canvas'
             />
+            <div className='add-photo--close' onClick={clearImage}></div>
+            {orientation === 'landscape' && (
+              <React.Fragment>
+                <div
+                  className='add-photo--base add-photo--landscape-left'
+                  onClick={moveImage}
+                  id='ll'
+                ></div>
+                <div
+                  className='add-photo--base add-photo--landscape-center'
+                  onClick={moveImage}
+                  id='lc'
+                ></div>
+                <div
+                  className='add-photo--base add-photo--landscape-right'
+                  onClick={moveImage}
+                  id='lr'
+                ></div>
+              </React.Fragment>
+            )}
+            {orientation === 'portrait' && (
+              <React.Fragment>
+                <div
+                  className='add-photo--base add-photo--portrait-top'
+                  onClick={moveImage}
+                  id='pt'
+                ></div>
+                <div
+                  className='add-photo--base add-photo--portrait-center'
+                  onClick={moveImage}
+                  id='pc'
+                ></div>
+                <div
+                  className='add-photo--base add-photo--portrait-bottom'
+                  onClick={moveImage}
+                  id='pb'
+                ></div>
+              </React.Fragment>
+            )}
             <button color='primary'>
               {!loading ? (
                 'Upload Photo'
@@ -169,7 +305,7 @@ const AddPhoto: React.FC = () => {
               <Link to={{ pathname: '/terms' }}> Terms of Service</Link> and
               <Link to={{ pathname: '/terms' }}> Privacy Policy</Link>
             </div>
-          </React.Fragment>
+          </span>
         )}
       </form>
     </div>

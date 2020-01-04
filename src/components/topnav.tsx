@@ -3,14 +3,13 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Global } from '../globalState';
 import { Dispatch, LOGGED_IN, SET_MODAL } from '../globalState';
 
-// interface PropsInterface extends RouteComponentProps {
-interface PropsInterface {
+interface PropsInterface extends RouteComponentProps {
   avatar: string;
   loggedIn: boolean;
   fullName: string;
 }
 
-const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
+const TopNavWithRouter: React.FC<PropsInterface> = (props: PropsInterface) => {
   const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
   const firstName = props.fullName.split(' ')[0];
@@ -55,7 +54,7 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   const searchApi = (event: React.FormEvent) => {
     event.preventDefault();
-    // props.history.push(`/search/${search}`);
+    props.history.push(`/search/${search}`);
   };
 
   window.onclick = (event: any) => {
@@ -138,5 +137,4 @@ const TopNav: React.FC<PropsInterface> = (props: PropsInterface) => {
   );
 };
 
-// export withRouter(TopNav);
-export { TopNav };
+export const TopNav = withRouter(TopNavWithRouter);
