@@ -1,4 +1,4 @@
-const uploadToS3 = async (signedUrls: string, resizedBlob: Blob) => {
+const UploadToS3 = async (signedUrls: string, resizedBlob: Blob) => {
   const response = await fetch(signedUrls, {
     body: resizedBlob,
     headers: {
@@ -16,4 +16,4 @@ const uploadToS3 = async (signedUrls: string, resizedBlob: Blob) => {
   } else return null;
 };
 
-export { uploadToS3 };
+export { UploadToS3 };

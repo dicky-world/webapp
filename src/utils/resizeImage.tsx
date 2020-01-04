@@ -1,4 +1,4 @@
-const dataURLToBlob = (dataURL: string) => {
+const DataURLToBlob = (dataURL: string) => {
   const BASE64_MARKER = ';base64,';
   if (dataURL.indexOf(BASE64_MARKER) === -1) {
     const theParts = dataURL.split(',');
@@ -17,7 +17,7 @@ const dataURLToBlob = (dataURL: string) => {
   return new Blob([uInt8Array], { type: contentType });
 };
 
-const resizeImage = async (
+const ResizeImage = async (
   originalImage: HTMLImageElement,
   maxSize: number,
   positionId: string
@@ -49,10 +49,10 @@ const resizeImage = async (
     ctx.drawImage(image, 0, pos, width, height);
   }
   const base64 = resizeCanvas.toDataURL('image/jpeg');
-  const blob = dataURLToBlob(base64);
+  const blob = DataURLToBlob(base64);
   if (blob) {
     return blob;
   } else return null;
 };
 
-export { resizeImage, dataURLToBlob };
+export { ResizeImage, DataURLToBlob };

@@ -2,9 +2,9 @@ import React, { useContext, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dispatch, Global, SET_MODAL } from '../globalState';
 import loadingImg from '../images/loading.svg';
-import { resizeImage } from '../utils/resizeImage';
-import { signedUrl } from '../utils/signedUrl';
-import { uploadToS3 } from '../utils/uploadToS3';
+import { ResizeImage } from '../utils/resizeImage';
+import { SignedUrl } from '../utils/signedUrl';
+import { UploadToS3 } from '../utils/uploadToS3';
 import { Error } from './error';
 
 const AddPhoto: React.FC = () => {
@@ -238,20 +238,20 @@ const AddPhoto: React.FC = () => {
     let previewId;
     let zoomId;
     setState((prev) => ({ ...prev, loading: true }));
-    const thumbnailSignedUrl = await signedUrl(signedUrlApiEndpoint);
-    const resizedThumbnail = await resizeImage(originalImage, 180, positionId);
+    const thumbnailSignedUrl = await SignedUrl(signedUrlApiEndpoint);
+    const resizedThumbnail = await ResizeImage(originalImage, 180, positionId);
     if (thumbnailSignedUrl && resizedThumbnail) {
-      thumbnailId = await uploadToS3(thumbnailSignedUrl, resizedThumbnail);
+      thumbnailId = await UploadToS3(thumbnailSignedUrl, resizedThumbnail);
     } else alert('s3 error');
-    const previewSignedUrl = await signedUrl(signedUrlApiEndpoint);
-    const resizedPreview = await resizeImage(originalImage, 530, positionId);
+    const previewSignedUrl = await SignedUrl(signedUrlApiEndpoint);
+    const resizedPreview = await ResizeImage(originalImage, 530, positionId);
     if (previewSignedUrl && resizedPreview) {
-      previewId = await uploadToS3(previewSignedUrl, resizedPreview);
+      previewId = await UploadToS3(previewSignedUrl, resizedPreview);
     } else alert('s3 error');
-    const zoomSignedUrl = await signedUrl(signedUrlApiEndpoint);
-    const resizedZoom = await resizeImage(originalImage, 1000, positionId);
+    const zoomSignedUrl = await SignedUrl(signedUrlApiEndpoint);
+    const resizedZoom = await ResizeImage(originalImage, 1000, positionId);
     if (zoomSignedUrl && resizedZoom) {
-      zoomId = await uploadToS3(zoomSignedUrl, resizedZoom);
+      zoomId = await UploadToS3(zoomSignedUrl, resizedZoom);
     } else alert('s3 error');
     if (thumbnailId && previewId && zoomId) {
       // save all to api

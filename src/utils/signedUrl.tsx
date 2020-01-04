@@ -1,4 +1,4 @@
-const signedUrl = async (signedUrlApiEndpoint: string) => {
+const SignedUrl = async (signedUrlApiEndpoint: string) => {
   const response = await fetch(signedUrlApiEndpoint, {
     body: JSON.stringify({
       jwtToken: localStorage.getItem('jwtToken'),
@@ -16,4 +16,4 @@ const signedUrl = async (signedUrlApiEndpoint: string) => {
   } else return null;
 };
 
-export { signedUrl };
+export { SignedUrl };
