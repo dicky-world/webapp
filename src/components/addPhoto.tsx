@@ -2,6 +2,9 @@ import React, { useContext, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dispatch, Global, SET_MODAL } from '../globalState';
 import loadingImg from '../images/loading.svg';
+import { resizeImage } from '../utils/resizeImage';
+import { signedUrl } from '../utils/signedUrl';
+import { uploadToS3 } from '../utils/uploadToS3';
 import { Error } from './error';
 
 const AddPhoto: React.FC = () => {
@@ -171,6 +174,7 @@ const AddPhoto: React.FC = () => {
     };
     request.send();
   };
+
   const onBlur = () => {
     setState((prev) => ({
       ...prev,
@@ -227,117 +231,25 @@ const AddPhoto: React.FC = () => {
     }
   };
 
-  const getSignedUrl = async () => {
-    const response = await fetch(`${global.env.apiUrl}/upload/signed-url`, {
-      body: JSON.stringify({
-        jwtToken: localStorage.getItem('jwtToken'),
-      }),
-      headers: {
-        // prettier-ignore
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
-    const content = await response.json();
-    if (response.status === 200) {
-      return content.signedUrl;
-    } else return null;
-  };
-
-  const dataURLToBlob = (dataURL: string) => {
-    const BASE64_MARKER = ';base64,';
-    if (dataURL.indexOf(BASE64_MARKER) === -1) {
-      const theParts = dataURL.split(',');
-      const theContentType = theParts[0].split(':')[1];
-      const theRaw = theParts[1];
-      return new Blob([theRaw], { type: theContentType });
-    }
-    const parts = dataURL.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
-    const rawLength = raw.length;
-    const uInt8Array = new Uint8Array(rawLength);
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-    return new Blob([uInt8Array], { type: contentType });
-  };
-
-  const resizeImage = async (maxSize: number) => {
-    try {
-      const image = originalImage;
-      const resizeCanvas = document.createElement('canvas');
-      resizeCanvas.width = maxSize;
-      resizeCanvas.height = maxSize;
-      const ctx: CanvasRenderingContext2D = resizeCanvas.getContext('2d')!;
-      ctx.imageSmoothingEnabled = true;
-      let width = image.width;
-      let height = image.height;
-      let pos = 0;
-      if (width > height && width > maxSize) {
-        const id = positionId || 'lc';
-        width *= maxSize / height;
-        height = maxSize;
-        if (id === 'll') pos = 0;
-        if (id === 'lc') pos = -(width - maxSize) / 2;
-        if (id === 'lr') pos = -(width - maxSize);
-        ctx.drawImage(image, pos, 0, width, height);
-      } else if (height > maxSize) {
-        const id = positionId || 'pc';
-        height *= maxSize / width;
-        width = maxSize;
-        if (id === 'pt') pos = 0;
-        if (id === 'pc') pos = -(height - maxSize) / 2;
-        if (id === 'pb') pos = -(height - maxSize);
-        ctx.drawImage(image, 0, pos, width, height);
-      }
-      const base64 = resizeCanvas.toDataURL('image/jpeg');
-      const blob = dataURLToBlob(base64);
-      if (blob) {
-        return blob;
-      } else return null;
-    } catch (err) {
-      //
-    }
-  };
-
-  const uploadToS3 = async (signedUrl: string, resizedBlob: Blob) => {
-    const response = await fetch(signedUrl, {
-      body: resizedBlob,
-      headers: {
-        // prettier-ignore
-        'Accept': 'application/json',
-        'Content-Type': 'image/jpeg',
-      },
-      method: 'PUT',
-    });
-    if (response.status === 200) {
-      const fileId = `${response.url.split('/')[4]}/${
-        response.url.split('/')[5].split('?')[0]
-      }`;
-      return fileId;
-    } else return null;
-  };
-
   const uploadImages = async (event: React.FormEvent) => {
+    const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
     event.preventDefault();
     let thumbnailId;
     let previewId;
     let zoomId;
     setState((prev) => ({ ...prev, loading: true }));
-    const thumbnailSignedUrl = await getSignedUrl();
-    const resizedThumbnail = await resizeImage(180);
+    const thumbnailSignedUrl = await signedUrl(signedUrlApiEndpoint);
+    const resizedThumbnail = await resizeImage(originalImage, 180, positionId);
     if (thumbnailSignedUrl && resizedThumbnail) {
       thumbnailId = await uploadToS3(thumbnailSignedUrl, resizedThumbnail);
     } else alert('s3 error');
-    const previewSignedUrl = await getSignedUrl();
-    const resizedPreview = await resizeImage(530);
+    const previewSignedUrl = await signedUrl(signedUrlApiEndpoint);
+    const resizedPreview = await resizeImage(originalImage, 530, positionId);
     if (previewSignedUrl && resizedPreview) {
       previewId = await uploadToS3(previewSignedUrl, resizedPreview);
     } else alert('s3 error');
-    const zoomSignedUrl = await getSignedUrl();
-    const resizedZoom = await resizeImage(1000);
+    const zoomSignedUrl = await signedUrl(signedUrlApiEndpoint);
+    const resizedZoom = await resizeImage(originalImage, 1000, positionId);
     if (zoomSignedUrl && resizedZoom) {
       zoomId = await uploadToS3(zoomSignedUrl, resizedZoom);
     } else alert('s3 error');
