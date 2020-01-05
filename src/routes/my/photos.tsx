@@ -8,78 +8,34 @@ const Photos: React.FC = () => {
   const { dispatch } = useContext(Dispatch);
   const apiEndpoint = `${global.env.apiUrl}/my/photos`;
 
+  interface DataProps {
+    category: string;
+    published: boolean;
+    previewId: string;
+    thumbnailId: string;
+  }
+
+  interface StateInterface {
+    activeTab: string;
+    data: DataProps[];
+  }
+
+  const [state, setState] = useState<StateInterface>({
+    activeTab: 'All',
+    data: [],
+  });
+
   useEffect(() => {
     const getMyPhotos = async () => {
-      const myPhotos = await GetMyPhotos(apiEndpoint);
-      console.log(myPhotos);
+      const response = await GetMyPhotos(apiEndpoint);
+      setState((prev) => ({ ...prev, data: response.myPhotos }));
     };
     getMyPhotos();
   }, [global.display.modal]);
 
-  const [state, setState] = useState({
-    activeTab: 'All',
-    data: [
-      {
-        busNumber: 102,
-        category: 'Double Deckers',
-        country: 'United Kingdom',
-        published: true,
-      },
-      {
-        busNumber: 973,
-        category: 'Double Deckers',
-        country: 'United Kingdom',
-        published: true,
-      },
-      {
-        busNumber: 814,
-        category: 'Double Deckers',
-        country: 'United Kingdom',
-        published: true,
-      },
-      {
-        busNumber: 7734,
-        category: 'Double Deckers',
-        country: 'United Kingdom',
-        published: true,
-      },
-      {
-        busNumber: 104,
-        category: 'Single Deckers',
-        country: 'China',
-        published: true,
-      },
-      {
-        busNumber: 496,
-        category: 'Single Deckers',
-        country: 'China',
-        published: true,
-      },
-      {
-        busNumber: 80,
-        category: 'Single Deckers',
-        country: 'China',
-        published: true,
-      },
-      {
-        busNumber: 712,
-        category: 'Single Deckers',
-        country: 'China',
-        published: true,
-      },
-    ],
-  });
   const { data, activeTab } = state;
 
-  // TODO: onload get the dtata from the api and pipe it into body, add alternating background colors
-  interface CountProps {
-    category: string;
-    busNumber: number;
-    country: string;
-    published: boolean;
-  }
-
-  const makeTabs = (dataToCount: CountProps[]) => {
+  const makeTabs = (dataToCount: DataProps[]) => {
     return dataToCount.reduce(
       (reducedData: Array<{ category: string; total: number }>, v) => {
         const f = reducedData.find((i) => i.category === v.category);
@@ -90,33 +46,6 @@ const Photos: React.FC = () => {
       []
     );
   };
-  //  const summary = makeTabs(data);
-
-  const sortGrid = (
-    dataToSort: CountProps[],
-    onlyShow: string
-    // sortBy: keyof CountProps,
-    // ascDesc: -1 | 1
-  ) => {
-    if (onlyShow !== 'any') {
-      dataToSort
-        .filter((dataToFilter) => dataToFilter.category === onlyShow);
-        // .sort((a, b) => {
-        //   let aValue = a[sortBy];
-        //   let bValue = b[sortBy];
-        //   if (typeof aValue === 'string') {
-        //     aValue = aValue.toLocaleUpperCase();
-        //   }
-        //   if (typeof bValue === 'string') {
-        //     bValue = bValue.toLocaleUpperCase();
-        //   }
-        //   if (aValue < bValue) return ascDesc;
-        //   if (aValue > bValue) return ascDesc * -1;
-        //   return 0;
-        // });
-    }
-  };
-  // const sortedData = sortGrid(data, 'Double Deckers', 'country', -1);
 
   const generateTabs = () => {
     const tabs = makeTabs(data);
@@ -164,6 +93,42 @@ const Photos: React.FC = () => {
     dispatch({ type: SET_MODAL, value: 'photo' });
   };
 
+  const bgImage = (imageUrl: string) => {
+    return {
+      backgroundImage: `url(${imageUrl})`,
+      backgroundSize: 'cover',
+      height: '90px',
+      width: '90px',
+    };
+  };
+  const getRows = () => {
+    if (activeTab === 'All' && data.length <= 0) {
+      return <div> You have no photos</div>;
+    } else {
+      const arr = [];
+      let filteredData;
+      if (activeTab !== 'All') {
+        filteredData = data.filter(
+          (dataToFilter) => dataToFilter.category === activeTab
+        );
+      } else {
+        filteredData = data;
+      }
+      for (let i = 0; i <= filteredData.length; i++) {
+        if (filteredData[i]) {
+          arr.push(
+            <React.Fragment>
+              <div
+                style={bgImage(global.env.imgUrl + filteredData[i].thumbnailId)}
+              ></div>
+            </React.Fragment>
+          );
+        }
+      }
+      return arr;
+    }
+  };
+
   return (
     <div className='photos'>
       <div className='grid'>
@@ -178,18 +143,22 @@ const Photos: React.FC = () => {
         <div className='grid--tab-area'>{generateTabs()}</div>
         <div className='grid--blank'></div>
         <div className='grid--blank'>
-          <button color='primary' onClick={openPhotoModal}>Add Photo</button>
+          <button color='primary' onClick={openPhotoModal}>
+            Add Photo
+          </button>
         </div>
         <div className='grid--body'>
-          <div className='grid--blank-header'>Preview</div>
-          <div className='grid--header' id='Date' onClick={sortByMe}>Date</div>
-          <div className='grid--header' id='Published' onClick={sortByMe}>Published</div>
-          <div className='grid--header' id='Number' onClick={sortByMe}>Number</div>
-          <div className='grid--header' id='Licence' onClick={sortByMe}>Licence</div>
-          <div className='grid--header' id='Country' onClick={sortByMe}>Country</div>
-          <div className='grid--row'>
-            <div>body</div>
+          <div className='grid--header'>Preview</div>
+          <div className='grid--header' id='Category' onClick={sortByMe}>
+            Category
           </div>
+          <div className='grid--header' id='Published' onClick={sortByMe}>
+            Published
+          </div>
+          <div className='grid--header' id='Date' onClick={sortByMe}>
+            Date
+          </div>
+          <div className='grid--row'>{getRows()}</div>
         </div>
       </div>
     </div>

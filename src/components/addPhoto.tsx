@@ -239,25 +239,29 @@ const AddPhoto: React.FC = () => {
     event.preventDefault();
     const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
     const apiEndpoint = `${global.env.apiUrl}/my/add-photo`;
-    let thumbnailId;
-    let previewId;
-    let zoomId;
     setState((prev) => ({ ...prev, loading: true }));
-    const thumbnailSignedUrl = await SignedUrl(signedUrlApiEndpoint);
-    const resizedThumbnail = await ResizeImage(originalImage, 180, positionId);
-    if (thumbnailSignedUrl && resizedThumbnail) {
-      thumbnailId = await UploadToS3(thumbnailSignedUrl, resizedThumbnail);
-    } else alert('s3 error');
-    const previewSignedUrl = await SignedUrl(signedUrlApiEndpoint);
-    const resizedPreview = await ResizeImage(originalImage, 530, positionId);
-    if (previewSignedUrl && resizedPreview) {
-      previewId = await UploadToS3(previewSignedUrl, resizedPreview);
-    } else alert('s3 error');
-    const zoomSignedUrl = await SignedUrl(signedUrlApiEndpoint);
-    const resizedZoom = await ResizeImage(originalImage, 1000, positionId);
-    if (zoomSignedUrl && resizedZoom) {
-      zoomId = await UploadToS3(zoomSignedUrl, resizedZoom);
-    } else alert('s3 error');
+    const section1 = async () => {
+      const thumbnailSignedUrl = await SignedUrl(signedUrlApiEndpoint);
+      const resizedThumbnail = await ResizeImage(originalImage, 180, positionId);
+      if (thumbnailSignedUrl && resizedThumbnail) {
+        return UploadToS3(thumbnailSignedUrl, resizedThumbnail);
+      } else return null;
+    };
+    const section2 = async () => {
+      const previewSignedUrl = await SignedUrl(signedUrlApiEndpoint);
+      const resizedPreview = await ResizeImage(originalImage, 530, positionId);
+      if (previewSignedUrl && resizedPreview) {
+        return UploadToS3(previewSignedUrl, resizedPreview);
+      } else return null;
+    };
+    const section3 = async () => {
+      const zoomSignedUrl = await SignedUrl(signedUrlApiEndpoint);
+      const resizedZoom = await ResizeImage(originalImage, 1000, positionId);
+      if (zoomSignedUrl && resizedZoom) {
+        return UploadToS3(zoomSignedUrl, resizedZoom);
+      } else return null;
+    };
+    const [thumbnailId, previewId, zoomId] = await Promise.all([section1(), section2(), section3()]);
     if (thumbnailId && previewId && zoomId) {
       const imagesSaved = await SaveImage(
         apiEndpoint,
@@ -367,16 +371,16 @@ const AddPhoto: React.FC = () => {
               <option key='Select' value=''>
                 Select...
               </option>
-              <option key='Double Decker' value='Double Decker'>
+              <option key='Double Deckers' value='Double Decker'>
                 Double Decker
               </option>
-              <option key='Single Decker' value='Single Decker'>
+              <option key='Single Deckers' value='Single Decker'>
                 Single Decker
               </option>
-              <option key='Midi' value='Midi'>
+              <option key='Midis' value='Midi'>
                 Midi
               </option>
-              <option key='Mini' value='Mini'>
+              <option key='Minis' value='Mini'>
                 Mini
               </option>
               <option key='Coaches' value='Coaches'>

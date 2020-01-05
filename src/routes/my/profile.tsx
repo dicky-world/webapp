@@ -19,6 +19,21 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
     pageLoading: true,
   });
 
+  interface DataProps {
+    category: string;
+    published: boolean;
+    previewId: string;
+    thumbnailId: string;
+  }
+
+  interface StateInterface {
+    array: DataProps[];
+  }
+
+  const [photos, setPhotos] = useState<StateInterface>({
+    array: [],
+  });
+
   const [user, setUser] = useState({
     avatarId: '',
     bio: '',
@@ -32,6 +47,7 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
     loading: true,
     webSite: '',
   });
+
   const { followLoading, pageLoading } = state;
   const {
     avatarId,
@@ -108,12 +124,37 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
       if (response.status === 200) {
         setState((prev) => ({ ...prev, pageLoading: false }));
         setUser(() => content.shared);
+        setPhotos(() => ({ array: content.photos }));
       }
     }
     if (username) {
       callApi();
     }
   }, [global.env.apiUrl, global.shared.username, username]);
+
+  const bgImage = (imageUrl: string) => {
+    return {
+      backgroundImage: `url(${imageUrl})`,
+      backgroundSize: 'cover',
+      height: '205px',
+      width: '205px',
+    };
+  };
+  const getRows = () => {
+    const arr = [];
+    for (let i = 0; i <= photos.array.length; i++) {
+      if (photos.array[i]) {
+        arr.push(
+          <React.Fragment>
+            <div className='profile--image'
+              style={bgImage(global.env.imgUrl + photos.array[i].previewId)}
+            ></div>
+          </React.Fragment>
+        );
+      }
+    }
+    return arr;
+  };
   return (
     <div className='profile'>
       {!pageLoading && (
@@ -206,6 +247,7 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
                 </div>
               </div>
             </div>
+            <div className='profile--image-grid'>{getRows()}</div>
           </div>
         </React.Fragment>
       )}
