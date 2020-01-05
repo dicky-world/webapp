@@ -238,7 +238,7 @@ const AddPhoto: React.FC = () => {
   const uploadImages = async (event: React.FormEvent) => {
     event.preventDefault();
     const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
-    const saveImageApiEndpoint = `${global.env.apiUrl}/my/images`;
+    const apiEndpoint = `${global.env.apiUrl}/my/add-photo`;
     let thumbnailId;
     let previewId;
     let zoomId;
@@ -259,11 +259,18 @@ const AddPhoto: React.FC = () => {
       zoomId = await UploadToS3(zoomSignedUrl, resizedZoom);
     } else alert('s3 error');
     if (thumbnailId && previewId && zoomId) {
-      const imagesSaved = await SaveImage(saveImageApiEndpoint);
-      console.log(imagesSaved);
+      const imagesSaved = await SaveImage(
+        apiEndpoint,
+        category,
+        previewId,
+        thumbnailId,
+        zoomId
+      );
+      if (imagesSaved) {
+        setState((prev) => ({ ...prev, loading: false }));
+        dispatch({ type: SET_MODAL, value: '' });
+      }
     } else alert('err');
-    setState((prev) => ({ ...prev, loading: false }));
-    dispatch({ type: SET_MODAL, value: '' });
   };
 
   return (
@@ -304,60 +311,77 @@ const AddPhoto: React.FC = () => {
         {showResizer && (
           <span className='add-photo--preview'>
             <div>
-            <label>Position</label>
-            <canvas
-              ref={canvas}
-              width={320}
-              height={320}
-              className='add-photo--canvas'
-            />
-            <div className='add-photo--close' onClick={clearImage}></div>
-            {orientation === 'landscape' && (
-              <React.Fragment>
-                <div
-                  className='add-photo--base add-photo--landscape-left'
-                  onClick={moveImage}
-                  id='ll'
-                ></div>
-                <div
-                  className='add-photo--base add-photo--landscape-center'
-                  onClick={moveImage}
-                  id='lc'
-                ></div>
-                <div
-                  className='add-photo--base add-photo--landscape-right'
-                  onClick={moveImage}
-                  id='lr'
-                ></div>
-              </React.Fragment>
-            )}
-            {orientation === 'portrait' && (
-              <React.Fragment>
-                <div
-                  className='add-photo--base add-photo--portrait-top'
-                  onClick={moveImage}
-                  id='pt'
-                ></div>
-                <div
-                  className='add-photo--base add-photo--portrait-center'
-                  onClick={moveImage}
-                  id='pc'
-                ></div>
-                <div
-                  className='add-photo--base add-photo--portrait-bottom'
-                  onClick={moveImage}
-                  id='pb'
-                ></div>
-              </React.Fragment>
-            )}
+              <label>Position</label>
+              <canvas
+                ref={canvas}
+                width={320}
+                height={320}
+                className='add-photo--canvas'
+              />
+              <div className='add-photo--close' onClick={clearImage}></div>
+              {orientation === 'landscape' && (
+                <React.Fragment>
+                  <div
+                    className='add-photo--base add-photo--landscape-left'
+                    onClick={moveImage}
+                    id='ll'
+                  ></div>
+                  <div
+                    className='add-photo--base add-photo--landscape-center'
+                    onClick={moveImage}
+                    id='lc'
+                  ></div>
+                  <div
+                    className='add-photo--base add-photo--landscape-right'
+                    onClick={moveImage}
+                    id='lr'
+                  ></div>
+                </React.Fragment>
+              )}
+              {orientation === 'portrait' && (
+                <React.Fragment>
+                  <div
+                    className='add-photo--base add-photo--portrait-top'
+                    onClick={moveImage}
+                    id='pt'
+                  ></div>
+                  <div
+                    className='add-photo--base add-photo--portrait-center'
+                    onClick={moveImage}
+                    id='pc'
+                  ></div>
+                  <div
+                    className='add-photo--base add-photo--portrait-bottom'
+                    onClick={moveImage}
+                    id='pb'
+                  ></div>
+                </React.Fragment>
+              )}
             </div>
-            <select id='category' value={category} onChange={onChange} className='add-photo--category'>
-              <option key='Select' value=''>Select...</option>
-              <option key='Double Decker' value='Double Decker'>Double Decker</option>
-              <option key='Single Decker' value='Single Decker'>Single Decker</option>
-              <option key='Midi' value='Midi'>Midi</option>
-              <option key='Mini' value='Mini'>Mini</option>
-              <option key='Coaches' value='Coaches'>Coaches</option>
+            <select
+              id='category'
+              value={category}
+              onChange={onChange}
+              className='add-photo--category'
+            >
+              <option key='Select' value=''>
+                Select...
+              </option>
+              <option key='Double Decker' value='Double Decker'>
+                Double Decker
+              </option>
+              <option key='Single Decker' value='Single Decker'>
+                Single Decker
+              </option>
+              <option key='Midi' value='Midi'>
+                Midi
+              </option>
+              <option key='Mini' value='Mini'>
+                Mini
+              </option>
+              <option key='Coaches' value='Coaches'>
+                Coaches
+              </option>
             </select>
             <button color='primary'>
               {!loading ? (

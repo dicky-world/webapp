@@ -1,17 +1,7 @@
-const SaveImage = async (
-  apiEndpoint: string,
-  category: string,
-  previewId: string,
-  thumbnailId: string,
-  zoomId: string
-) => {
+const GetMyPhotos = async (apiEndpoint: string) => {
   const response = await fetch(apiEndpoint, {
     body: JSON.stringify({
-      category,
       jwtToken: localStorage.getItem('jwtToken'),
-      previewId,
-      thumbnailId,
-      zoomId,
     }),
     headers: {
       // prettier-ignore
@@ -26,4 +16,4 @@ const SaveImage = async (
   } else return null;
 };
 
-export { SaveImage };
+export { GetMyPhotos };

@@ -1,10 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Global } from '../../globalState';
 import { Dispatch, SET_MODAL } from '../../globalState';
+import { GetMyPhotos } from '../../utils/getMyPhotos';
 
 const Photos: React.FC = () => {
   const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
+  const apiEndpoint = `${global.env.apiUrl}/my/photos`;
+
+  useEffect(() => {
+    const getMyPhotos = async () => {
+      const myPhotos = await GetMyPhotos(apiEndpoint);
+      console.log(myPhotos);
+    };
+    getMyPhotos();
+  }, [global.display.modal]);
 
   const [state, setState] = useState({
     activeTab: 'All',

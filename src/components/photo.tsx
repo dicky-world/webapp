@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Dispatch, SET_SHARED } from '../globalState';
+import { Global } from '../globalState';
 import { DataURLToBlob } from '../utils/resizeImage';
 
 interface PropsInterface {
@@ -10,6 +11,7 @@ interface PropsInterface {
 }
 
 const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
+  const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
   const [state, setState] = useState({
     imageURL: props.placeholder,
