@@ -240,28 +240,39 @@ const AddPhoto: React.FC = () => {
     const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
     const apiEndpoint = `${global.env.apiUrl}/my/add-photo`;
     setState((prev) => ({ ...prev, loading: true }));
-    const section1 = async () => {
+    const thumbnail = async () => {
       const thumbnailSignedUrl = await SignedUrl(signedUrlApiEndpoint);
-      const resizedThumbnail = await ResizeImage(originalImage, 180, positionId);
+      const resizedThumbnail = await ResizeImage(
+        originalImage,
+        180,
+        positionId
+      );
       if (thumbnailSignedUrl && resizedThumbnail) {
-        return UploadToS3(thumbnailSignedUrl, resizedThumbnail);
-      } else return null;
+        const results = await UploadToS3(thumbnailSignedUrl, resizedThumbnail);
+        return results;
+      } else throw Error;
     };
-    const section2 = async () => {
+    const preview = async () => {
       const previewSignedUrl = await SignedUrl(signedUrlApiEndpoint);
       const resizedPreview = await ResizeImage(originalImage, 530, positionId);
       if (previewSignedUrl && resizedPreview) {
-        return UploadToS3(previewSignedUrl, resizedPreview);
-      } else return null;
+        const results = await UploadToS3(previewSignedUrl, resizedPreview);
+        return results;
+      } else throw Error;
     };
-    const section3 = async () => {
+    const zoom = async () => {
       const zoomSignedUrl = await SignedUrl(signedUrlApiEndpoint);
       const resizedZoom = await ResizeImage(originalImage, 1000, positionId);
       if (zoomSignedUrl && resizedZoom) {
-        return UploadToS3(zoomSignedUrl, resizedZoom);
-      } else return null;
+        const results = await UploadToS3(zoomSignedUrl, resizedZoom);
+        return results;
+      } else throw Error;
     };
-    const [thumbnailId, previewId, zoomId] = await Promise.all([section1(), section2(), section3()]);
+    const [thumbnailId, previewId, zoomId] = await Promise.all([
+      thumbnail(),
+      preview(),
+      zoom(),
+    ]);
     if (thumbnailId && previewId && zoomId) {
       const imagesSaved = await SaveImage(
         apiEndpoint,
