@@ -33,7 +33,7 @@ const Home: React.FC = () => {
       if (photos.array[i]) {
         arr.push(
           <React.Fragment>
-            <div className='profile--image'
+            <div className='home--image'
               style={bgImage(global.env.imgUrl + photos.array[i].previewId)}
             ></div>
           </React.Fragment>
@@ -52,10 +52,12 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <section>
+    <section className='home'>
       <Carousel />
       <Focus />
-      <div className='profile--image-grid'>{getRows()}</div>
+      <div className='home--image-container'>
+      <div className='home--image-grid'>{getRows()}</div>
+      </div>
     </section>
   );
 };
