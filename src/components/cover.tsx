@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Dispatch, SET_SHARED } from '../globalState';
+import { DataURLToBlob } from '../utils/resizeImage';
 
 interface PropsInterface {
   placeholder: string;
@@ -91,24 +92,6 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
       }
     }
   };
-  const dataURLToBlob = (dataURL: string) => {
-    const BASE64_MARKER = ';base64,';
-    if (dataURL.indexOf(BASE64_MARKER) === -1) {
-      const theParts = dataURL.split(',');
-      const theContentType = theParts[0].split(':')[1];
-      const theRaw = theParts[1];
-      return new Blob([theRaw], { type: theContentType });
-    }
-    const parts = dataURL.split(BASE64_MARKER);
-    const contentType = parts[0].split(':')[1];
-    const raw = window.atob(parts[1]);
-    const rawLength = raw.length;
-    const uInt8Array = new Uint8Array(rawLength);
-    for (let i = 0; i < rawLength; ++i) {
-      uInt8Array[i] = raw.charCodeAt(i);
-    }
-    return new Blob([uInt8Array], { type: contentType });
-  };
 
   const resizeImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.files) {
@@ -129,7 +112,7 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
           ctx.drawImage(image, 0, 0, width, height);
           const base64 = canvas.toDataURL('image/jpeg');
           setState((prev) => ({ ...prev, placeholder: base64, height, width }));
-          const blob = dataURLToBlob(base64);
+          const blob = await DataURLToBlob(base64);
           uploadImg(blob);
         };
         image.src = URL.createObjectURL(file);

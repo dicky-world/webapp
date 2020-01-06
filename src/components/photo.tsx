@@ -93,7 +93,7 @@ const Photo: React.FC<PropsInterface> = (props: PropsInterface) => {
           ctx.drawImage(image, 0, 0, width, height);
           const base64 = canvas.toDataURL('image/jpeg');
           setState((prev) => ({ ...prev, imageURL: base64, height, width }));
-          const blob = DataURLToBlob(base64);
+          const blob = await DataURLToBlob(base64);
           uploadImg(blob);
         };
         image.src = URL.createObjectURL(file);

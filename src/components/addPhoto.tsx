@@ -139,9 +139,9 @@ const AddPhoto: React.FC = () => {
     request.responseType = 'blob';
     request.onload = () => {
       const reader = new FileReader();
-      reader.onload = (readerEvent) => {
+      reader.onload = () => {
         const image = new Image();
-        image.onload = async (imageEvent) => {
+        image.onload = async () => {
           if (image.width > 1000 && image.height > 1000) {
             setState((prev) => ({
               ...prev,
@@ -236,6 +236,7 @@ const AddPhoto: React.FC = () => {
   };
 
   const uploadImages = async (event: React.FormEvent) => {
+    try {
     event.preventDefault();
     const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
     const apiEndpoint = `${global.env.apiUrl}/my/add-photo`;
@@ -286,6 +287,9 @@ const AddPhoto: React.FC = () => {
         dispatch({ type: SET_MODAL, value: '' });
       }
     } else alert('err');
+  } catch (err) {
+   //
+  }
   };
 
   return (
