@@ -28,23 +28,23 @@ const Cover: React.FC<PropsInterface> = (props: PropsInterface) => {
 
   let divStyle = {};
   if (placeholder.length <= 60) {
-  divStyle = {
-    backgroundColor: 'grey',
-    backgroundSize: 'cover',
-    height: '300px',
-    overflow: 'hidden',
-    width: '100%',
-  };
-} else  {
-  divStyle = {
-    background: `url(${placeholder}) no-repeat center center`,
-    backgroundColor: 'grey',
-    backgroundSize: 'cover',
-    height: '300px',
-    overflow: 'hidden',
-    width: '100%',
-  };
-}
+    divStyle = {
+      backgroundColor: 'grey',
+      backgroundSize: 'cover',
+      height: '300px',
+      overflow: 'hidden',
+      width: '100%',
+    };
+  } else {
+    divStyle = {
+      background: `url(${placeholder}) no-repeat center center`,
+      backgroundColor: 'grey',
+      backgroundSize: 'cover',
+      height: '300px',
+      overflow: 'hidden',
+      width: '100%',
+    };
+  }
 
   // tslint:disable-next-line: no-any
   const uploadImg = async (resizedBlob: any) => {

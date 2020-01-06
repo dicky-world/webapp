@@ -135,9 +135,9 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   const bgImage = (imageUrl: string) => {
     return {
       backgroundImage: `url(${imageUrl})`,
+      backgroundPosition: 'center',
       backgroundSize: 'cover',
-      height: '205px',
-      width: '205px',
+      paddingBottom: '100%',
     };
   };
   const getRows = () => {
