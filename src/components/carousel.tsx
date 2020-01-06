@@ -3,11 +3,11 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import leftChevron from '../images/carousel/left-dark.svg';
 import rightChevron from '../images/carousel/right-dark.svg';
-import image1 from '../images/carousel/screen-1.jpg';
-import image2 from '../images/carousel/screen-2.jpg';
-import image3 from '../images/carousel/screen-3.jpg';
-import image4 from '../images/carousel/screen-4.jpg';
-import image5 from '../images/carousel/screen-5.jpg';
+import image1 from '../images/carousel/screen-1.webp';
+import image2 from '../images/carousel/screen-2.webp';
+import image3 from '../images/carousel/screen-3.webp';
+import image4 from '../images/carousel/screen-4.webp';
+import image5 from '../images/carousel/screen-5.webp';
 
 const Carousel: React.FC = () => {
   interface StateInterface {
