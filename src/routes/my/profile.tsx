@@ -207,8 +207,8 @@ const Profile: React.FC<ConfirmProps> = (props: ConfirmProps) => {
               />
               <div className='profile--nav'>
                 <div>
-                  <button className='profile--button'>Items</button>
-                  <button className='profile--button'>Games</button>
+                  <button className='profile--button'>Photos</button>
+                  <button className='profile--button'>Liked</button>
                 </div>
                 <div>
                   {isMe && (
