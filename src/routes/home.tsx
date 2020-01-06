@@ -8,6 +8,7 @@ const Home: React.FC = () => {
   const { global } = useContext(Global);
 
   interface DataProps {
+    _id: string;
     category: string;
     published: boolean;
     previewId: string;
@@ -33,9 +34,10 @@ const Home: React.FC = () => {
       if (photos.array[i]) {
         arr.push(
           <React.Fragment>
+            <a href={'/bus/' + photos.array[i]._id}>
             <div className='home--image'
               style={bgImage(global.env.imgUrl + photos.array[i].previewId)}
-            ></div>
+            ></div></a>
           </React.Fragment>
         );
       }

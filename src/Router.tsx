@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Layout } from './components/layout';
 import { Dispatch, Global, InitialState, Reducer } from './globalState';
+import { Bus } from './routes/bus';
 import { ConfirmEmail } from './routes/confirmEmail';
 import { Home } from './routes/home';
 import { Password } from './routes/my/password';
@@ -29,6 +30,7 @@ const Router: React.FC = () => {
                   <Route exact path='/my/password' component={Password} />
                   <Route exact path='/my/preferences' component={Preferences} />
                   <Route exact path='/my/verification' component={Verification} />
+                  <Route exact path='/bus/:id' component={Bus} />
                   <Route exact path='/confirm-email/:confirmationCode' component={ConfirmEmail} />
                   <Route exact path='/reset-password/:resetPassword' component={ResetPassword} />
                   <Route exact path='/:username' component={Profile} />
