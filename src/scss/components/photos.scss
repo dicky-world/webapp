@@ -14,9 +14,36 @@
   border: 1px solid $secondary-dark;
   border-radius: 5px;
   overflow: hidden;
+
+  &--preview {
+    border-radius: 5px;
+    margin: 18px;
+    box-shadow: $depth-1;
+  }
+  &--text {
+    margin: 18px;
+    padding-top: 35px;
+  }
+  &--button {
+    border-radius: 5px;
+    margin: 18px;
+    padding-top: 25px;
+    height: auto;
+  }
   &--tab-area {
     display: flex;
   }
+  &--empty {
+    text-align: center;
+    padding: 48px;
+    font-size: 15px;
+    grid-column: span 4 / auto;
+  }
+  &--empty-title {
+    font-weight: 700;
+    font-size: 17px;
+  }
+
   &--tab {
     font-size: 14px;
     font-weight: 600;
@@ -54,6 +81,8 @@
   &--row {
     background-color: white;
     grid-column: span 4 / auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
   }
   &--header {
     padding: 8px;

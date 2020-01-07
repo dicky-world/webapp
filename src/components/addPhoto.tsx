@@ -15,6 +15,7 @@ const AddPhoto: React.FC = () => {
 
   interface StateInterface {
     category: string;
+    categoryError: string;
     imageFileError: string;
     imageUrl: string;
     imageUrlError: string;
@@ -27,6 +28,7 @@ const AddPhoto: React.FC = () => {
 
   const [state, setState] = useState<StateInterface>({
     category: '',
+    categoryError: '',
     imageFileError: '',
     imageUrl: '',
     imageUrlError: '',
@@ -39,6 +41,7 @@ const AddPhoto: React.FC = () => {
 
   const {
     category,
+    categoryError,
     imageFileError,
     imageUrl,
     imageUrlError,
@@ -54,7 +57,7 @@ const AddPhoto: React.FC = () => {
   ) => {
     event.persist();
     const { id, value } = event.target;
-    setState((prev) => ({ ...prev, [id]: value }));
+    setState((prev) => ({ ...prev, [id]: value, categoryError: '' }));
     if (id === 'imageUrl') validate(id, value);
   };
 
@@ -238,10 +241,11 @@ const AddPhoto: React.FC = () => {
   const uploadImages = async (event: React.FormEvent) => {
     try {
     event.preventDefault();
-    const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
-    const apiEndpoint = `${global.env.apiUrl}/my/add-photo`;
-    setState((prev) => ({ ...prev, loading: true }));
-    const thumbnail = async () => {
+    if (category) {
+      const signedUrlApiEndpoint = `${global.env.apiUrl}/upload/signed-url`;
+      const apiEndpoint = `${global.env.apiUrl}/my/add-photo`;
+      setState((prev) => ({ ...prev, loading: true }));
+      const thumbnail = async () => {
       const thumbnailSignedUrl = await SignedUrl(signedUrlApiEndpoint);
       const resizedThumbnail = await ResizeImage(
         originalImage,
@@ -253,7 +257,7 @@ const AddPhoto: React.FC = () => {
         return results;
       } else throw Error;
     };
-    const preview = async () => {
+      const preview = async () => {
       const previewSignedUrl = await SignedUrl(signedUrlApiEndpoint);
       const resizedPreview = await ResizeImage(originalImage, 530, positionId);
       if (previewSignedUrl && resizedPreview) {
@@ -261,7 +265,7 @@ const AddPhoto: React.FC = () => {
         return results;
       } else throw Error;
     };
-    const zoom = async () => {
+      const zoom = async () => {
       const zoomSignedUrl = await SignedUrl(signedUrlApiEndpoint);
       const resizedZoom = await ResizeImage(originalImage, 1000, positionId);
       if (zoomSignedUrl && resizedZoom) {
@@ -269,12 +273,12 @@ const AddPhoto: React.FC = () => {
         return results;
       } else throw Error;
     };
-    const [thumbnailId, previewId, zoomId] = await Promise.all([
+      const [thumbnailId, previewId, zoomId] = await Promise.all([
       thumbnail(),
       preview(),
       zoom(),
     ]);
-    if (thumbnailId && previewId && zoomId) {
+      if (thumbnailId && previewId && zoomId) {
       const imagesSaved = await SaveImage(
         apiEndpoint,
         category,
@@ -287,6 +291,9 @@ const AddPhoto: React.FC = () => {
         dispatch({ type: SET_MODAL, value: '' });
       }
     } else alert('err');
+  } else {
+    setState((prev) => ({ ...prev, categoryError: 'Please select a category' }));
+  }
   } catch (err) {
    //
   }
@@ -402,6 +409,7 @@ const AddPhoto: React.FC = () => {
                 Coaches
               </option>
             </select>
+            <Error error={categoryError} />
             <button color='primary'>
               {!loading ? (
                 'Upload Photo'

@@ -33,12 +33,12 @@ const Home: React.FC = () => {
     for (let i = 0; i <= photos.array.length; i++) {
       if (photos.array[i]) {
         arr.push(
-          <React.Fragment>
+          <div key={photos.array[i]._id}>
             <a href={'/bus/' + photos.array[i]._id}>
             <div className='home--image'
               style={bgImage(global.env.imgUrl + photos.array[i].previewId)}
             ></div></a>
-          </React.Fragment>
+          </div>
         );
       }
     }
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
       setPhotos(() => ({ array: content.photos }));
     };
     getAllPhotos();
-  }, []);
+  }, [global.env.apiUrl]);
 
   return (
     <section className='home'>

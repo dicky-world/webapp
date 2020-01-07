@@ -13,6 +13,7 @@ const Photos: React.FC = () => {
     published: boolean;
     previewId: string;
     thumbnailId: string;
+    createdAt: string;
   }
 
   interface StateInterface {
@@ -31,7 +32,7 @@ const Photos: React.FC = () => {
       setState((prev) => ({ ...prev, data: response.myPhotos }));
     };
     getMyPhotos();
-  }, [global.display.modal]);
+  }, [global.display.modal, apiEndpoint]);
 
   const { data, activeTab } = state;
 
@@ -103,7 +104,12 @@ const Photos: React.FC = () => {
   };
   const getRows = () => {
     if (activeTab === 'All' && data.length <= 0) {
-      return <div> You have no photos</div>;
+      return (
+        <div className='grid--empty'>
+          <div className='grid--empty-title'> No photo's added</div>
+          Select Add Photo above to add your first photo
+        </div>
+      );
     } else {
       const arr = [];
       let filteredData;
@@ -117,11 +123,16 @@ const Photos: React.FC = () => {
       for (let i = 0; i <= filteredData.length; i++) {
         if (filteredData[i]) {
           arr.push(
-            <React.Fragment>
+            <div className='grid--row'>
               <div
+                className='grid--preview'
                 style={bgImage(global.env.imgUrl + filteredData[i].thumbnailId)}
-              ></div>
-            </React.Fragment>
+              >
+              </div>
+              <div className='grid--text'>{filteredData[i].category}</div>
+              <div className='grid--text'>{filteredData[i].published.toString()}</div>
+              <div className='grid--button'><button color='primary'>Edit</button></div>
+            </div>
           );
         }
       }
@@ -147,17 +158,22 @@ const Photos: React.FC = () => {
             Add Photo
           </button>
         </div>
+
         <div className='grid--body'>
-          <div className='grid--header'>Preview</div>
-          <div className='grid--header' id='Category' onClick={sortByMe}>
-            Category
-          </div>
-          <div className='grid--header' id='Published' onClick={sortByMe}>
-            Published
-          </div>
-          <div className='grid--header' id='Date' onClick={sortByMe}>
-            Date
-          </div>
+          {data.length > 0 && (
+            <React.Fragment>
+              <div className='grid--header'>Preview</div>
+              <div className='grid--header' id='Category' onClick={sortByMe}>
+                Category
+              </div>
+              <div className='grid--header' id='Published' onClick={sortByMe}>
+                Published
+              </div>
+              <div className='grid--header' id='Date' onClick={sortByMe}>
+                Date
+              </div>
+            </React.Fragment>
+          )}
           <div className='grid--row'>{getRows()}</div>
         </div>
       </div>
