@@ -83,50 +83,59 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   };
 
   const magnifierStyle = (x: number, y: number) => {
-    if (y <= 125) {
-      y = 125;
+    if (zoomId) {
+      if (y <= 125) {
+        y = 125;
+      }
+      if (y >= 595) {
+        y = 595;
+      }
+      if (x <= 125) {
+        x = 125;
+      }
+      if (x >= 595) {
+        x = 595;
+      }
+      return {
+        backgroundImage: `url(${`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`})`,
+        backgroundPosition: ` ${0 - x * 1.39 + 125}px ${0 - y * 1.39 + 125}px`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '1000px 1000px',
+        left: `${x - 250 / 2}px`,
+        top: `${y - 250 / 2}px`,
+      };
     }
-    if (y >= 595) {
-      y = 595;
-    }
-    if (x <= 125) {
-      x = 125;
-    }
-    if (x >= 595) {
-      x = 595;
-    }
-    return {
-      backgroundImage: `url(${`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`})`,
-      backgroundPosition: ` ${0 - x * 1.39 + 125}px ${0 - y * 1.39 + 125}px`,
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: '1000px 1000px',
-      left: `${x - 250 / 2}px`,
-      top: `${y - 250 / 2}px`,
-    };
   };
 
   return (
     <div className='bus'>
-      <img
-        src={`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`}
-        width={720}
-        height={720}
-        onClick={toggleZoom}
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeave}
-        onMouseMove={mouseMove}
-        className={
-          zoomOn && mouseOver
-            ? 'bus--image bus--over-on'
-            : 'bus--image bus--over-off'
-        }
-      />
-      <div
-        className={
-          zoomOn && mouseOver ? 'bus--magnifier-on' : 'bus--magnifier-off'
-        }
-        style={magnifierStyle(zoomPositionX, zoomPositionY)}
-      />
+      <div>
+        {zoomId && (
+          <React.Fragment>
+            <img
+              src={`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`}
+              width={720}
+              height={720}
+              onClick={toggleZoom}
+              onMouseEnter={mouseEnter}
+              onMouseLeave={mouseLeave}
+              onMouseMove={mouseMove}
+              className={
+                zoomOn && mouseOver
+                  ? 'bus--image bus--over-on'
+                  : 'bus--image bus--over-off'
+              }
+            />
+            <div
+              className={
+                zoomOn && mouseOver ? 'bus--magnifier-on' : 'bus--magnifier-off'
+              }
+              style={magnifierStyle(zoomPositionX, zoomPositionY)}
+            />
+          </React.Fragment>
+        )}
+      </div>
+      <div></div>
     </div>
   );
 };

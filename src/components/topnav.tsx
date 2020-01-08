@@ -17,6 +17,7 @@ const TopNavWithRouter: React.FC<PropsInterface> = (props: PropsInterface) => {
   const imagePath = props.avatar
     ? global.env.imgUrl + props.avatar
     : global.env.imgUrl + `initials/${initial}.png`;
+  
   const [state, setState] = useState({
     dropDownStatus: false,
     search: '',
