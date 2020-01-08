@@ -62,9 +62,12 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   };
 
   const mouseLeave = () => {
+    let _mouseOver = false;
+    if (zoomOn) _mouseOver = true;
+    else _mouseOver = false;
     setState((prev) => ({
       ...prev,
-      mouseOver: false,
+      mouseOver: _mouseOver,
     }));
   };
 

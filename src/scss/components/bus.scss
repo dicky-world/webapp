@@ -22,6 +22,7 @@
         height: 250px;
         pointer-events: none;  
         display: block;
+        box-shadow: $depth-2;
     }
     &--magnifier-off {
         display: none;
