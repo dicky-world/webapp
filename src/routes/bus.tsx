@@ -27,9 +27,8 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   }, []);
 
   return (
-    <div className='page'>
-     {category}
-     <img src={`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`}/>
+    <div className='bus'>
+     <img src={`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`} width={720} height={720} className='bus--image'/>
     </div>
   );
 };

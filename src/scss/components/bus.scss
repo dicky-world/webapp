@@ -1,0 +1,10 @@
+.bus {
+    max-width: $page-max-width;
+    margin: 12px auto;
+    position: relative;
+    &--image {
+        border-radius: 5px;
+        box-shadow: $depth-1;
+        cursor: zoom-in;
+    }
+}
