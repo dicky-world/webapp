@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Global } from '../globalState';
 import { Dispatch, SET_SHARED } from '../globalState';
+import { PhotoDetail } from '../utils/photoDetail';
 
 interface ConfirmProps extends RouteComponentProps<{ id: string }> {}
 
@@ -11,17 +12,24 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   const id = props.match.params.id;
 
   const [state, setState] = useState({
-    apiError: '',
+    category: '',
+    zoomId: '',
   });
 
-  const { apiError } = state;
+  const { category, zoomId } = state;
+
   useEffect(() => {
-    console.log('FIRE1');
+    const getData = async () => {
+      const response = await PhotoDetail(`${global.env.apiUrl}/photos/detail?id=${id}`);
+      setState((prev) => ({ ...prev, category: response.category, zoomId: response.zoomId }));
+    };
+    getData();
   }, []);
 
   return (
     <div className='page'>
-      {apiError && <div className='error--api'>{apiError}</div>}
+     {category}
+     <img src={`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`}/>
     </div>
   );
 };
