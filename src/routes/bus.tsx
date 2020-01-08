@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Global } from '../globalState';
 import { Dispatch } from '../globalState';
@@ -7,10 +7,10 @@ import { PhotoDetail } from '../utils/photoDetail';
 interface ConfirmProps extends RouteComponentProps<{ id: string }> {}
 
 const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
+  const image = useRef<HTMLDivElement>(null);
   const { global } = useContext(Global);
   const { dispatch } = useContext(Dispatch);
   const id = props.match.params.id;
-  const zoomSquare = 250;
 
   const [state, setState] = useState({
     category: '',
@@ -83,59 +83,88 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
   };
 
   const magnifierStyle = (x: number, y: number) => {
-    if (zoomId) {
-      if (y <= 125) {
-        y = 125;
-      }
-      if (y >= 595) {
-        y = 595;
-      }
-      if (x <= 125) {
-        x = 125;
-      }
-      if (x >= 595) {
-        x = 595;
+    let imageWidth;
+    if (image && image.current) {
+      imageWidth = image.current.clientWidth;
+    }
+    if (imageWidth) {
+      const magnifierMiddle = 250 / 2;
+      const magnification = 1.5;
+      const backgroundSize = imageWidth * magnification;
+      if (zoomId) {
+        if (y <= magnifierMiddle) {
+          y = magnifierMiddle;
+        }
+        if (y >= imageWidth - magnifierMiddle) {
+          y = imageWidth - magnifierMiddle;
+        }
+        if (x <= magnifierMiddle) {
+          x = magnifierMiddle;
+        }
+        if (x >= imageWidth - magnifierMiddle) {
+          x = imageWidth - magnifierMiddle;
+        }
       }
       return {
-        backgroundImage: `url(${`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`})`,
-        backgroundPosition: ` ${0 - x * 1.39 + 125}px ${0 - y * 1.39 + 125}px`,
+        backgroundImage: `url(${`${global.env.imgUrl}${zoomId}`})`,
+        backgroundPosition: ` ${0 - x * magnification + magnifierMiddle}px ${0 -
+          y * magnification +
+          magnifierMiddle}px`,
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '1000px 1000px',
-        left: `${x - 250 / 2}px`,
-        top: `${y - 250 / 2}px`,
+        backgroundSize: `${backgroundSize}px ${backgroundSize}px`,
+        left: `${x - magnifierMiddle}px`,
+        top: `${y - magnifierMiddle}px`,
       };
     }
   };
+  const bgImage = () => {
+    let imageWidth;
+    let backgroundSize;
+    if (image && image.current) {
+      imageWidth = image.current.clientWidth;
+    }
+    const magnification = 2;
+    if (imageWidth) {
+      backgroundSize = imageWidth * magnification;
+    }
+    return {
+      backgroundImage: `url(${`${global.env.imgUrl}${zoomId}`})`,
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: `cover`,
+      paddingBottom: '100%',
+    };
+  };
 
   return (
+    <div className='outer'>
     <div className='bus'>
       <div>
         {zoomId && (
-          <React.Fragment>
-            <img
-              src={`https://s3-eu-west-1.amazonaws.com/img.dicky.world/${zoomId}`}
-              width={720}
-              height={720}
-              onClick={toggleZoom}
-              onMouseEnter={mouseEnter}
-              onMouseLeave={mouseLeave}
-              onMouseMove={mouseMove}
-              className={
-                zoomOn && mouseOver
-                  ? 'bus--image bus--over-on'
-                  : 'bus--image bus--over-off'
-              }
-            />
+          <div
+            ref={image}
+            style={bgImage()}
+            onClick={toggleZoom}
+            onMouseEnter={mouseEnter}
+            onMouseLeave={mouseLeave}
+            onMouseMove={mouseMove}
+            className={
+              zoomOn && mouseOver
+                ? 'bus--image bus--over-on'
+                : 'bus--image bus--over-off'
+            }
+          >
             <div
               className={
                 zoomOn && mouseOver ? 'bus--magnifier-on' : 'bus--magnifier-off'
               }
               style={magnifierStyle(zoomPositionX, zoomPositionY)}
             />
-          </React.Fragment>
+          </div>
         )}
       </div>
       <div></div>
+    </div>
     </div>
   );
 };

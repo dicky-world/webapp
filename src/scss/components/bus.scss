@@ -1,3 +1,6 @@
+.outer {
+   margin: 12px; 
+}
 .bus {
     max-width: $page-max-width;
     margin: 12px auto;
@@ -28,5 +31,8 @@
     }
     &--magnifier-off {
         display: none;
+    }
+    &--bus-div {
+        width: 100%;
     }
 }
