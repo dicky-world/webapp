@@ -118,8 +118,6 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
             : 'bus--image bus--over-off'
         }
       />
-      {zoomOn.toString()} / {mouseOver.toString()} / {zoomPositionX} /{' '}
-      {zoomPositionY}
       <div
         className={
           zoomOn && mouseOver ? 'bus--magnifier-on' : 'bus--magnifier-off'
