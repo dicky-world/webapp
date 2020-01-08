@@ -107,9 +107,8 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
       }
       return {
         backgroundImage: `url(${`${global.env.imgUrl}${zoomId}`})`,
-        backgroundPosition: ` ${0 - x * magnification + magnifierMiddle}px ${0 -
-          y * magnification +
-          magnifierMiddle}px`,
+        backgroundPosition: ` ${0 - x * magnification + magnifierMiddle}px
+        ${0 - y * magnification + magnifierMiddle}px`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: `${backgroundSize}px ${backgroundSize}px`,
         left: `${x - magnifierMiddle}px`,
@@ -138,33 +137,35 @@ const Bus: React.FC<ConfirmProps> = (props: ConfirmProps) => {
 
   return (
     <div className='outer'>
-    <div className='bus'>
-      <div>
-        {zoomId && (
-          <div
-            ref={image}
-            style={bgImage()}
-            onClick={toggleZoom}
-            onMouseEnter={mouseEnter}
-            onMouseLeave={mouseLeave}
-            onMouseMove={mouseMove}
-            className={
-              zoomOn && mouseOver
-                ? 'bus--image bus--over-on'
-                : 'bus--image bus--over-off'
-            }
-          >
+      <div className='bus'>
+        <div>
+          {zoomId && (
             <div
+              ref={image}
+              style={bgImage()}
+              onClick={toggleZoom}
+              onMouseEnter={mouseEnter}
+              onMouseLeave={mouseLeave}
+              onMouseMove={mouseMove}
               className={
-                zoomOn && mouseOver ? 'bus--magnifier-on' : 'bus--magnifier-off'
+                zoomOn && mouseOver
+                  ? 'bus--image bus--over-on'
+                  : 'bus--image bus--over-off'
               }
-              style={magnifierStyle(zoomPositionX, zoomPositionY)}
-            />
-          </div>
-        )}
+            >
+              <div
+                className={
+                  zoomOn && mouseOver
+                    ? 'bus--magnifier-on'
+                    : 'bus--magnifier-off'
+                }
+                style={magnifierStyle(zoomPositionX, zoomPositionY)}
+              />
+            </div>
+          )}
+        </div>
+        <div></div>
       </div>
-      <div></div>
-    </div>
     </div>
   );
 };

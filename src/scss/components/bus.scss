@@ -1,12 +1,12 @@
 .outer {
-   margin: 12px; 
+   margin: 0; 
 }
 .bus {
     max-width: $page-max-width;
     margin: 12px auto;
     position: relative;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: none;
     &--image {
         border-radius: 5px;
         box-shadow: $depth-1;
@@ -35,4 +35,13 @@
     &--bus-div {
         width: 100%;
     }
+}
+
+@media screen and (min-width: 900px) {
+  .bus {
+    grid-template-columns: 2fr 1fr;
+  }
+  .outer {
+    margin: 12px; 
+ }
 }
